@@ -30,7 +30,7 @@
       "executor": "@nrwl/workspace:run-commands",
       "outputs": [],
       "options": {
-        "command": "npx prisma migrate save --experimental --schema ./src/prisma/prisma.schema",
+        "command": "npx prisma migrate save --experimental --schema ./src/prisma/schema.prisma",
         "cwd": "libs/shared/models"
       }
     },
@@ -38,7 +38,7 @@
       "executor": "@nrwl/workspace:run-commands",
       "outputs": [],
       "options": {
-        "command": "npx prisma migrate up --experimental --schema ./src/prisma/prisma.schema",
+        "command": "npx prisma migrate up --experimental --schema ./src/prisma/schema.prisma",
         "cwd": "libs/shared/models"
       }
     },
@@ -46,7 +46,7 @@
       "executor": "@nrwl/workspace:run-commands",
       "outputs": [],
       "options": {
-        "command": "npx prisma generate --schema ./src/prisma/prisma.schema",
+        "command": "npx prisma generate --schema ./src/prisma/schema.prisma",
         "cwd": "libs/shared/models"
       }
     }
