@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
+import { SharedModelsModule } from '@creation-mono/shared/models';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 
@@ -15,6 +16,7 @@ import { UserModule } from './user/user.module';
     }),
     AuthModule,
     UserModule,
+    SharedModelsModule,
   ],
   providers: [],
 })
