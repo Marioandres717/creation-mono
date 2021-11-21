@@ -17,6 +17,38 @@
         "jestConfig": "libs/shared/models/jest.config.js",
         "passWithNoTests": true
       }
+    },
+    "db-pull": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "npx prisma db pull --schema ./src/prisma/schema.prisma",
+        "cwd": "libs/shared/models"
+      }
+    },
+    "migrate-save": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "npx prisma migrate save --experimental --schema ./src/prisma/prisma.schema",
+        "cwd": "libs/shared/models"
+      }
+    },
+    "migrate-up": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "npx prisma migrate up --experimental --schema ./src/prisma/prisma.schema",
+        "cwd": "libs/shared/models"
+      }
+    },
+    "gen-client": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "npx prisma generate --schema ./src/prisma/prisma.schema",
+        "cwd": "libs/shared/models"
+      }
     }
   },
   "tags": []
