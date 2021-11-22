@@ -7,5 +7,6 @@ import { UserService } from './repository/user.service';
 @Module({
   imports: [SharedModelsModule],
   providers: [UserQueriesResolver, UserMutationsResolver, UserService],
+  exports: [UserService],
 })
 export class UserModule {}
