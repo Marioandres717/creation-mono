@@ -20,14 +20,14 @@ export class UserQueriesResolver {
   async user(
     @Args('limit', { type: () => Int }) limit: number,
     @Args('offset', { type: () => Int }) offset: number,
-    @Args('where') where: User_WhereInput = {},
+    @Args('where') where: User_WhereInput,
     @Args('orderBy') orderBy: User_OrderByInput
   ): Promise<User[]> {
     const { id, email, username } = where;
     const getUniqueUser = id || email || username;
     if (getUniqueUser) {
       const result = (await this.userService.user({
-        id: +id,
+        id: id ? +id : undefined,
         email,
         username,
       })) as User;
@@ -36,7 +36,7 @@ export class UserQueriesResolver {
       const prismaUserWhereInput = {
         ...where,
         ...{
-          id: +id,
+          id: id ? +id : undefined,
           type: User_type[where.type],
           active: isNaN(Number(where.active))
             ? undefined
