@@ -1,0 +1,5 @@
+.mesh/**/*.js
+.mesh/**/*.ts
+.mesh/**/*.mjs
+.mesh/**/*.json
+.mesh/**/*.cjs

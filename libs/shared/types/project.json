@@ -1,0 +1,35 @@
+{
+  "root": "libs/shared/types",
+  "sourceRoot": "libs/shared/types/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/shared/types/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/shared/types"],
+      "options": {
+        "jestConfig": "libs/shared/types/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "gen-graphql": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "yarn mesh build --dir libs/shared/types"
+      }
+    },
+    "gen-ts": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "ts-node libs/shared/types/src/lib/generate-types"
+      }
+    }
+  },
+  "tags": []
+}
