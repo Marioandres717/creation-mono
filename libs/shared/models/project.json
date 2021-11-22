@@ -26,19 +26,27 @@
         "cwd": "libs/shared/models"
       }
     },
-    "migrate-save": {
+    "db-push": {
       "executor": "@nrwl/workspace:run-commands",
       "outputs": [],
       "options": {
-        "command": "npx prisma migrate save --experimental --schema ./src/prisma/schema.prisma",
+        "command": "npx prisma db push --schema ./src/prisma/schema.prisma",
         "cwd": "libs/shared/models"
       }
     },
-    "migrate-up": {
+    "migrate-init": {
       "executor": "@nrwl/workspace:run-commands",
       "outputs": [],
       "options": {
-        "command": "npx prisma migrate up --experimental --schema ./src/prisma/schema.prisma",
+        "command": "npx prisma migrate dev --name initial-migration --create-only --schema ./src/prisma/schema.prisma",
+        "cwd": "libs/shared/models"
+      }
+    },
+    "migrate-apply": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "npx prisma migrate dev --schema ./src/prisma/schema.prisma",
         "cwd": "libs/shared/models"
       }
     },
