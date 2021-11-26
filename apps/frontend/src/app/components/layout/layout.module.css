@@ -1,5 +1,4 @@
 .layout {
-  --padding: 2rem;
-  padding: var(--padding);
-  height: calc(100% - (var(--padding) * 2));
+  padding: 2rem;
+  height: 100%;
 }
