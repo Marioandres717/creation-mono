@@ -1,4 +1,4 @@
-import { FC, ReactNode, HTMLAttributes } from 'react';
+import { FC, ReactNode } from 'react';
 import styles from './layout.module.css';
 import clsx from 'clsx';
 
