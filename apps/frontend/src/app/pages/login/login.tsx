@@ -1,8 +1,9 @@
 import Layout from '../../components/layout/layout';
+import styles from './login.module.css';
 
 const Login = () => {
   return (
-    <Layout>
+    <Layout className={styles.login}>
       <div>Login</div>
     </Layout>
   );

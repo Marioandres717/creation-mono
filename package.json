@@ -19,6 +19,7 @@
     "@nestjs/platform-express": "^8.0.0",
     "@prisma/client": "^3.5.0",
     "apollo-server-express": "^3.4.0",
+    "clsx": "^1.1.1",
     "cookie-parser": "^1.4.6",
     "core-js": "^3.6.5",
     "graphql": "^15.7.2",

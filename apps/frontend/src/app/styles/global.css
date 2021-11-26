@@ -12,3 +12,25 @@ html {
 body {
   font-size: 1.6rem;
 }
+:root {
+  --orange-100: #f5604c;
+  --orange-200: #ed523e;
+  --orange-300: #ff3a22;
+  --orange-400: #d6260f;
+  --orange-500: #fc2408;
+
+  --theme-red: #ff3a22;
+  --theme-blue: #57a995;
+
+  /* Gray */
+  --background-gray: #1d1d1d;
+  --background-gray-light: #2b2b2b;
+  --text-gray: #303030;
+  --dark-gray: #a9a9a9;
+  --silver-gray: #c0c0c0;
+  --silver-gray-light: #e8e8e8;
+  --neumorph-gray: #e0e0e0;
+
+  /* White */
+  --white: #f8f8f8;
+}
