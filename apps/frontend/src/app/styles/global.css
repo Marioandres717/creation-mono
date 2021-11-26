@@ -1,17 +1,26 @@
+/* CSS Reset */
 html,
 body,
-#root,
-#root > div {
-  height: 100%;
+div,
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
   margin: 0;
+  padding: 0;
+  border: 0;
+  vertical-align: baseline;
 }
-html {
-  /* 1rem = 10px */
-  font-size: 62.5%;
+* {
+  box-sizing: border-box;
 }
-body {
-  font-size: 1.6rem;
-}
+
+/* ---------- */
+
 :root {
   --orange-100: #f5604c;
   --orange-200: #ed523e;
@@ -33,4 +42,23 @@ body {
 
   /* White */
   --white: #f8f8f8;
+}
+
+html,
+body,
+#root,
+#root > div {
+  height: 100%;
+  margin: 0;
+}
+html {
+  /* 1rem = 10px */
+  font-size: 62.5%;
+}
+body {
+  font-size: 1.6rem;
+  font-family: 'SF Mono Regular';
+}
+input {
+  font-family: 'SF Mono Regular';
 }
