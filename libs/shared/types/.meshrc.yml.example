@@ -6,6 +6,6 @@ sources:
         port: 3306
         user: root
         password: asd123
-        database: creation
+        database: walletdb
 require:
   - ts-node/register/transpile-only
