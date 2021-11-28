@@ -14,8 +14,6 @@ async function bootstrap() {
     })
   );
   app.use(cookieParser());
-  // TODO: Configure CORS object correctly
-  app.enableCors();
   const port = process.env.PORT || 3000;
   await app.listen(port);
   Logger.log(`🚀 Application is running on: http://localhost:${port}`);

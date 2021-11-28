@@ -10,6 +10,12 @@ import { UserModule } from './user/user.module';
         'libs/shared/types/.mesh/*.graphql',
         'libs/shared/types/src/**/*.graphql',
       ],
+      cors: {
+        // TODO: Add origin for production and use env variable here
+        origin: ['http://localhost:4200'],
+        methods: ['POST'],
+        credentials: true,
+      },
     }),
     AuthModule,
     UserModule,
