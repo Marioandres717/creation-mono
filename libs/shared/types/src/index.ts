@@ -21,6 +21,7 @@ export interface User_WhereInput {
     id?: Nullable<string>;
     email?: Nullable<string>;
     username?: Nullable<string>;
+    password?: Nullable<string>;
     type?: Nullable<string>;
     active?: Nullable<string>;
 }
@@ -29,6 +30,7 @@ export interface User_OrderByInput {
     id?: Nullable<OrderBy>;
     email?: Nullable<OrderBy>;
     username?: Nullable<OrderBy>;
+    password?: Nullable<OrderBy>;
     type?: Nullable<OrderBy>;
     active?: Nullable<OrderBy>;
 }
@@ -37,6 +39,7 @@ export interface User_InsertInput {
     id: number;
     email: string;
     username?: Nullable<string>;
+    password?: Nullable<string>;
     type?: Nullable<User_type>;
     active: number;
 }
@@ -45,6 +48,7 @@ export interface User_UpdateInput {
     id?: Nullable<number>;
     email?: Nullable<string>;
     username?: Nullable<string>;
+    password?: Nullable<string>;
     type?: Nullable<User_type>;
     active?: Nullable<number>;
 }
@@ -61,6 +65,7 @@ export interface User {
     id: number;
     email: string;
     username?: Nullable<string>;
+    password?: Nullable<string>;
     type?: Nullable<User_type>;
     active: number;
 }
