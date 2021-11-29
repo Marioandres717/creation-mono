@@ -2,14 +2,14 @@ import { User } from '.prisma/client';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { AuthService } from '../repository/auth.service';
 import { jwtConstants } from '../constants';
 import { JwtService } from '@nestjs/jwt';
+import { UserService } from '../../user/repository/user.service';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
-    private authService: AuthService,
+    private userService: UserService,
     private jwtService: JwtService
   ) {
     super({
@@ -32,6 +32,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(user: User) {
-    return await this.authService.validateUser(user);
+    return await this.userService.user(user);
   }
 }

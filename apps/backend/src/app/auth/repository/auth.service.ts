@@ -1,12 +1,22 @@
 import { Prisma, User } from '.prisma/client';
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from '../../user/repository/user.service';
 
 @Injectable()
 export class AuthService {
   constructor(private userService: UserService) {}
 
-  async validateUser(user: Prisma.UserWhereUniqueInput): Promise<User> {
-    return await this.userService.user({ id: user.id });
+  async validateUser(
+    { email, username }: Prisma.UserWhereUniqueInput,
+    password: string
+  ): Promise<User> {
+    const user = await this.userService.user({
+      email,
+      username,
+    });
+
+    if (user.password !== password) throw new UnauthorizedException();
+    user.password = null;
+    return user;
   }
 }
