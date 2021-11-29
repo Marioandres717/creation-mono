@@ -15,7 +15,7 @@ export class AuthService {
       username,
     });
 
-    if (user.password !== password) throw new UnauthorizedException();
+    if (!user || user.password !== password) throw new UnauthorizedException();
     user.password = null;
     return user;
   }
