@@ -1,13 +1,21 @@
 import './styles/fonts/fonts.css';
 import './styles/global.css';
 
-import Login from './pages/login/login';
+import Home from './pages/home/home';
+import Profile from './pages/profile/profile';
+
+import { Switch, Route } from 'react-router-dom';
 
 export function App() {
   return (
-    <div>
-      <Login />
-    </div>
+    <Switch>
+      <Route path="/profile">
+        <Profile />
+      </Route>
+      <Route path="/">
+        <Home />
+      </Route>
+    </Switch>
   );
 }
 

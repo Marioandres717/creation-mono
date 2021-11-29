@@ -8,6 +8,7 @@ import {
   createHttpLink,
 } from '@apollo/client';
 
+import { Authentication } from './app/context-provider/authentication';
 import App from './app/app';
 
 const link = createHttpLink({
@@ -24,7 +25,9 @@ ReactDOM.render(
   <StrictMode>
     <BrowserRouter>
       <ApolloProvider client={client}>
-        <App />
+        <Authentication>
+          <App />
+        </Authentication>
       </ApolloProvider>
     </BrowserRouter>
   </StrictMode>,
