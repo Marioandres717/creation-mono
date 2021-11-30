@@ -6,6 +6,9 @@ import {
   User_WhereInput,
 } from '@creation-mono/shared/types';
 import { UserService } from '../repository/user.service';
+import { CurrentUser } from '../../auth/decorators/current-user.decorator';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth-guard';
 
 @Resolver('User')
 export class UserQueriesResolver {
@@ -30,6 +33,12 @@ export class UserQueriesResolver {
     } else {
       return await this.getUsers(where, id, limit, offset, orderBy);
     }
+  }
+
+  @Query()
+  @UseGuards(JwtAuthGuard)
+  async me(@CurrentUser() user: User) {
+    return user;
   }
 
   async getUser(id: string, email: string, username: string) {

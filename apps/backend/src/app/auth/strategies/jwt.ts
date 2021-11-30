@@ -1,4 +1,4 @@
-import { User } from '.prisma/client';
+import { User } from '@creation-mono/shared/types';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
@@ -6,6 +6,11 @@ import { jwtConstants } from '../constants';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../../user/repository/user.service';
 
+interface UserInJWT extends User {
+  _csrf: string;
+  exp: number;
+  iat: number;
+}
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
@@ -31,7 +36,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(user: User) {
-    return await this.userService.user(user);
+  async validate(userInJWT: UserInJWT) {
+    const { _csrf, iat, exp, password, ...restOfUser } = userInJWT;
+    const { password: _, ...user } = await this.userService.user(restOfUser);
+    return user;
   }
 }

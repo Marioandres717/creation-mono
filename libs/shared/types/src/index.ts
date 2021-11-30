@@ -57,6 +57,7 @@ export interface IQuery {
     User(limit?: Nullable<number>, offset?: Nullable<number>, where?: Nullable<User_WhereInput>, orderBy?: Nullable<User_OrderByInput>): Nullable<Nullable<User>[]> | Promise<Nullable<Nullable<User>[]>>;
     count_User(where?: Nullable<User_WhereInput>): Nullable<number> | Promise<Nullable<number>>;
     login(user: User_WhereInput): Nullable<User> | Promise<Nullable<User>>;
+    me(): Nullable<User> | Promise<Nullable<User>>;
 }
 
 export interface User {
