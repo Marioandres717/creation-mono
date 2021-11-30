@@ -56,11 +56,9 @@ const Authentication: FC<Props> = ({ children }) => {
       dispatch({ type: 'user_update', value: user });
     },
   };
-
-  if (loading) {
-    return <div>loading...</div>;
-  } else if (!user.id) {
-    return (
+  let template = <div>loading...</div>;
+  if (!user.id && !loading) {
+    template = (
       <Login
         onLogin={(user) => {
           userApi.updateUser(user);
@@ -68,8 +66,9 @@ const Authentication: FC<Props> = ({ children }) => {
       />
     );
   } else {
-    return <AuthProvider value={userApi}>{children}</AuthProvider>;
+    template = <AuthProvider value={userApi}>{children}</AuthProvider>;
   }
+  return template;
 };
 
 export { Authentication, AuthContext };
