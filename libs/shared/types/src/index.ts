@@ -54,14 +54,12 @@ export interface User_UpdateInput {
 }
 
 export interface IQuery {
-    __typename?: 'IQuery';
     User(limit?: Nullable<number>, offset?: Nullable<number>, where?: Nullable<User_WhereInput>, orderBy?: Nullable<User_OrderByInput>): Nullable<Nullable<User>[]> | Promise<Nullable<Nullable<User>[]>>;
     count_User(where?: Nullable<User_WhereInput>): Nullable<number> | Promise<Nullable<number>>;
     login(user: User_WhereInput): Nullable<User> | Promise<Nullable<User>>;
 }
 
 export interface User {
-    __typename?: 'User';
     id: number;
     email: string;
     username?: Nullable<string>;
@@ -71,7 +69,6 @@ export interface User {
 }
 
 export interface IMutation {
-    __typename?: 'IMutation';
     insert_User(User: User_InsertInput): Nullable<User> | Promise<Nullable<User>>;
     update_User(User: User_UpdateInput, where?: Nullable<User_WhereInput>): Nullable<User> | Promise<Nullable<User>>;
     delete_User(where?: Nullable<User_WhereInput>): Nullable<boolean> | Promise<Nullable<boolean>>;
