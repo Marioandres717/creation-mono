@@ -7,6 +7,7 @@ import {
   ApolloProvider,
   createHttpLink,
 } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
 
 import { Authentication } from './app/context-provider/authentication';
 import App from './app/app';
@@ -16,9 +17,26 @@ const link = createHttpLink({
   credentials: 'include',
 });
 
+const getCsrfCookie = () => {
+  const csrfCookie = document.cookie
+    .split('; ')
+    .find((row) => row.indexOf('_csrf=') !== -1);
+  return csrfCookie ? csrfCookie.split('=')[1] : undefined;
+};
+
+const authLink = setContext((_, { headers }) => {
+  const csrf = getCsrfCookie();
+  return {
+    headers: {
+      ...headers,
+      'csrf-token': csrf ? csrf : '',
+    },
+  };
+});
+
 const client = new ApolloClient({
   cache: new InMemoryCache(),
-  link,
+  link: authLink.concat(link),
 });
 
 ReactDOM.render(
