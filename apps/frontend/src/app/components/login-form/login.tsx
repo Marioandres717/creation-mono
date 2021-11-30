@@ -1,11 +1,11 @@
 import Layout from '../../components/layout/layout';
 import styles from './login.module.css';
 
-import { useState, useEffect, FormEvent, FC } from 'react';
+import { useState, FormEvent, FC } from 'react';
 import { ApolloError, gql, useLazyQuery } from '@apollo/client';
 import { GraphQLError } from 'graphql';
 
-import User from '../../models/user';
+import { User } from '@creation-mono/shared/types';
 
 /**
  * Types

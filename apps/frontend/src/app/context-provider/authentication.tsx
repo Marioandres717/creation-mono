@@ -1,6 +1,6 @@
 import { useReducer, createContext, FC, ReactNode } from 'react';
 import Login from '../components/login-form/login';
-import User from '../models/user';
+import { User } from '@creation-mono/shared/types';
 
 import { gql, useQuery } from '@apollo/client';
 
@@ -39,6 +39,7 @@ const AuthContext = createContext({});
 const AuthProvider = AuthContext.Provider;
 
 const initialUser: User = {
+  id: 0,
   email: '',
   active: 0,
 };
