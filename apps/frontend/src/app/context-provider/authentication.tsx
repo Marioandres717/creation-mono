@@ -43,7 +43,7 @@ const initialUser: User = {
   active: 0,
 };
 const Authentication: FC<Props> = ({ children }) => {
-  useQuery(GETUSER_QUERY, {
+  const { loading } = useQuery(GETUSER_QUERY, {
     variables: { email: 'shak@tech.ca' },
     onCompleted: ({ User }: { User: User[] }) => {
       const user: User = User[0];
@@ -58,17 +58,20 @@ const Authentication: FC<Props> = ({ children }) => {
     },
   };
 
+  if (loading) {
+    return <div>loading...</div>;
+  }
   if (!user.id) {
-    return (
-      <Login
-        onLogin={(user) => {
-          userApi.updateUser(user);
-        }}
-      />
-    );
-  } else {
+    <Login
+      onLogin={(user) => {
+        userApi.updateUser(user);
+      }}
+    />;
+  }
+  if (user.id) {
     return <AuthProvider value={userApi}>{children}</AuthProvider>;
   }
+  return <div></div>;
 };
 
 export { Authentication, AuthContext };
