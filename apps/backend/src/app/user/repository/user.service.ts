@@ -1,4 +1,4 @@
-import { Prisma, User } from '.prisma/client';
+import { Prisma } from '.prisma/client';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@creation-mono/shared/models';
 
@@ -6,8 +6,8 @@ import { PrismaService } from '@creation-mono/shared/models';
 export class UserService {
   constructor(private prisma: PrismaService) {}
 
-  user(userWhereUniqueInput: Prisma.UserWhereUniqueInput): Promise<User> {
-    return this.prisma.user.findUnique({
+  user(userWhereUniqueInput: Prisma.UserWhereUniqueInput) {
+    return this.prisma.user.findFirst({
       where: userWhereUniqueInput,
     });
   }
