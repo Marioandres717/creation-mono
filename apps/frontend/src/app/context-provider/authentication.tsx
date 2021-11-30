@@ -13,8 +13,8 @@ type Actions = { type: string; value?: User };
 
 /** Get User Query */
 const GETUSER_QUERY = gql`
-  query User($email: String) {
-    User(where: { email: $email }) {
+  query me {
+    me {
       id
       username
       email
@@ -44,10 +44,8 @@ const initialUser: User = {
 };
 const Authentication: FC<Props> = ({ children }) => {
   const { loading } = useQuery(GETUSER_QUERY, {
-    variables: { email: 'shak@tech.ca' },
-    onCompleted: ({ User }: { User: User[] }) => {
-      const user: User = User[0];
-      userApi.updateUser(user);
+    onCompleted: ({ me }: { me: User }) => {
+      userApi.updateUser(me);
     },
   });
   const [user, dispatch] = useReducer(userReducer, initialUser);
@@ -60,18 +58,17 @@ const Authentication: FC<Props> = ({ children }) => {
 
   if (loading) {
     return <div>loading...</div>;
-  }
-  if (!user.id) {
-    <Login
-      onLogin={(user) => {
-        userApi.updateUser(user);
-      }}
-    />;
-  }
-  if (user.id) {
+  } else if (!user.id) {
+    return (
+      <Login
+        onLogin={(user) => {
+          userApi.updateUser(user);
+        }}
+      />
+    );
+  } else {
     return <AuthProvider value={userApi}>{children}</AuthProvider>;
   }
-  return <div></div>;
 };
 
 export { Authentication, AuthContext };
