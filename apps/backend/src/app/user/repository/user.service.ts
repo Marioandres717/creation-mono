@@ -1,6 +1,7 @@
 import { Prisma } from '.prisma/client';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@creation-mono/shared/models';
+import { User } from '@creation-mono/shared/types';
 
 @Injectable()
 export class UserService {
@@ -23,6 +24,17 @@ export class UserService {
       take: limit,
       skip: offset,
       orderBy: order,
+    });
+  }
+
+  createUser(user: Partial<User>) {
+    const { email, username, password } = user;
+    return this.prisma.user.create({
+      data: {
+        email,
+        username,
+        password,
+      },
     });
   }
 }

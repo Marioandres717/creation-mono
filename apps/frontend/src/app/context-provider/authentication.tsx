@@ -24,7 +24,7 @@ const GETUSER_QUERY = gql`
   }
 `;
 
-const userReducer = (state: User, actions: Actions) => {
+const userStore = (state: User, actions: Actions) => {
   switch (actions.type) {
     case 'user_update': {
       return { ...state, ...actions.value };
@@ -49,9 +49,11 @@ const Authentication: FC<Props> = ({ children }) => {
       userApi.updateUser(me);
     },
   });
-  const [user, dispatch] = useReducer(userReducer, initialUser);
+  const [user, dispatch] = useReducer(userStore, initialUser);
   const userApi = {
-    user,
+    getUser: (): User => {
+      return user;
+    },
     updateUser: (user: User) => {
       dispatch({ type: 'user_update', value: user });
     },

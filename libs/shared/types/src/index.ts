@@ -73,6 +73,7 @@ export interface IMutation {
     insert_User(User: User_InsertInput): Nullable<User> | Promise<Nullable<User>>;
     update_User(User: User_UpdateInput, where?: Nullable<User_WhereInput>): Nullable<User> | Promise<Nullable<User>>;
     delete_User(where?: Nullable<User_WhereInput>): Nullable<boolean> | Promise<Nullable<boolean>>;
+    CreateUser(password: string, email: string, username?: Nullable<string>): Nullable<User> | Promise<Nullable<User>>;
 }
 
 type Nullable<T> = T | null;
