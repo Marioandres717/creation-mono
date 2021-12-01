@@ -1,0 +1,64 @@
+/* CSS Reset */
+html,
+body,
+div,
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  vertical-align: baseline;
+}
+* {
+  box-sizing: border-box;
+}
+
+/* ---------- */
+
+:root {
+  --orange-100: #f5604c;
+  --orange-200: #ed523e;
+  --orange-300: #ff3a22;
+  --orange-400: #d6260f;
+  --orange-500: #fc2408;
+
+  --theme-red: #ff3a22;
+  --theme-blue: #57a995;
+
+  /* Gray */
+  --background-gray: #1d1d1d;
+  --background-gray-light: #2b2b2b;
+  --text-gray: #303030;
+  --dark-gray: #a9a9a9;
+  --silver-gray: #c0c0c0;
+  --silver-gray-light: #e8e8e8;
+  --neumorph-gray: #e0e0e0;
+
+  /* White */
+  --white: #f8f8f8;
+}
+
+html,
+body,
+#root,
+#root > div {
+  height: 100%;
+  margin: 0;
+}
+html {
+  /* 1rem = 10px */
+  font-size: 62.5%;
+}
+body {
+  font-size: 1.6rem;
+  font-family: 'SF Mono Regular';
+}
+input {
+  font-family: 'SF Mono Regular';
+}

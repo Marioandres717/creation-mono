@@ -6,6 +6,9 @@ import {
   User_WhereInput,
 } from '@creation-mono/shared/types';
 import { UserService } from '../repository/user.service';
+import { CurrentUser } from '../../auth/decorators/current-user.decorator';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth-guard';
 
 @Resolver('User')
 export class UserQueriesResolver {
@@ -26,30 +29,48 @@ export class UserQueriesResolver {
     const { id, email, username } = where;
     const getUniqueUser = id || email || username;
     if (getUniqueUser) {
-      const result = (await this.userService.user({
-        id: id ? +id : undefined,
-        email,
-        username,
-      })) as User;
-      return result ? [result] : null;
+      return await this.getUser(id, email, username);
     } else {
-      const prismaUserWhereInput = {
-        ...where,
-        ...{
-          id: id ? +id : undefined,
-          type: User_type[where.type],
-          active: isNaN(Number(where.active))
-            ? undefined
-            : Number(where.active),
-        },
-      };
-      const result = (await this.userService.users(
-        limit,
-        offset,
-        orderBy,
-        prismaUserWhereInput
-      )) as User[];
-      return result.length ? result : [];
+      return await this.getUsers(where, id, limit, offset, orderBy);
     }
+  }
+
+  @Query()
+  @UseGuards(JwtAuthGuard)
+  async me(@CurrentUser() user: User) {
+    return user;
+  }
+
+  async getUser(id: string, email: string, username: string) {
+    const result = (await this.userService.user({
+      id: id ? +id : undefined,
+      email,
+      username,
+    })) as User;
+    return result ? [result] : null;
+  }
+
+  async getUsers(
+    where: User_WhereInput,
+    id: string,
+    limit: number,
+    offset: number,
+    orderBy: User_OrderByInput
+  ) {
+    const prismaUserWhereInput = {
+      ...where,
+      ...{
+        id: id ? +id : undefined,
+        type: User_type[where.type],
+        active: isNaN(Number(where.active)) ? undefined : Number(where.active),
+      },
+    };
+    const result = (await this.userService.users(
+      limit,
+      offset,
+      orderBy,
+      prismaUserWhereInput
+    )) as User[];
+    return result.length ? result : [];
   }
 }

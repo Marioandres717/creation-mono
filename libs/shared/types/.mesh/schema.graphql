@@ -12,6 +12,7 @@ type User {
   id: Int!
   email: String!
   username: String
+  password: String
   type: User_type
   active: Int!
 }
@@ -25,6 +26,7 @@ input User_WhereInput {
   id: String
   email: String
   username: String
+  password: String
   type: String
   active: String
 }
@@ -33,6 +35,7 @@ input User_OrderByInput {
   id: OrderBy
   email: OrderBy
   username: OrderBy
+  password: OrderBy
   type: OrderBy
   active: OrderBy
 }
@@ -52,6 +55,7 @@ input User_InsertInput {
   id: Int!
   email: String!
   username: String
+  password: String
   type: User_type
   active: Int!
 }
@@ -60,6 +64,7 @@ input User_UpdateInput {
   id: Int
   email: String
   username: String
+  password: String
   type: User_type
   active: Int
 }

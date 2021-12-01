@@ -10,5 +10,5 @@ definitionsFactory.generate({
   path: join(process.cwd(), 'libs/shared/types/src/index.ts'),
   outputAs: 'interface',
   watch: false,
-  emitTypenameField: true,
+  emitTypenameField: false,
 });

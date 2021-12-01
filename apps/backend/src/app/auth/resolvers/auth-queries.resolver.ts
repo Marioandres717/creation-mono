@@ -23,10 +23,13 @@ export class AuthQueriesResolver {
     @Args('user') user: User_WhereInput,
     @Context() context: GraphQLExecutionContext
   ) {
-    const authenticatedUser = await this.authService.validateUser({
-      ...user,
-      id: +user.id,
-    });
+    const authenticatedUser = await this.authService.validateUser(
+      {
+        ...user,
+        id: +user.id,
+      },
+      user.password
+    );
 
     if (!authenticatedUser) throw new UnauthorizedException();
 
@@ -45,6 +48,6 @@ export class AuthQueriesResolver {
     req.res.cookie('_csrf', csrfToken, {
       maxAge: 1800000,
     });
-    return true;
+    return authenticatedUser;
   }
 }
