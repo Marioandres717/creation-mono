@@ -11,11 +11,22 @@ model User {
   id       Int        @unique(map: "id_UNIQUE") @default(autoincrement())
   email    String     @unique(map: "email_UNIQUE") @db.VarChar(100)
   username String?    @unique(map: "username_UNIQUE") @db.VarChar(100)
-  password String?    @db.VarChar(250)
   type     User_type?
   active   Int        @default(1) @db.TinyInt
+  password String?    @db.VarChar(250)
+  Category Category[]
 
   @@id([id, email])
+}
+
+model Category {
+  id             Int    @id
+  name           String @db.VarChar(255)
+  system_defined Int    @default(0) @db.TinyInt
+  user_id        Int
+  User           User   @relation(fields: [user_id], references: [id], onUpdate: NoAction, map: "category_user_id")
+
+  @@index([user_id], map: "user_id_idx")
 }
 
 enum User_type {

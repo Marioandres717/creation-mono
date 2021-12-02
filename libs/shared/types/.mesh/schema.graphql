@@ -4,17 +4,27 @@ schema {
 }
 
 type Query {
+  Category(limit: Int, offset: Int, where: Category_WhereInput, orderBy: Category_OrderByInput): [Category]
+  count_Category(where: Category_WhereInput): Int
   User(limit: Int, offset: Int, where: User_WhereInput, orderBy: User_OrderByInput): [User]
   count_User(where: User_WhereInput): Int
+}
+
+type Category {
+  id: Int!
+  name: String!
+  system_defined: Int!
+  user_id: Int!
+  User(where: User_WhereInput, orderBy: User_OrderByInput, limit: Int, offset: Int): [User]
 }
 
 type User {
   id: Int!
   email: String!
   username: String
-  password: String
   type: User_type
   active: Int!
+  password: String
 }
 
 enum User_type {
@@ -26,18 +36,18 @@ input User_WhereInput {
   id: String
   email: String
   username: String
-  password: String
   type: String
   active: String
+  password: String
 }
 
 input User_OrderByInput {
   id: OrderBy
   email: OrderBy
   username: OrderBy
-  password: OrderBy
   type: OrderBy
   active: OrderBy
+  password: OrderBy
 }
 
 enum OrderBy {
@@ -45,26 +55,57 @@ enum OrderBy {
   desc
 }
 
+input Category_WhereInput {
+  id: String
+  name: String
+  system_defined: String
+  user_id: String
+}
+
+input Category_OrderByInput {
+  id: OrderBy
+  name: OrderBy
+  system_defined: OrderBy
+  user_id: OrderBy
+}
+
 type Mutation {
+  insert_Category(Category: Category_InsertInput!): Category
+  update_Category(Category: Category_UpdateInput!, where: Category_WhereInput): Category
+  delete_Category(where: Category_WhereInput): Boolean
   insert_User(User: User_InsertInput!): User
   update_User(User: User_UpdateInput!, where: User_WhereInput): User
   delete_User(where: User_WhereInput): Boolean
+}
+
+input Category_InsertInput {
+  id: Int!
+  name: String!
+  system_defined: Int!
+  user_id: Int!
+}
+
+input Category_UpdateInput {
+  id: Int
+  name: String
+  system_defined: Int
+  user_id: Int
 }
 
 input User_InsertInput {
   id: Int!
   email: String!
   username: String
-  password: String
   type: User_type
   active: Int!
+  password: String
 }
 
 input User_UpdateInput {
   id: Int
   email: String
   username: String
-  password: String
   type: User_type
   active: Int
+  password: String
 }

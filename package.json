@@ -6,7 +6,8 @@
     "start": "nx serve",
     "build": "nx build",
     "test": "nx test",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "update-all": "nx run shared-models:db-pull && nx run shared-models:gen-client && nx run shared-types:gen-graphql && nx run shared-types:gen-ts"
   },
   "private": true,
   "dependencies": {
