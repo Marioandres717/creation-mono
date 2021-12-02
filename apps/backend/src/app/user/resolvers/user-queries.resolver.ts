@@ -37,7 +37,7 @@ export class UserQueriesResolver {
 
   @Query()
   @UseGuards(JwtAuthGuard)
-  async me(@CurrentUser() user: User) {
+  me(@CurrentUser() user: User) {
     return user;
   }
 
