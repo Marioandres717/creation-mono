@@ -9,17 +9,20 @@ import { UserService } from '../repository/user.service';
 import { CurrentUser } from '../../auth/decorators/current-user.decorator';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth-guard';
+import { Prisma } from '.prisma/client';
 
 @Resolver('User')
 export class UserQueriesResolver {
   constructor(private userService: UserService) {}
 
   @Query('count_User')
-  countUsers(): Promise<number> {
-    throw new Error('Not Implemented');
+  @UseGuards(JwtAuthGuard)
+  async countUsers(@Args('where') where: User_WhereInput): Promise<number> {
+    return await this.userService.countUsers(where as Prisma.UserWhereInput);
   }
 
   @Query('User')
+  @UseGuards(JwtAuthGuard)
   async user(
     @Args('limit', { type: () => Int }) limit: number,
     @Args('offset', { type: () => Int }) offset: number,
@@ -37,17 +40,17 @@ export class UserQueriesResolver {
 
   @Query()
   @UseGuards(JwtAuthGuard)
-  me(@CurrentUser() user: User) {
+  me(@CurrentUser() user: User): User {
     return user;
   }
 
-  async getUser(id: string, email: string, username: string) {
+  async getUser(id: string, email: string, username: string): Promise<User[]> {
     const result = (await this.userService.user({
       id: id ? +id : undefined,
       email,
       username,
     })) as User;
-    return result ? [result] : null;
+    return result ? [{ ...result }] : null;
   }
 
   async getUsers(
@@ -56,7 +59,7 @@ export class UserQueriesResolver {
     limit: number,
     offset: number,
     orderBy: User_OrderByInput
-  ) {
+  ): Promise<User[]> {
     const prismaUserWhereInput = {
       ...where,
       ...{

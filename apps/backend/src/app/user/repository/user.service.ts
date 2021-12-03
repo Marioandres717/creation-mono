@@ -37,4 +37,10 @@ export class UserService {
       },
     });
   }
+
+  countUsers(user: Prisma.UserWhereInput) {
+    return this.prisma.user.count({
+      where: user,
+    });
+  }
 }
