@@ -9,7 +9,6 @@ import { UserService } from '../repository/user.service';
 import { CurrentUser } from '../../auth/decorators/current-user.decorator';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth-guard';
-import { Prisma } from '.prisma/client';
 
 @Resolver('User')
 export class UserQueriesResolver {
@@ -18,7 +17,12 @@ export class UserQueriesResolver {
   @Query('count_User')
   @UseGuards(JwtAuthGuard)
   async countUsers(@Args('where') where: User_WhereInput): Promise<number> {
-    return await this.userService.countUsers(where as Prisma.UserWhereInput);
+    return await this.userService.countUsers({
+      ...where,
+      id: +where.id,
+      active: +where.active,
+      type: User_type[where.type],
+    });
   }
 
   @Query('User')
@@ -50,7 +54,7 @@ export class UserQueriesResolver {
       email,
       username,
     })) as User;
-    return result ? [{ ...result }] : null;
+    return result ? [result] : null;
   }
 
   async getUsers(

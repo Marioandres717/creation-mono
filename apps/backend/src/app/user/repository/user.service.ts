@@ -43,4 +43,12 @@ export class UserService {
       where: user,
     });
   }
+
+  updateUser(where: Prisma.UserWhereUniqueInput, user: Prisma.UserUpdateInput) {
+    return this.prisma.user.update({ where, data: user });
+  }
+
+  deleteUser(where: Prisma.UserWhereUniqueInput) {
+    return this.prisma.user.delete({ where });
+  }
 }
