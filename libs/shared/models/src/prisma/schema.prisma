@@ -20,11 +20,11 @@ model User {
 }
 
 model Category {
-  id             Int    @id
+  id             Int    @id @default(autoincrement())
   name           String @db.VarChar(255)
   system_defined Int    @default(0) @db.TinyInt
-  user_id        Int
-  User           User   @relation(fields: [user_id], references: [id], onUpdate: NoAction, map: "category_user_id")
+  user_id        Int?
+  User           User?  @relation(fields: [user_id], references: [id], onDelete: Restrict, onUpdate: NoAction, map: "category_user_id")
 
   @@index([user_id], map: "user_id_idx")
 }

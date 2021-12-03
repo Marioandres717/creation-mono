@@ -53,7 +53,7 @@ export interface Category_InsertInput {
     id: number;
     name: string;
     system_defined: number;
-    user_id: number;
+    user_id?: Nullable<number>;
 }
 
 export interface Category_UpdateInput {
@@ -94,7 +94,7 @@ export interface Category {
     id: number;
     name: string;
     system_defined: number;
-    user_id: number;
+    user_id?: Nullable<number>;
     User?: Nullable<Nullable<User>[]>;
 }
 

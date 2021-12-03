@@ -14,7 +14,7 @@ type Category {
   id: Int!
   name: String!
   system_defined: Int!
-  user_id: Int!
+  user_id: Int
   User(where: User_WhereInput, orderBy: User_OrderByInput, limit: Int, offset: Int): [User]
 }
 
@@ -82,7 +82,7 @@ input Category_InsertInput {
   id: Int!
   name: String!
   system_defined: Int!
-  user_id: Int!
+  user_id: Int
 }
 
 input Category_UpdateInput {
