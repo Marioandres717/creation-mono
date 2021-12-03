@@ -10,6 +10,8 @@ type Query {
   count_Tag(where: Tag_WhereInput): Int
   Transaction(limit: Int, offset: Int, where: Transaction_WhereInput, orderBy: Transaction_OrderByInput): [Transaction]
   count_Transaction(where: Transaction_WhereInput): Int
+  Transactions_Tags(limit: Int, offset: Int, where: Transactions_Tags_WhereInput, orderBy: Transactions_Tags_OrderByInput): [Transactions_Tags]
+  count_Transactions_Tags(where: Transactions_Tags_WhereInput): Int
   User(limit: Int, offset: Int, where: User_WhereInput, orderBy: User_OrderByInput): [User]
   count_User(where: User_WhereInput): Int
 }
@@ -139,6 +141,26 @@ input Transaction_OrderByInput {
   category_id: OrderBy
 }
 
+type Transactions_Tags {
+  id: Int!
+  transaction_id: Int!
+  tag_id: Int!
+  Tag(where: Tag_WhereInput, orderBy: Tag_OrderByInput, limit: Int, offset: Int): [Tag]
+  Transaction(where: Transaction_WhereInput, orderBy: Transaction_OrderByInput, limit: Int, offset: Int): [Transaction]
+}
+
+input Transactions_Tags_WhereInput {
+  id: String
+  transaction_id: String
+  tag_id: String
+}
+
+input Transactions_Tags_OrderByInput {
+  id: OrderBy
+  transaction_id: OrderBy
+  tag_id: OrderBy
+}
+
 type Mutation {
   insert_Category(Category: Category_InsertInput!): Category
   update_Category(Category: Category_UpdateInput!, where: Category_WhereInput): Category
@@ -149,6 +171,9 @@ type Mutation {
   insert_Transaction(Transaction: Transaction_InsertInput!): Transaction
   update_Transaction(Transaction: Transaction_UpdateInput!, where: Transaction_WhereInput): Transaction
   delete_Transaction(where: Transaction_WhereInput): Boolean
+  insert_Transactions_Tags(Transactions_Tags: Transactions_Tags_InsertInput!): Transactions_Tags
+  update_Transactions_Tags(Transactions_Tags: Transactions_Tags_UpdateInput!, where: Transactions_Tags_WhereInput): Transactions_Tags
+  delete_Transactions_Tags(where: Transactions_Tags_WhereInput): Boolean
   insert_User(User: User_InsertInput!): User
   update_User(User: User_UpdateInput!, where: User_WhereInput): User
   delete_User(where: User_WhereInput): Boolean
@@ -202,6 +227,18 @@ input Transaction_UpdateInput {
   expense: Int
   type: Transaction_type
   category_id: Int
+}
+
+input Transactions_Tags_InsertInput {
+  id: Int!
+  transaction_id: Int!
+  tag_id: Int!
+}
+
+input Transactions_Tags_UpdateInput {
+  id: Int
+  transaction_id: Int
+  tag_id: Int
 }
 
 input User_InsertInput {
