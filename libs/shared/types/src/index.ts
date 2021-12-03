@@ -81,7 +81,7 @@ export interface Tag_InsertInput {
     id: number;
     name: string;
     system_defined: number;
-    user_id: number;
+    user_id?: Nullable<number>;
 }
 
 export interface Tag_UpdateInput {
@@ -141,7 +141,7 @@ export interface Tag {
     id: number;
     name: string;
     system_defined: number;
-    user_id: number;
+    user_id?: Nullable<number>;
     User?: Nullable<Nullable<User>[]>;
 }
 

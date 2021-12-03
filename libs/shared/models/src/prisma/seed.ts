@@ -26,6 +26,16 @@ async function main() {
         },
       })
   );
+
+  TAGS.map(
+    async (tag) =>
+      await prisma.tag.create({
+        data: {
+          name: tag,
+          system_defined: 1,
+        },
+      })
+  );
 }
 
 main()
@@ -60,3 +70,5 @@ const CATEGORIES = [
   'Travel',
   'Uncategorized',
 ];
+
+const TAGS = ['Tax Related', 'Reimbursable', 'Vacation'];
