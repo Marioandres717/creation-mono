@@ -6,6 +6,8 @@ schema {
 type Query {
   Category(limit: Int, offset: Int, where: Category_WhereInput, orderBy: Category_OrderByInput): [Category]
   count_Category(where: Category_WhereInput): Int
+  Tag(limit: Int, offset: Int, where: Tag_WhereInput, orderBy: Tag_OrderByInput): [Tag]
+  count_Tag(where: Tag_WhereInput): Int
   User(limit: Int, offset: Int, where: User_WhereInput, orderBy: User_OrderByInput): [User]
   count_User(where: User_WhereInput): Int
 }
@@ -69,10 +71,35 @@ input Category_OrderByInput {
   user_id: OrderBy
 }
 
+type Tag {
+  id: Int!
+  name: String!
+  system_defined: Int!
+  user_id: Int
+  User(where: User_WhereInput, orderBy: User_OrderByInput, limit: Int, offset: Int): [User]
+}
+
+input Tag_WhereInput {
+  id: String
+  name: String
+  system_defined: String
+  user_id: String
+}
+
+input Tag_OrderByInput {
+  id: OrderBy
+  name: OrderBy
+  system_defined: OrderBy
+  user_id: OrderBy
+}
+
 type Mutation {
   insert_Category(Category: Category_InsertInput!): Category
   update_Category(Category: Category_UpdateInput!, where: Category_WhereInput): Category
   delete_Category(where: Category_WhereInput): Boolean
+  insert_Tag(Tag: Tag_InsertInput!): Tag
+  update_Tag(Tag: Tag_UpdateInput!, where: Tag_WhereInput): Tag
+  delete_Tag(where: Tag_WhereInput): Boolean
   insert_User(User: User_InsertInput!): User
   update_User(User: User_UpdateInput!, where: User_WhereInput): User
   delete_User(where: User_WhereInput): Boolean
@@ -86,6 +113,20 @@ input Category_InsertInput {
 }
 
 input Category_UpdateInput {
+  id: Int
+  name: String
+  system_defined: Int
+  user_id: Int
+}
+
+input Tag_InsertInput {
+  id: Int!
+  name: String!
+  system_defined: Int!
+  user_id: Int
+}
+
+input Tag_UpdateInput {
   id: Int
   name: String
   system_defined: Int
