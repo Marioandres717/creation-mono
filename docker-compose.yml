@@ -9,12 +9,12 @@ services:
     ports:
       - '3306:3306'
     command: [mysqld, --default-authentication-plugin=mysql_native_password]
+    container_name: db
   wallet:
     build:
       context: .
     volumes:
       - /node_modules
-      - /tmp
       - .:/wallet:cached
     tty: true
     stdin_open: true
@@ -29,7 +29,6 @@ services:
     stdin_open: true
     volumes:
       - /node_modules
-      - /tmp
       - .:/wallet:cached
     command: 'npx nx run frontend:serve'
     ports:
