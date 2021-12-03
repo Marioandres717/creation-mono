@@ -23,6 +23,8 @@ services:
       - '3000:3000'
     depends_on:
       - db
+    environment:
+      - DATABASE_URL=mysql://root:asd123@db:3306/walletdb
   wallet-ui:
     image: creation-mono_wallet
     tty: true
