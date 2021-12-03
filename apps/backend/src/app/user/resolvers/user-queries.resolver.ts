@@ -15,11 +15,18 @@ export class UserQueriesResolver {
   constructor(private userService: UserService) {}
 
   @Query('count_User')
-  countUsers(): Promise<number> {
-    throw new Error('Not Implemented');
+  @UseGuards(JwtAuthGuard)
+  async countUsers(@Args('where') where: User_WhereInput): Promise<number> {
+    return await this.userService.countUsers({
+      ...where,
+      id: +where.id,
+      active: +where.active,
+      type: User_type[where.type],
+    });
   }
 
   @Query('User')
+  @UseGuards(JwtAuthGuard)
   async user(
     @Args('limit', { type: () => Int }) limit: number,
     @Args('offset', { type: () => Int }) offset: number,
@@ -37,11 +44,11 @@ export class UserQueriesResolver {
 
   @Query()
   @UseGuards(JwtAuthGuard)
-  me(@CurrentUser() user: User) {
+  me(@CurrentUser() user: User): User {
     return user;
   }
 
-  async getUser(id: string, email: string, username: string) {
+  async getUser(id: string, email: string, username: string): Promise<User[]> {
     const result = (await this.userService.user({
       id: id ? +id : undefined,
       email,
@@ -56,7 +63,7 @@ export class UserQueriesResolver {
     limit: number,
     offset: number,
     orderBy: User_OrderByInput
-  ) {
+  ): Promise<User[]> {
     const prismaUserWhereInput = {
       ...where,
       ...{
