@@ -52,6 +52,8 @@ const Login: FC<Props> = ({ onLogin }) => {
       }
     },
     onError: (error: ApolloError) => {
+      // TODO: not all error contain extension.response
+      // CORS errors for instance break this function
       const graphQLError: GraphQLError = error.graphQLErrors[0];
       setError(graphQLError.extensions.response);
     },

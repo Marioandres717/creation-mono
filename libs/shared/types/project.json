@@ -21,7 +21,7 @@
     "gen-graphql": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "command": "yarn mesh build --dir libs/shared/types"
+        "command": "npx mesh build --dir libs/shared/types"
       }
     },
     "gen-ts": {

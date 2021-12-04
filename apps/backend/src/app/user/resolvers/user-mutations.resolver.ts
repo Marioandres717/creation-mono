@@ -14,7 +14,6 @@ import { JwtAuthGuard } from '../../auth/guards/jwt-auth-guard';
 export class UserMutationsResolver {
   constructor(private userService: UserService) {}
   @Mutation('insert_User')
-  @UseGuards(JwtAuthGuard)
   async createUser(@Args('User') user: User_InsertInput): Promise<User> {
     return (await this.userService.createUser(user)) as User;
   }

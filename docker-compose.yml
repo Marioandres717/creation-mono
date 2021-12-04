@@ -1,0 +1,39 @@
+version: '3.9'
+services:
+  db:
+    image: mysql:latest
+    volumes:
+      - ./tmp:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 'asd123'
+    ports:
+      - '3306:3306'
+    command: [mysqld, --default-authentication-plugin=mysql_native_password]
+    container_name: db
+  wallet:
+    build:
+      context: .
+    volumes:
+      - /node_modules
+      - .:/wallet:cached
+    tty: true
+    stdin_open: true
+    command: 'npm start'
+    ports:
+      - '3000:3000'
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=mysql://root:asd123@db:3306/walletdb
+  wallet-ui:
+    image: creation-mono_wallet
+    tty: true
+    stdin_open: true
+    volumes:
+      - /node_modules
+      - .:/wallet:cached
+    command: 'npx nx run frontend:serve'
+    ports:
+      - '4200:4200'
+    depends_on:
+      - wallet
