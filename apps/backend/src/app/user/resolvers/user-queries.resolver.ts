@@ -1,8 +1,9 @@
 import { Args, Int, Query, Resolver } from '@nestjs/graphql';
 import {
+  numberfy,
+  omit,
   User,
   User_OrderByInput,
-  User_type,
   User_WhereInput,
 } from '@creation-mono/shared/types';
 import { UserService } from '../repository/user.service';
@@ -17,12 +18,7 @@ export class UserQueriesResolver {
   @Query('count_User')
   @UseGuards(JwtAuthGuard)
   async countUsers(@Args('where') where: User_WhereInput): Promise<number> {
-    return await this.userService.countUsers({
-      ...where,
-      id: +where.id,
-      active: +where.active,
-      type: User_type[where.type],
-    });
+    return await this.userService.countUsers(numberfy(where, ['id', 'active']));
   }
 
   @Query('User')
@@ -36,9 +32,9 @@ export class UserQueriesResolver {
     const { id, email, username } = where;
     const getUniqueUser = id || email || username;
     if (getUniqueUser) {
-      return await this.getUser(id, email, username);
+      return await this.getUser(where);
     } else {
-      return await this.getUsers(where, id, limit, offset, orderBy);
+      return await this.getUsers(where, limit, offset, orderBy);
     }
   }
 
@@ -48,36 +44,28 @@ export class UserQueriesResolver {
     return user;
   }
 
-  async getUser(id: string, email: string, username: string): Promise<User[]> {
-    const result = (await this.userService.user({
-      id: id ? +id : undefined,
-      email,
-      username,
-    })) as User;
-    return result ? [result] : null;
+  async getUser(where: User_WhereInput): Promise<User[]> {
+    const result = (await this.userService.user(
+      numberfy(where, ['id'])
+    )) as User;
+    return result ? [omit(result, ['password'])] : null;
   }
 
   async getUsers(
     where: User_WhereInput,
-    id: string,
     limit: number,
     offset: number,
     orderBy: User_OrderByInput
   ): Promise<User[]> {
-    const prismaUserWhereInput = {
-      ...where,
-      ...{
-        id: id ? +id : undefined,
-        type: User_type[where.type],
-        active: isNaN(Number(where.active)) ? undefined : Number(where.active),
-      },
-    };
     const result = (await this.userService.users(
       limit,
       offset,
       orderBy,
-      prismaUserWhereInput
+      numberfy(where, ['id', 'active'])
     )) as User[];
-    return result.length ? result : [];
+    const resultWithoutPasswords = result.map((user) =>
+      omit(user, ['password'])
+    );
+    return resultWithoutPasswords.length ? resultWithoutPasswords : [];
   }
 }
