@@ -7,7 +7,7 @@ definitionsFactory.generate({
     'libs/shared/types/.mesh/*.graphql',
     'libs/shared/types/src/**/*.graphql',
   ],
-  path: join(process.cwd(), 'libs/shared/types/src/index.ts'),
+  path: join(process.cwd(), 'libs/shared/types/src/graphql-types.ts'),
   outputAs: 'interface',
   watch: false,
   emitTypenameField: false,
