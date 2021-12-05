@@ -43,10 +43,10 @@ export class AuthQueriesResolver {
       httpOnly: true,
       secure: true,
       sameSite: true,
-      maxAge: 1800000, //30 min
+      maxAge: process.env.TOKEN_DURATION, //30 min
     });
     req.res.cookie('_csrf', csrfToken, {
-      maxAge: 1800000,
+      maxAge: process.env.TOKEN_DURATION,
     });
     return authenticatedUser;
   }

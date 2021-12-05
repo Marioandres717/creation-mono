@@ -13,7 +13,7 @@ import { AuthQueriesResolver } from './resolvers/auth-queries.resolver';
     PassportModule,
     JwtModule.register({
       secret: jwtConstants.secret,
-      signOptions: { expiresIn: '30m' },
+      signOptions: { expiresIn: process.env.TOKEN_DURATION },
     }),
   ],
   providers: [AuthService, JwtStrategy, AuthQueriesResolver],
