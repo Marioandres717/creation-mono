@@ -24,7 +24,7 @@ export class CategoryMutationsResolver {
   ): Promise<Category> {
     return await this.categoryService.createCategory({
       ...category,
-      User: { connect: user },
+      User: { connect: { id: user.id } },
     });
   }
 

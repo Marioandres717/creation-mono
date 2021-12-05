@@ -4,6 +4,7 @@ import { SharedModelsModule } from '@creation-mono/shared/models';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { CategoryModule } from './category/category.module';
+import { TagModule } from './tag/tag.module';
 @Module({
   imports: [
     GraphQLModule.forRoot({
@@ -22,6 +23,7 @@ import { CategoryModule } from './category/category.module';
     UserModule,
     SharedModelsModule,
     CategoryModule,
+    TagModule,
   ],
   providers: [],
 })

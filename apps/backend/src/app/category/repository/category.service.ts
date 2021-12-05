@@ -30,7 +30,7 @@ export class CategoryService {
     return this.prisma.category.create({
       data: {
         name,
-        User: User,
+        User,
       },
     });
   }
