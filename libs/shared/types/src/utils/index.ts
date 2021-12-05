@@ -19,7 +19,7 @@ export function numberfy<R, Type extends object, Key extends keyof Type>(
   type: Type,
   keys: Key[]
 ): R {
-  let object: R;
+  let object: R = <R>{};
   keys.forEach((key) => {
     const { [key]: propToNumberfy, ...obj } = type;
     object = {

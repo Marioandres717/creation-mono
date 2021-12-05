@@ -3,6 +3,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { SharedModelsModule } from '@creation-mono/shared/models';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
+import { CategoryModule } from './category/category.module';
 @Module({
   imports: [
     GraphQLModule.forRoot({
@@ -20,6 +21,7 @@ import { UserModule } from './user/user.module';
     AuthModule,
     UserModule,
     SharedModelsModule,
+    CategoryModule,
   ],
   providers: [],
 })

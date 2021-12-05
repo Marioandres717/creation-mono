@@ -1,6 +1,5 @@
-import { Prisma, User_type } from '.prisma/client';
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '@creation-mono/shared/models';
+import { PrismaService, Prisma, User_type } from '@creation-mono/shared/models';
 
 @Injectable()
 export class UserService {
@@ -48,7 +47,21 @@ export class UserService {
     return this.prisma.user.update({ where, data: user });
   }
 
+  updateUsers(
+    where: Prisma.UserWhereUniqueInput,
+    user: Prisma.UserUpdateInput
+  ) {
+    return this.prisma.user.updateMany({
+      where,
+      data: user,
+    });
+  }
+
   deleteUser(where: Prisma.UserWhereUniqueInput) {
     return this.prisma.user.delete({ where });
+  }
+
+  deleteUsers(where: Prisma.UserWhereInput) {
+    return this.prisma.user.deleteMany({ where });
   }
 }

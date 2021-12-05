@@ -2,6 +2,7 @@ import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { UserService } from '../repository/user.service';
 
 import {
+  numberfy,
   User,
   User_InsertInput,
   User_UpdateInput,
@@ -25,7 +26,7 @@ export class UserMutationsResolver {
     @Args('where') where: User_WhereInput
   ): Promise<User> {
     return (await this.userService.updateUser(
-      { ...where, id: +where.id },
+      numberfy(where, ['id', 'active']),
       user
     )) as User;
   }
@@ -33,10 +34,17 @@ export class UserMutationsResolver {
   @Mutation('delete_User')
   @UseGuards(JwtAuthGuard)
   async deleteUser(@Args('where') where: User_WhereInput): Promise<boolean> {
-    const successfulOperation = await this.userService.deleteUser({
-      ...where,
-      id: +where.id,
-    });
-    return successfulOperation ? true : false;
+    let res;
+    if (where.id) {
+      res = await this.userService.deleteUser(
+        numberfy(where, ['id', 'active'])
+      );
+    } else {
+      res = await this.userService.deleteUsers(
+        numberfy(where, ['id', 'active'])
+      );
+    }
+
+    return res ? true : false;
   }
 }
