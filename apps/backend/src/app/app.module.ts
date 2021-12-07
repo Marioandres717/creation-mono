@@ -6,6 +6,8 @@ import { UserModule } from './user/user.module';
 import { CategoryModule } from './category/category.module';
 import { TagModule } from './tag/tag.module';
 import { TransactionModule } from './transaction/transaction.module';
+import { TransactionsTagsModule } from './transactions-tags/transactions-tags.module';
+
 @Module({
   imports: [
     GraphQLModule.forRoot({
@@ -26,7 +28,7 @@ import { TransactionModule } from './transaction/transaction.module';
     CategoryModule,
     TagModule,
     TransactionModule,
+    TransactionsTagsModule,
   ],
-  providers: [],
 })
 export class AppModule {}
