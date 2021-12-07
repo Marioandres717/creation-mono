@@ -26,7 +26,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
             token = req.cookies['access-token'];
             const decodedToken = this.jwtService.decode(token);
             const csrfToken = req.headers['csrf-token'];
-            if (decodedToken['_csrf'] !== csrfToken)
+            if (!decodedToken || decodedToken['_csrf'] !== csrfToken)
               throw new UnauthorizedException();
           }
           return token;
