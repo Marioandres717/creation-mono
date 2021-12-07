@@ -63,7 +63,17 @@ NX_GRAPHQL_URI=http://localhost:3000/graphql
 
 5. Prepare the database
 
-   1. Turn db container on
+   1. Turn db container on:
+      Known Issues:
+      Errors due to corrupted data: <br>
+      (CAUTION): remove tmp folder.<br> This command removes the database data.
+      This error may be due to the change from mysql to mariadb,
+      so it is probably safe to run the following command because such an error
+      is only triggered in the early stages of development.
+
+      ```
+      rm -rf tmp
+      ```
 
       ```
       docker-compose up db
@@ -126,3 +136,30 @@ insert_User(User: {
 12. Log in using the new created user at `localhost:4200`
 
 # Docker
+
+A list of useful docker compose-commands
+
+```bash
+# containers status
+docker-compose ps
+# run application
+docker-compose up
+# shut down application
+docker-compose down
+# restart container
+# docker-compose restart wallet
+# you can get the name from docker-compose.yml file
+docker-compose restart <compose container name>
+# build application based on Dockerfile
+docker-compose build
+# build single container
+docker-compose build <compose container name>
+# running bash in container
+# this command will run an isolated container
+# changes here won't affect the container running
+# with docker-compose up in case its available
+docker-compose build <compose container> bash
+# General docker commands
+# docker image list
+docker [image|container|volume] [list]
+```
