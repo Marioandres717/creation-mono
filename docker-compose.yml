@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   db:
-    image: mysql:latest
+    image: mariadb:latest
     volumes:
       - ./tmp:/var/lib/mysql
     environment:
@@ -13,8 +13,9 @@ services:
   wallet:
     build:
       context: .
+    image: wallet
     volumes:
-      - /node_modules
+      - /wallet/node_modules
       - .:/wallet:cached
     tty: true
     stdin_open: true
@@ -26,11 +27,11 @@ services:
     environment:
       - DATABASE_URL=mysql://root:asd123@db:3306/walletdb
   wallet-ui:
-    image: creation-mono_wallet
+    image: wallet
     tty: true
     stdin_open: true
     volumes:
-      - /node_modules
+      - /wallet/node_modules
       - .:/wallet:cached
     command: 'npx nx run frontend:serve'
     ports:

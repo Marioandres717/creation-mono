@@ -30,6 +30,7 @@ npm install
 # Database
 # [protocol]://[user]:[password]@[host]:[port]/[database]
 DATABASE_URL=mysql://root:asd123@localhost:3306/walletdb
+TOKEN_DURATION=86400000
 
 # Frontend
 NX_GRAPHQL_URI=http://localhost:3000/graphql
@@ -60,14 +61,7 @@ NX_GRAPHQL_URI=http://localhost:3000/graphql
    };
    ```
 
-5. Build docker containers
-
-   ```
-   cd creation-mono
-   docker-compose build
-   ```
-
-6. Prepare the database
+5. Prepare the database
 
    1. Turn db container on
 
@@ -90,36 +84,45 @@ NX_GRAPHQL_URI=http://localhost:3000/graphql
       show databases;
       ```
 
-7. Generate types based on Schema
+6. Generate types based on Schema
 
    ```
    npm run update-all
    ```
 
+7. Build docker containers
+
+   ```
+   cd creation-mono
+   docker-compose build
+   ```
+
 8. Run Docker compose
 
-   ```
-   docker-compose up
-   ```
+```
+docker-compose up
+```
 
-9. Open `localhost:3000/graphql` and create a new user
-   ```
-   mutation createUser {
-   insert_User(User: {
-      id: 0,
-      email:  "test@tech.ca",
-      password: "test12",
-      username: "testuser",
-      active: 1
-   }
-   ){
-      id,
-      email,
-      username,
-      active
-   }
-   }
-   ```
-10. Log in using the new created user at `localhost:4200`
+11. Open `localhost:3000/graphql` and create a new user
+
+```
+mutation createUser {
+insert_User(User: {
+   id: 0,
+   email:  "test@tech.ca",
+   password: "test12",
+   username: "testuser",
+   active: 1
+}
+){
+   id,
+   email,
+   username,
+   active
+}
+}
+```
+
+12. Log in using the new created user at `localhost:4200`
 
 # Docker
