@@ -18,7 +18,7 @@ export class TransactionsTagsQueriesResolver {
   }
 
   @Query('transactionsTags')
-  async transactionTags(
+  async transactionsTags(
     @Args('limit', { type: () => Int }) limit: number,
     @Args('offset', { type: () => Int }) offset: number,
     @Args('where') where: TransactionsTagsWhereInput,

@@ -4,12 +4,14 @@ import {
   Query,
   Resolver,
 } from '@nestjs/graphql';
-import { UnauthorizedException } from '@nestjs/common';
+import { UnauthorizedException, UseGuards } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 import { JwtService } from '@nestjs/jwt';
-import { UserWhereInput } from '@creation-mono/shared/types';
+import { User, UserRole, UserWhereInput } from '@creation-mono/shared/types';
 import { AuthService } from '../repository/auth.service';
 import { Context } from '../decorators/context.decorator';
+import { JwtAuthGuard } from '../guards/jwt-auth-guard';
+import { CurrentUser } from '../decorators/current-user.decorator';
 
 @Resolver()
 export class AuthQueriesResolver {
@@ -18,11 +20,17 @@ export class AuthQueriesResolver {
     private jwtService: JwtService
   ) {}
 
+  @Query()
+  @UseGuards(JwtAuthGuard)
+  me(@CurrentUser() user: User): User {
+    return user;
+  }
+
   @Query('login')
   async login(
     @Args('user') user: UserWhereInput,
     @Context() context: GraphQLExecutionContext
-  ) {
+  ): Promise<User> {
     const authenticatedUser = await this.authService.validateUser(
       user,
       user.password
@@ -45,6 +53,10 @@ export class AuthQueriesResolver {
     req.res.cookie('_csrf', csrfToken, {
       maxAge: process.env.TOKEN_DURATION,
     });
-    return authenticatedUser;
+    return {
+      ...authenticatedUser,
+      role: UserRole[authenticatedUser.role],
+      isActive: Boolean(authenticatedUser.isActive),
+    };
   }
 }

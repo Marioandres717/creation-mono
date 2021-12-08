@@ -12,9 +12,9 @@ model User {
   id          String        @unique(map: "id_UNIQUE") @default(uuid()) @db.VarChar(36)
   email       String        @unique(map: "email_UNIQUE") @db.VarChar(50)
   username    String?       @unique(map: "username_UNIQUE") @db.VarChar(20)
-  active      Int?          @default(0) @db.TinyInt
+  isActive    Int?          @default(0) @db.TinyInt
   password    String?       @db.VarChar(50)
-  role        User_role?
+  role        User_role?    @default(basic)
   Category    Category[]
   Tag         Tag[]
   Transaction Transaction[]
@@ -23,12 +23,12 @@ model User {
 }
 
 model Category {
-  id            String        @id @unique(map: "id_UNIQUE") @default(uuid()) @db.VarChar(36)
-  name          String        @db.VarChar(50)
-  systemDefined Int           @default(0) @db.TinyInt
-  userId        String?       @db.VarChar(36)
-  User          User?         @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "category_userId")
-  Transaction   Transaction[]
+  id              String        @id @unique(map: "id_UNIQUE") @default(uuid()) @db.VarChar(36)
+  name            String        @db.VarChar(50)
+  isSystemDefined Int           @default(0) @db.TinyInt
+  userId          String?       @db.VarChar(36)
+  User            User?         @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "category_userId")
+  Transaction     Transaction[]
 
   @@index([userId], map: "category_userId_idx")
 }
@@ -36,7 +36,7 @@ model Category {
 model Tag {
   id               String             @id @unique(map: "id_UNIQUE") @default(uuid()) @db.VarChar(36)
   name             String             @db.VarChar(50)
-  systemDefined    Int                @default(0) @db.TinyInt
+  isSystemDefined  Int                @default(0) @db.TinyInt
   userId           String?            @db.VarChar(36)
   User             User?              @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "tag_userId")
   TransactionsTags TransactionsTags[]
@@ -50,7 +50,7 @@ model Transaction {
   userId           String             @db.VarChar(36)
   date             DateTime?          @default(now()) @db.DateTime(0)
   amount           Decimal            @default(0.000) @db.Decimal(11, 3)
-  expense          Int?               @default(1) @db.TinyInt
+  isExpense        Int?               @default(1) @db.TinyInt
   type             Transaction_type?  @default(cash)
   categoryId       String?            @db.VarChar(36)
   Category         Category?          @relation(fields: [categoryId], references: [id], onUpdate: NoAction, map: "transaction_categoryId")
@@ -80,4 +80,5 @@ enum Transaction_type {
 
 enum User_role {
   admin
+  basic
 }

@@ -4,6 +4,7 @@ import { UserService } from '../repository/user.service';
 import {
   User,
   UserInsertInput,
+  UserRole,
   UserUpdateInput,
   UserWhereInput,
 } from '@creation-mono/shared/types';
@@ -16,7 +17,16 @@ export class UserMutationsResolver {
 
   @Mutation('insertUser')
   async insertUser(@Args('user') user: UserInsertInput): Promise<User> {
-    return await this.userService.createUser(user);
+    const newUser = await this.userService.createUser({
+      ...user,
+      isActive: Number(user.isActive),
+    });
+
+    return {
+      ...newUser,
+      isActive: Boolean(newUser.isActive),
+      role: UserRole[newUser.role],
+    };
   }
 
   @Mutation('updateUser')
@@ -25,7 +35,16 @@ export class UserMutationsResolver {
     @Args('user') user: UserUpdateInput,
     @Args('where') where: UserWhereInput
   ): Promise<User> {
-    return await this.userService.updateUser(where, user);
+    const updatedUser = await this.userService.updateUser(where, {
+      ...user,
+      isActive: Number(user.isActive),
+    });
+
+    return {
+      ...updatedUser,
+      isActive: Boolean(updatedUser.isActive),
+      role: UserRole[updatedUser.role],
+    };
   }
 
   @Mutation('deleteUser')
@@ -35,7 +54,10 @@ export class UserMutationsResolver {
     if (where.id) {
       res = await this.userService.deleteUser(where);
     } else {
-      res = await this.userService.deleteUsers(where);
+      res = await this.userService.deleteUsers({
+        ...where,
+        isActive: Number(where.isActive),
+      });
     }
     return res ? true : false;
   }

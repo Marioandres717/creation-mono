@@ -3,10 +3,10 @@ import {
   omit,
   User,
   UserOrderByInput,
+  UserRole,
   UserWhereInput,
 } from '@creation-mono/shared/types';
 import { UserService } from '../repository/user.service';
-import { CurrentUser } from '../../auth/decorators/current-user.decorator';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth-guard';
 
@@ -19,7 +19,7 @@ export class UserQueriesResolver {
   async countUsers(@Args('where') where: UserWhereInput): Promise<number> {
     return await this.userService.countUsers({
       ...where,
-      active: Number(where.active),
+      isActive: Number(where.isActive),
     });
   }
 
@@ -31,39 +31,39 @@ export class UserQueriesResolver {
     @Args('where') where: UserWhereInput,
     @Args('orderBy') orderBy: UserOrderByInput
   ): Promise<User[]> {
-    const { id, email, username } = where;
-    const getUniqueUser = id || email || username;
-    if (getUniqueUser) {
-      return await this.getUser(where);
-    } else {
-      return await this.getUsers(where, limit, offset, orderBy);
-    }
-  }
-
-  @Query()
-  @UseGuards(JwtAuthGuard)
-  me(@CurrentUser() user: User): User {
-    return user;
-  }
-
-  async getUser(where: UserWhereInput): Promise<User[]> {
-    const result = await this.userService.user(where);
-    return result ? [omit(result, ['password'])] : null;
-  }
-
-  async getUsers(
-    where: UserWhereInput,
-    limit: number,
-    offset: number,
-    orderBy: UserOrderByInput
-  ): Promise<User[]> {
-    const result = await this.userService.users(limit, offset, orderBy, {
-      ...where,
-      active: Number(where.active),
-    });
-    const resultWithoutPasswords = result.map((user) =>
-      omit(user, ['password'])
+    const usersWithoutPassword = (
+      await this.userService.users(limit, offset, orderBy, {
+        ...where,
+        isActive: Number(where.isActive),
+      })
+    ).map((user) =>
+      omit(
+        {
+          ...user,
+          role: UserRole[user.role],
+          isActive: Boolean(user.isActive),
+        },
+        ['password']
+      )
     );
-    return resultWithoutPasswords.length ? resultWithoutPasswords : [];
+
+    return usersWithoutPassword;
+  }
+
+  @Query('user')
+  @UseGuards(JwtAuthGuard)
+  async user(where: UserWhereInput): Promise<User[]> {
+    const user = await this.userService.user(where);
+    if (!user) return null;
+    return [
+      omit(
+        {
+          ...user,
+          role: UserRole[user.role],
+          isActive: Boolean(user.isActive),
+        },
+        ['password']
+      ),
+    ];
   }
 }

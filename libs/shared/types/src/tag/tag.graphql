@@ -18,34 +18,34 @@ type Mutation {
 type Tag {
   id: ID!
   name: String!
-  systemDefined: Boolean
+  isSystemDefined: Boolean
   userId: ID
 }
 
 input TagWhereInput {
   id: ID
   name: String
-  systemDefined: Boolean
+  isSystemDefined: Boolean
   userId: ID
 }
 
 input TagInsertInput {
   id: ID
   name: String!
-  systemDefined: Boolean
+  isSystemDefined: Boolean
   userId: ID
 }
 
 input TagUpdateInput {
   id: ID
   name: String
-  systemDefined: Boolean
+  isSystemDefined: Boolean
   userId: ID
 }
 
 input TagOrderByInput {
   id: OrderBy
   name: OrderBy
-  systemDefined: OrderBy
+  isSystemDefined: OrderBy
   userId: OrderBy
 }

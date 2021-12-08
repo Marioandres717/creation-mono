@@ -19,62 +19,63 @@ export enum OrderBy {
 }
 
 export enum UserRole {
-    admin = "admin"
+    admin = "admin",
+    basic = "basic"
 }
 
 export interface CategoryWhereInput {
     id?: Nullable<string>;
     name?: Nullable<string>;
-    systemDefined?: Nullable<boolean>;
+    isSystemDefined?: Nullable<boolean>;
     userId?: Nullable<string>;
 }
 
 export interface CategoryInsertInput {
     id: string;
     name: string;
-    systemDefined?: Nullable<boolean>;
+    isSystemDefined?: Nullable<boolean>;
     userId?: Nullable<string>;
 }
 
 export interface CategoryUpdateInput {
     id?: Nullable<string>;
     name?: Nullable<string>;
-    systemDefined?: Nullable<boolean>;
+    isSystemDefined?: Nullable<boolean>;
     userId?: Nullable<string>;
 }
 
 export interface CategoryOrderByInput {
     id?: Nullable<OrderBy>;
     name?: Nullable<OrderBy>;
-    systemDefined?: Nullable<OrderBy>;
+    isSystemDefined?: Nullable<OrderBy>;
     userId?: Nullable<OrderBy>;
 }
 
 export interface TagWhereInput {
     id?: Nullable<string>;
     name?: Nullable<string>;
-    systemDefined?: Nullable<boolean>;
+    isSystemDefined?: Nullable<boolean>;
     userId?: Nullable<string>;
 }
 
 export interface TagInsertInput {
     id?: Nullable<string>;
     name: string;
-    systemDefined?: Nullable<boolean>;
+    isSystemDefined?: Nullable<boolean>;
     userId?: Nullable<string>;
 }
 
 export interface TagUpdateInput {
     id?: Nullable<string>;
     name?: Nullable<string>;
-    systemDefined?: Nullable<boolean>;
+    isSystemDefined?: Nullable<boolean>;
     userId?: Nullable<string>;
 }
 
 export interface TagOrderByInput {
     id?: Nullable<OrderBy>;
     name?: Nullable<OrderBy>;
-    systemDefined?: Nullable<OrderBy>;
+    isSystemDefined?: Nullable<OrderBy>;
     userId?: Nullable<OrderBy>;
 }
 
@@ -84,7 +85,7 @@ export interface TransactionWhereInput {
     userId?: Nullable<string>;
     date?: Nullable<DateTime>;
     amount?: Nullable<number>;
-    expense?: Nullable<boolean>;
+    isExpense?: Nullable<boolean>;
     type?: Nullable<TransactionType>;
     categoryId?: Nullable<string>;
 }
@@ -95,7 +96,7 @@ export interface TransactionOrderByInput {
     userId?: Nullable<OrderBy>;
     date?: Nullable<OrderBy>;
     amount?: Nullable<OrderBy>;
-    expense?: Nullable<OrderBy>;
+    isExpense?: Nullable<OrderBy>;
     type?: Nullable<OrderBy>;
     categoryId?: Nullable<OrderBy>;
 }
@@ -106,7 +107,7 @@ export interface TransactionInsertInput {
     userId: string;
     date?: Nullable<DateTime>;
     amount: number;
-    expense?: Nullable<boolean>;
+    isExpense?: Nullable<boolean>;
     type?: Nullable<TransactionType>;
     categoryId: string;
 }
@@ -117,7 +118,7 @@ export interface TransactionUpdateInput {
     userId?: Nullable<string>;
     date?: Nullable<DateTime>;
     amount?: Nullable<number>;
-    expense?: Nullable<boolean>;
+    isExpense?: Nullable<boolean>;
     type?: Nullable<TransactionType>;
     categoryId?: Nullable<string>;
 }
@@ -151,7 +152,7 @@ export interface UserWhereInput {
     email?: Nullable<string>;
     username?: Nullable<string>;
     role?: Nullable<UserRole>;
-    active?: Nullable<boolean>;
+    isActive?: Nullable<boolean>;
     password?: Nullable<string>;
 }
 
@@ -160,7 +161,7 @@ export interface UserOrderByInput {
     email?: Nullable<OrderBy>;
     username?: Nullable<OrderBy>;
     role?: Nullable<OrderBy>;
-    active?: Nullable<OrderBy>;
+    isActive?: Nullable<OrderBy>;
     password?: Nullable<OrderBy>;
 }
 
@@ -169,7 +170,7 @@ export interface UserInsertInput {
     email: string;
     username?: Nullable<string>;
     role?: Nullable<UserRole>;
-    active?: Nullable<boolean>;
+    isActive?: Nullable<boolean>;
     password: string;
 }
 
@@ -178,7 +179,7 @@ export interface UserUpdateInput {
     email?: Nullable<string>;
     username?: Nullable<string>;
     role?: Nullable<UserRole>;
-    active?: Nullable<boolean>;
+    isActive?: Nullable<boolean>;
     password?: Nullable<string>;
 }
 
@@ -193,7 +194,7 @@ export interface IQuery {
     transaction(where: TransactionWhereInput): Nullable<Transaction> | Promise<Nullable<Transaction>>;
     transactions(where: TransactionWhereInput, limit?: Nullable<number>, offset?: Nullable<number>, orderBy?: Nullable<TransactionOrderByInput>): Nullable<Nullable<Transaction>[]> | Promise<Nullable<Nullable<Transaction>[]>>;
     countTransaction(where: TransactionWhereInput): Nullable<number> | Promise<Nullable<number>>;
-    TransactionsTags(where: TransactionsTagsWhereInput, limit?: Nullable<number>, offset?: Nullable<number>, orderBy?: Nullable<TransactionsTagsOrderByInput>): Nullable<Nullable<TransactionsTags>[]> | Promise<Nullable<Nullable<TransactionsTags>[]>>;
+    transactionsTags(where: TransactionsTagsWhereInput, limit?: Nullable<number>, offset?: Nullable<number>, orderBy?: Nullable<TransactionsTagsOrderByInput>): Nullable<Nullable<TransactionsTags>[]> | Promise<Nullable<Nullable<TransactionsTags>[]>>;
     countTransactionsTags(where: TransactionsTagsWhereInput): Nullable<number> | Promise<Nullable<number>>;
     me(): Nullable<User> | Promise<Nullable<User>>;
     user(where: UserWhereInput): Nullable<User> | Promise<Nullable<User>>;
@@ -223,14 +224,14 @@ export interface IMutation {
 export interface Category {
     id: string;
     name: string;
-    systemDefined?: Nullable<boolean>;
+    isSystemDefined?: Nullable<boolean>;
     userId?: Nullable<string>;
 }
 
 export interface Tag {
     id: string;
     name: string;
-    systemDefined?: Nullable<boolean>;
+    isSystemDefined?: Nullable<boolean>;
     userId?: Nullable<string>;
 }
 
@@ -240,7 +241,7 @@ export interface Transaction {
     userId: string;
     date?: Nullable<DateTime>;
     amount: number;
-    expense?: Nullable<boolean>;
+    isExpense?: Nullable<boolean>;
     type?: Nullable<TransactionType>;
     categoryId: string;
 }
@@ -256,7 +257,7 @@ export interface User {
     email: string;
     username?: Nullable<string>;
     role?: Nullable<UserRole>;
-    active?: Nullable<boolean>;
+    isActive?: Nullable<boolean>;
     password?: Nullable<string>;
 }
 

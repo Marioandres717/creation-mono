@@ -17,7 +17,10 @@ export class CategoryQueriesResolver {
   async countCategories(
     @Args('where') where: CategoryWhereInput
   ): Promise<number> {
-    return await this.categoryService.countCategories(where);
+    return await this.categoryService.countCategories({
+      ...where,
+      isSystemDefined: Number(where.isSystemDefined),
+    });
   }
 
   @Query('categories')
@@ -27,16 +30,21 @@ export class CategoryQueriesResolver {
     @Args('where') where: CategoryWhereInput,
     @Args('orderBy') orderBy: CategoryOrderByInput
   ): Promise<Category[]> {
-    if (where.id) {
-      const res = await this.categoryService.category(where);
-      return res ? [res] : [];
-    } else {
-      return await this.categoryService.categories(
-        limit,
-        offset,
-        orderBy,
-        where
-      );
-    }
+    const categories = (
+      await this.categoryService.categories(limit, offset, orderBy, {
+        ...where,
+        isSystemDefined: Number(where.isSystemDefined),
+      })
+    ).map((category) => ({
+      ...category,
+      isSystemDefined: Boolean(category.isSystemDefined),
+    }));
+
+    return categories;
+  }
+
+  @Query('category')
+  async category(@Args('where') where: CategoryWhereInput) {
+    return await this.categoryService.category(where);
   }
 }

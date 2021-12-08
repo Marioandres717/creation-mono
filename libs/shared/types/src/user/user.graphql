@@ -10,6 +10,7 @@ enum OrderBy {
 
 enum UserRole {
   admin
+  basic
 }
 
 type Query {
@@ -35,7 +36,7 @@ type User {
   email: String!
   username: String
   role: UserRole
-  active: Boolean
+  isActive: Boolean
   password: String
 }
 
@@ -44,7 +45,7 @@ input UserWhereInput {
   email: String
   username: String
   role: UserRole
-  active: Boolean
+  isActive: Boolean
   password: String
 }
 
@@ -53,7 +54,7 @@ input UserOrderByInput {
   email: OrderBy
   username: OrderBy
   role: OrderBy
-  active: OrderBy
+  isActive: OrderBy
   password: OrderBy
 }
 
@@ -62,7 +63,7 @@ input UserInsertInput {
   email: String!
   username: String
   role: UserRole
-  active: Boolean
+  isActive: Boolean
   password: String!
 }
 
@@ -71,6 +72,6 @@ input UserUpdateInput {
   email: String
   username: String
   role: UserRole
-  active: Boolean
+  isActive: Boolean
   password: String
 }

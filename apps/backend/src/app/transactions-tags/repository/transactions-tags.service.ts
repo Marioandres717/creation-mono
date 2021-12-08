@@ -5,8 +5,8 @@ import { Injectable } from '@nestjs/common';
 export class TransactionsTagsService {
   constructor(private prisma: PrismaService) {}
 
-  unique(uniqueInput: Prisma.Transactions_TagsWhereUniqueInput) {
-    return this.prisma.transactions_Tags.findFirst({
+  unique(uniqueInput: Prisma.TransactionsTagsWhereUniqueInput) {
+    return this.prisma.transactionsTags.findFirst({
       where: uniqueInput,
     });
   }
@@ -14,10 +14,10 @@ export class TransactionsTagsService {
   many(
     limit: number,
     offset: number,
-    order: Prisma.Transactions_TagsOrderByWithRelationInput,
-    where: Prisma.Transactions_TagsWhereInput
+    order: Prisma.TransactionsTagsOrderByWithRelationInput,
+    where: Prisma.TransactionsTagsWhereInput
   ) {
-    return this.prisma.transactions_Tags.findMany({
+    return this.prisma.transactionsTags.findMany({
       where: where,
       take: limit,
       skip: offset,
@@ -25,40 +25,40 @@ export class TransactionsTagsService {
     });
   }
 
-  add(item: Prisma.Transactions_TagsCreateInput) {
-    return this.prisma.transactions_Tags.create({
+  add(item: Prisma.TransactionsTagsCreateInput) {
+    return this.prisma.transactionsTags.create({
       data: item,
     });
   }
 
-  count(item: Prisma.Transactions_TagsWhereInput) {
-    return this.prisma.transactions_Tags.count({
+  count(item: Prisma.TransactionsTagsWhereInput) {
+    return this.prisma.transactionsTags.count({
       where: item,
     });
   }
 
   update(
-    where: Prisma.Transactions_TagsWhereUniqueInput,
-    item: Prisma.Transactions_TagsUpdateInput
+    where: Prisma.TransactionsTagsWhereUniqueInput,
+    item: Prisma.TransactionsTagsUpdateInput
   ) {
-    return this.prisma.transactions_Tags.update({ where, data: item });
+    return this.prisma.transactionsTags.update({ where, data: item });
   }
 
   updateUsers(
-    where: Prisma.Transactions_TagsWhereUniqueInput,
-    item: Prisma.Transactions_TagsUpdateInput
+    where: Prisma.TransactionsTagsWhereUniqueInput,
+    item: Prisma.TransactionsTagsUpdateInput
   ) {
-    return this.prisma.transactions_Tags.updateMany({
+    return this.prisma.transactionsTags.updateMany({
       where,
       data: item,
     });
   }
 
-  delete(where: Prisma.Transactions_TagsWhereUniqueInput) {
-    return this.prisma.transactions_Tags.delete({ where });
+  delete(where: Prisma.TransactionsTagsWhereUniqueInput) {
+    return this.prisma.transactionsTags.delete({ where });
   }
 
-  deleteMany(where: Prisma.Transactions_TagsWhereInput) {
-    return this.prisma.transactions_Tags.deleteMany({ where });
+  deleteMany(where: Prisma.TransactionsTagsWhereInput) {
+    return this.prisma.transactionsTags.deleteMany({ where });
   }
 }

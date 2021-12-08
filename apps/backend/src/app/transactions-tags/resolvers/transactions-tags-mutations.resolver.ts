@@ -18,7 +18,10 @@ export class TransactionsTagsMutationsResolver {
   async createTransactionsTags(
     @Args('transactionsTags') data: TransactionsTagsInsertInput
   ): Promise<TransactionsTags> {
-    return await this.service.add(data);
+    return await this.service.add({
+      Tag: { connect: { id: data.tagId } },
+      Transaction: { connect: { id: data.transactionId } },
+    });
   }
 
   @Mutation('updateTransactionsTags')

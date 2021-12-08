@@ -16,7 +16,7 @@ export class TransactionQueriesResolver {
   ): Promise<number> {
     return await this.transactionService.countTransactions({
       ...where,
-      expense: Number(where.expense),
+      isExpense: Number(where.isExpense),
     });
   }
 
@@ -33,24 +33,25 @@ export class TransactionQueriesResolver {
       const transactionWithNumberAmount = <Transaction>{
         ...transaction,
         amount: transaction.amount as unknown as number,
+        isExpense: Boolean(transaction.isExpense),
       };
       return [transactionWithNumberAmount];
     } else {
-      const transactions = await this.transactionService.transactions(
-        limit,
-        offset,
-        orderBy,
-        numberfy(where, ['id', 'user_id'])
-      );
-      const transactionsWithNumberAmount = transactions.map(
+      const transactions = (
+        await this.transactionService.transactions(limit, offset, orderBy, {
+          ...where,
+          isExpense: Number(where.isExpense),
+        })
+      ).map(
         (transaction) =>
           <Transaction>{
             ...transaction,
             amount: transaction.amount as unknown as number,
+            isExpense: Boolean(transaction.isExpense),
           }
       );
 
-      return transactionsWithNumberAmount;
+      return transactions;
     }
   }
 }
