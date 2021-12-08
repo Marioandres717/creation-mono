@@ -1,10 +1,9 @@
 import { Args, Int, Query, Resolver } from '@nestjs/graphql';
 import {
-  numberfy,
   omit,
   User,
-  User_OrderByInput,
-  User_WhereInput,
+  UserOrderByInput,
+  UserWhereInput,
 } from '@creation-mono/shared/types';
 import { UserService } from '../repository/user.service';
 import { CurrentUser } from '../../auth/decorators/current-user.decorator';
@@ -15,19 +14,22 @@ import { JwtAuthGuard } from '../../auth/guards/jwt-auth-guard';
 export class UserQueriesResolver {
   constructor(private userService: UserService) {}
 
-  @Query('count_User')
+  @Query('countUser')
   @UseGuards(JwtAuthGuard)
-  async countUsers(@Args('where') where: User_WhereInput): Promise<number> {
-    return await this.userService.countUsers(numberfy(where, ['id', 'active']));
+  async countUsers(@Args('where') where: UserWhereInput): Promise<number> {
+    return await this.userService.countUsers({
+      ...where,
+      active: Number(where.active),
+    });
   }
 
-  @Query('User')
+  @Query('users')
   @UseGuards(JwtAuthGuard)
-  async user(
+  async users(
     @Args('limit', { type: () => Int }) limit: number,
     @Args('offset', { type: () => Int }) offset: number,
-    @Args('where') where: User_WhereInput,
-    @Args('orderBy') orderBy: User_OrderByInput
+    @Args('where') where: UserWhereInput,
+    @Args('orderBy') orderBy: UserOrderByInput
   ): Promise<User[]> {
     const { id, email, username } = where;
     const getUniqueUser = id || email || username;
@@ -44,25 +46,21 @@ export class UserQueriesResolver {
     return user;
   }
 
-  async getUser(where: User_WhereInput): Promise<User[]> {
-    const result = (await this.userService.user(
-      numberfy(where, ['id'])
-    )) as User;
+  async getUser(where: UserWhereInput): Promise<User[]> {
+    const result = await this.userService.user(where);
     return result ? [omit(result, ['password'])] : null;
   }
 
   async getUsers(
-    where: User_WhereInput,
+    where: UserWhereInput,
     limit: number,
     offset: number,
-    orderBy: User_OrderByInput
+    orderBy: UserOrderByInput
   ): Promise<User[]> {
-    const result = (await this.userService.users(
-      limit,
-      offset,
-      orderBy,
-      numberfy(where, ['id', 'active'])
-    )) as User[];
+    const result = await this.userService.users(limit, offset, orderBy, {
+      ...where,
+      active: Number(where.active),
+    });
     const resultWithoutPasswords = result.map((user) =>
       omit(user, ['password'])
     );

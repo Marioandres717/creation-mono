@@ -7,7 +7,7 @@ import {
 import { UnauthorizedException } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 import { JwtService } from '@nestjs/jwt';
-import { User_WhereInput } from '@creation-mono/shared/types';
+import { UserWhereInput } from '@creation-mono/shared/types';
 import { AuthService } from '../repository/auth.service';
 import { Context } from '../decorators/context.decorator';
 
@@ -20,14 +20,11 @@ export class AuthQueriesResolver {
 
   @Query('login')
   async login(
-    @Args('user') user: User_WhereInput,
+    @Args('user') user: UserWhereInput,
     @Context() context: GraphQLExecutionContext
   ) {
     const authenticatedUser = await this.authService.validateUser(
-      {
-        ...user,
-        id: +user.id,
-      },
+      user,
       user.password
     );
 

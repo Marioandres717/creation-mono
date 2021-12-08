@@ -1,36 +1,34 @@
 import {
-  numberfy,
   Transaction,
-  Transaction_OrderByInput,
-  Transaction_WhereInput,
+  TransactionOrderByInput,
+  TransactionWhereInput,
 } from '@creation-mono/shared/types';
 import { Args, Int, Query, Resolver } from '@nestjs/graphql';
 import { TransactionService } from '../repository/transaction.service';
 
-@Resolver()
+@Resolver('Transaction')
 export class TransactionQueriesResolver {
   constructor(private transactionService: TransactionService) {}
 
-  @Query('count_Transaction')
+  @Query('countTransaction')
   async countCategories(
-    @Args('where') where: Transaction_WhereInput
+    @Args('where') where: TransactionWhereInput
   ): Promise<number> {
-    return await this.transactionService.countTransactions(
-      numberfy(where, ['id', 'user_id'])
-    );
+    return await this.transactionService.countTransactions({
+      ...where,
+      expense: Number(where.expense),
+    });
   }
 
-  @Query('Transaction')
-  async Tag(
+  @Query('transactions')
+  async transactions(
     @Args('limit', { type: () => Int }) limit: number,
     @Args('offset', { type: () => Int }) offset: number,
-    @Args('where') where: Transaction_WhereInput,
-    @Args('orderBy') orderBy: Transaction_OrderByInput
+    @Args('where') where: TransactionWhereInput,
+    @Args('orderBy') orderBy: TransactionOrderByInput
   ): Promise<Transaction[]> {
     if (where.id) {
-      const transaction = await this.transactionService.transaction(
-        numberfy(where, ['id', 'user_id'])
-      );
+      const transaction = await this.transactionService.transaction(where);
       if (!transaction) return [];
       const transactionWithNumberAmount = <Transaction>{
         ...transaction,

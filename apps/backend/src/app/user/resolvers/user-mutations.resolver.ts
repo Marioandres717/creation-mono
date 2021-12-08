@@ -2,49 +2,41 @@ import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { UserService } from '../repository/user.service';
 
 import {
-  numberfy,
   User,
-  User_InsertInput,
-  User_UpdateInput,
-  User_WhereInput,
+  UserInsertInput,
+  UserUpdateInput,
+  UserWhereInput,
 } from '@creation-mono/shared/types';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth-guard';
 
-@Resolver()
+@Resolver('User')
 export class UserMutationsResolver {
   constructor(private userService: UserService) {}
-  @Mutation('insert_User')
-  async createUser(@Args('User') user: User_InsertInput): Promise<User> {
-    return (await this.userService.createUser(user)) as User;
+
+  @Mutation('insertUser')
+  async insertUser(@Args('user') user: UserInsertInput): Promise<User> {
+    return await this.userService.createUser(user);
   }
 
-  @Mutation('update_User')
+  @Mutation('updateUser')
   @UseGuards(JwtAuthGuard)
   async updateUser(
-    @Args('User') user: User_UpdateInput,
-    @Args('where') where: User_WhereInput
+    @Args('user') user: UserUpdateInput,
+    @Args('where') where: UserWhereInput
   ): Promise<User> {
-    return (await this.userService.updateUser(
-      numberfy(where, ['id', 'active']),
-      user
-    )) as User;
+    return await this.userService.updateUser(where, user);
   }
 
-  @Mutation('delete_User')
+  @Mutation('deleteUser')
   @UseGuards(JwtAuthGuard)
-  async deleteUser(@Args('where') where: User_WhereInput): Promise<boolean> {
+  async deleteUser(@Args('where') where: UserWhereInput): Promise<boolean> {
     let res;
     if (where.id) {
-      res = await this.userService.deleteUser(
-        numberfy(where, ['id', 'active'])
-      );
+      res = await this.userService.deleteUser(where);
     } else {
-      res = await this.userService.deleteUsers(
-        numberfy(where, ['id', 'active'])
-      );
+      res = await this.userService.deleteUsers(where);
     }
-
     return res ? true : false;
   }
 }

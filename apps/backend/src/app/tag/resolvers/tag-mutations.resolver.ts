@@ -1,9 +1,8 @@
 import {
-  numberfy,
   Tag,
-  Tag_InsertInput,
-  Tag_UpdateInput,
-  Tag_WhereInput,
+  TagInsertInput,
+  TagUpdateInput,
+  TagWhereInput,
   User,
 } from '@creation-mono/shared/types';
 import { UseGuards } from '@nestjs/common';
@@ -12,14 +11,14 @@ import { CurrentUser } from '../../auth/decorators/current-user.decorator';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth-guard';
 import { TagService } from '../repository/tag.service';
 
-@Resolver()
+@Resolver('Tag')
 @UseGuards(JwtAuthGuard)
 export class TagMutationsResolver {
   constructor(private tagService: TagService) {}
 
-  @Mutation('insert_Tag')
-  async createTag(
-    @Args('Tag') tag: Tag_InsertInput,
+  @Mutation('insertTag')
+  async insertTag(
+    @Args('tag') tag: TagInsertInput,
     @CurrentUser() user: User
   ): Promise<Tag> {
     return await this.tagService.createTag({
@@ -28,26 +27,21 @@ export class TagMutationsResolver {
     });
   }
 
-  @Mutation('update_Tag')
+  @Mutation('updateTag')
   async updateTag(
-    @Args('Tag') tag: Tag_UpdateInput,
-    @Args('where') where: Tag_WhereInput
+    @Args('tag') tag: TagUpdateInput,
+    @Args('where') where: TagWhereInput
   ): Promise<Tag> {
-    return await this.tagService.updateTag(
-      numberfy(where, ['id', 'system_defined', 'user_id']),
-      tag
-    );
+    return await this.tagService.updateTag(where, tag);
   }
 
-  @Mutation('delete_Tag')
-  async deleteTag(@Args('where') where: Tag_WhereInput): Promise<boolean> {
+  @Mutation('deleteTag')
+  async deleteTag(@Args('where') where: TagWhereInput): Promise<boolean> {
     let res;
     if (where.id) {
-      res = await this.tagService.deleteTag(numberfy(where, ['id']));
+      res = await this.tagService.deleteTag(where);
     } else {
-      res = await this.tagService.deleteTags(
-        numberfy(where, ['system_defined', 'user_id'])
-      );
+      res = await this.tagService.deleteTags(where);
     }
     return res ? true : false;
   }

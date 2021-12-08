@@ -28,25 +28,25 @@ type Mutation {
 }
 
 type Transaction {
-  id: Int!
+  id: ID!
   description: String
-  userId: Int!
-  date: DateTime!
+  userId: ID!
+  date: DateTime
   amount: Float!
-  expense: Boolean!
-  type: TransactionType!
-  categoryId: Int!
+  expense: Boolean
+  type: TransactionType
+  categoryId: ID!
 }
 
 input TransactionWhereInput {
-  id: Int
+  id: ID
   description: String
-  userId: Int
+  userId: ID
   date: DateTime
   amount: Float
   expense: Boolean
   type: TransactionType
-  categoryId: Int
+  categoryId: ID
 }
 
 input TransactionOrderByInput {
@@ -61,23 +61,23 @@ input TransactionOrderByInput {
 }
 
 input TransactionInsertInput {
-  id: Int
+  id: ID
   description: String
-  userId: Int!
-  date: DateTime!
+  userId: ID!
+  date: DateTime
   amount: Float!
-  expense: Boolean!
-  type: TransactionType!
-  categoryId: Int!
+  expense: Boolean
+  type: TransactionType
+  categoryId: ID!
 }
 
 input TransactionUpdateInput {
-  id: Int
+  id: ID
   description: String
-  userId: Int
+  userId: ID
   date: DateTime
   amount: Float
   expense: Boolean
   type: TransactionType
-  categoryId: Int
+  categoryId: ID
 }

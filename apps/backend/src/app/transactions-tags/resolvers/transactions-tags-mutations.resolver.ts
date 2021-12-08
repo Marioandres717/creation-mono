@@ -1,56 +1,46 @@
 import {
-  numberfy,
-  Transactions_Tags,
-  Transactions_Tags_InsertInput,
-  Transactions_Tags_UpdateInput,
-  Transactions_Tags_WhereInput,
+  TransactionsTags,
+  TransactionsTagsInsertInput,
+  TransactionsTagsUpdateInput,
+  TransactionsTagsWhereInput,
 } from '@creation-mono/shared/types';
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth-guard';
 import { TransactionsTagsService } from '../repository/transactions-tags.service';
 
-@Resolver()
+@Resolver('TransactionTags')
 @UseGuards(JwtAuthGuard)
 export class TransactionsTagsMutationsResolver {
   constructor(private service: TransactionsTagsService) {}
 
-  @Mutation('insert_Transactions_Tags')
+  @Mutation('insertTransactionsTags')
   async createTransactionsTags(
-    @Args('Transactions_Tags') data: Transactions_Tags_InsertInput
-  ): Promise<Transactions_Tags> {
-    return await this.service.add(
-      numberfy(data, ['id', 'tag_id', 'transaction_id'])
-    );
+    @Args('transactionsTags') data: TransactionsTagsInsertInput
+  ): Promise<TransactionsTags> {
+    return await this.service.add(data);
   }
 
-  @Mutation('update_Transactions_Tags')
+  @Mutation('updateTransactionsTags')
   async updateTransactionsTags(
-    @Args('Transactions_Tags') data: Transactions_Tags_UpdateInput,
-    @Args('where') where: Transactions_Tags_WhereInput
-  ): Promise<Transactions_Tags> {
-    return await this.service.update(
-      numberfy(where, ['id', 'tag_id', 'transaction_id']),
-      {
-        Tag: { connect: { id: data.tag_id } },
-        Transaction: { connect: { id: data.transaction_id } },
-      }
-    );
+    @Args('transactionsTags') data: TransactionsTagsUpdateInput,
+    @Args('where') where: TransactionsTagsWhereInput
+  ): Promise<TransactionsTags> {
+    return await this.service.update(where, {
+      Tag: { connect: { id: data.tagId } },
+      Transaction: { connect: { id: data.transactionId } },
+    });
   }
 
-  @Mutation('delete_Transactions_Tags')
+  @Mutation('deleteTransactionsTags')
   async deleteTransactionsTags(
-    @Args('where') where: Transactions_Tags_WhereInput
+    @Args('where') where: TransactionsTagsWhereInput
   ): Promise<boolean> {
     let res;
     if (where.id) {
-      res = await this.service.delete(
-        numberfy(where, ['id', 'tag_id', 'transaction_id'])
-      );
+      res = await this.service.delete(where);
     } else {
-      res = await this.service.deleteMany(
-        numberfy(where, ['id', 'tag_id', 'transaction_id'])
-      );
+      res = await this.service.deleteMany(where);
     }
 
     return res ? true : false;

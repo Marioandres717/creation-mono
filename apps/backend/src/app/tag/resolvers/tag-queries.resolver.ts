@@ -1,8 +1,7 @@
 import {
-  numberfy,
   Tag,
-  Tag_OrderByInput,
-  Tag_WhereInput,
+  TagOrderByInput,
+  TagWhereInput,
 } from '@creation-mono/shared/types';
 import { Args, Int, Query, Resolver } from '@nestjs/graphql';
 import { TagService } from '../repository/tag.service';
@@ -11,32 +10,23 @@ import { TagService } from '../repository/tag.service';
 export class TagQueriesResolver {
   constructor(private tagService: TagService) {}
 
-  @Query('count_Tag')
-  async countCategories(@Args('where') where: Tag_WhereInput): Promise<number> {
-    return await this.tagService.countTags(
-      numberfy(where, ['id', 'system_defined', 'user_id'])
-    );
+  @Query('countTag')
+  async countCategories(@Args('where') where: TagWhereInput): Promise<number> {
+    return await this.tagService.countTags(where);
   }
 
-  @Query('Tag')
-  async Tag(
+  @Query('tags')
+  async Tags(
     @Args('limit', { type: () => Int }) limit: number,
     @Args('offset', { type: () => Int }) offset: number,
-    @Args('where') where: Tag_WhereInput,
-    @Args('orderBy') orderBy: Tag_OrderByInput
+    @Args('where') where: TagWhereInput,
+    @Args('orderBy') orderBy: TagOrderByInput
   ): Promise<Tag[]> {
     if (where.id) {
-      const res = await this.tagService.tag(
-        numberfy(where, ['id', 'system_defined', 'user_id'])
-      );
+      const res = await this.tagService.tag(where);
       return res ? [res] : [];
     } else {
-      return await this.tagService.tags(
-        limit,
-        offset,
-        orderBy,
-        numberfy(where, ['id', 'system_defined', 'user_id'])
-      );
+      return await this.tagService.tags(limit, offset, orderBy, where);
     }
   }
 }

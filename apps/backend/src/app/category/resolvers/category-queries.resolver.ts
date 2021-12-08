@@ -1,8 +1,7 @@
 import {
   Category,
-  Category_OrderByInput,
-  Category_WhereInput,
-  numberfy,
+  CategoryOrderByInput,
+  CategoryWhereInput,
 } from '@creation-mono/shared/types';
 import { UseGuards } from '@nestjs/common';
 import { Query, Args, Int, Resolver } from '@nestjs/graphql';
@@ -14,33 +13,29 @@ import { CategoryService } from '../repository/category.service';
 export class CategoryQueriesResolver {
   constructor(private categoryService: CategoryService) {}
 
-  @Query('count_Category')
+  @Query('countCategory')
   async countCategories(
-    @Args('where') where: Category_WhereInput
+    @Args('where') where: CategoryWhereInput
   ): Promise<number> {
-    return await this.categoryService.countCategories(
-      numberfy(where, ['id', 'system_defined', 'user_id'])
-    );
+    return await this.categoryService.countCategories(where);
   }
 
-  @Query('Category')
-  async category(
+  @Query('categories')
+  async categories(
     @Args('limit', { type: () => Int }) limit: number,
     @Args('offset', { type: () => Int }) offset: number,
-    @Args('where') where: Category_WhereInput,
-    @Args('orderBy') orderBy: Category_OrderByInput
+    @Args('where') where: CategoryWhereInput,
+    @Args('orderBy') orderBy: CategoryOrderByInput
   ): Promise<Category[]> {
     if (where.id) {
-      const res = await this.categoryService.category(
-        numberfy(where, ['id', 'system_defined', 'user_id'])
-      );
+      const res = await this.categoryService.category(where);
       return res ? [res] : [];
     } else {
       return await this.categoryService.categories(
         limit,
         offset,
         orderBy,
-        numberfy(where, ['id', 'system_defined', 'user_id'])
+        where
       );
     }
   }

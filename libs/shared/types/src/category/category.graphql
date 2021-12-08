@@ -19,31 +19,31 @@ type Mutation {
 }
 
 type Category {
-  id: Int!
+  id: ID!
   name: String!
   systemDefined: Boolean
-  userId: Int
+  userId: ID
 }
 
 input CategoryWhereInput {
-  id: Int
+  id: ID
   name: String
   systemDefined: Boolean
-  userId: Int
+  userId: ID
 }
 
 input CategoryInsertInput {
-  id: Int!
+  id: ID!
   name: String!
   systemDefined: Boolean
-  userId: Int
+  userId: ID
 }
 
 input CategoryUpdateInput {
-  id: Int
+  id: ID
   name: String
   systemDefined: Boolean
-  userId: Int
+  userId: ID
 }
 
 input CategoryOrderByInput {

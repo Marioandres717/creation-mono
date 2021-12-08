@@ -8,9 +8,8 @@ enum OrderBy {
   desc
 }
 
-enum UserType {
+enum UserRole {
   admin
-  content_creator
 }
 
 type Query {
@@ -26,25 +25,25 @@ type Query {
 }
 
 type Mutation {
-  signUp(user: UserInsertInput!): User
+  insertUser(user: UserInsertInput!): User
   updateUser(user: UserUpdateInput!, where: UserWhereInput!): User
   deleteUser(where: UserWhereInput!): Boolean
 }
 
 type User {
-  id: Int!
+  id: ID!
   email: String!
   username: String
-  type: UserType
+  role: UserRole
   active: Boolean
   password: String
 }
 
 input UserWhereInput {
-  id: Int
+  id: ID
   email: String
   username: String
-  type: UserType
+  role: UserRole
   active: Boolean
   password: String
 }
@@ -53,25 +52,25 @@ input UserOrderByInput {
   id: OrderBy
   email: OrderBy
   username: OrderBy
-  type: OrderBy
+  role: OrderBy
   active: OrderBy
   password: OrderBy
 }
 
 input UserInsertInput {
-  id: Int
+  id: ID
   email: String!
   username: String
-  type: UserType
+  role: UserRole
   active: Boolean
   password: String!
 }
 
 input UserUpdateInput {
-  id: Int
+  id: ID
   email: String
   username: String
-  type: UserType
+  role: UserRole
   active: Boolean
   password: String
 }

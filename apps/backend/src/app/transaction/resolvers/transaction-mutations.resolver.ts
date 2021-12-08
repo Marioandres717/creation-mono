@@ -1,9 +1,8 @@
 import {
-  numberfy,
   Transaction,
-  Transaction_InsertInput,
-  Transaction_UpdateInput,
-  Transaction_WhereInput,
+  TransactionInsertInput,
+  TransactionUpdateInput,
+  TransactionWhereInput,
   User,
 } from '@creation-mono/shared/types';
 import { UseGuards } from '@nestjs/common';
@@ -12,21 +11,22 @@ import { CurrentUser } from '../../auth/decorators/current-user.decorator';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth-guard';
 import { TransactionService } from '../repository/transaction.service';
 
-@Resolver()
+@Resolver('Transaction')
 @UseGuards(JwtAuthGuard)
 export class TransactionMutationsResolver {
   constructor(private transactionService: TransactionService) {}
 
-  @Mutation('insert_Transaction')
-  async createTransaction(
-    @Args('Transaction') transaction: Transaction_InsertInput,
+  @Mutation('insertTransaction')
+  async insertTransaction(
+    @Args('transaction') transaction: TransactionInsertInput,
     @CurrentUser() user: User
   ): Promise<Transaction> {
-    const { id, user_id, category_id, ...trans } = transaction;
+    const { id, userId, categoryId, expense, ...trans } = transaction;
     const createdTransaction = await this.transactionService.createTransaction({
       ...trans,
+      expense: Number(expense),
       User: { connect: { id: user.id } },
-      Category: { connect: { id: category_id } },
+      Category: { connect: { id: categoryId } },
     });
     const transactionWithNumberAmount = <Transaction>{
       ...createdTransaction,
@@ -35,14 +35,14 @@ export class TransactionMutationsResolver {
     return transactionWithNumberAmount;
   }
 
-  @Mutation('update_Transaction')
+  @Mutation('updateTransaction')
   async updateTransaction(
-    @Args('Transaction') transaction: Transaction_UpdateInput,
-    @Args('where') where: Transaction_WhereInput
+    @Args('transaction') transaction: TransactionUpdateInput,
+    @Args('where') where: TransactionWhereInput
   ): Promise<Transaction> {
     const updatedTransaction = await this.transactionService.updateTransaction(
-      numberfy(where, ['id', 'user_id']),
-      transaction
+      where,
+      { ...transaction, expense: Number(transaction.expense) }
     );
     const transactionWithNumberAmount = <Transaction>{
       ...updatedTransaction,
@@ -51,19 +51,18 @@ export class TransactionMutationsResolver {
     return transactionWithNumberAmount;
   }
 
-  @Mutation('delete_Transaction')
+  @Mutation('deleteTransaction')
   async deleteTransaction(
-    @Args('where') where: Transaction_WhereInput
+    @Args('where') where: TransactionWhereInput
   ): Promise<boolean> {
     let res;
     if (where.id) {
-      res = await this.transactionService.deleteTransaction(
-        numberfy(where, ['id'])
-      );
+      res = await this.transactionService.deleteTransaction(where);
     } else {
-      res = await this.transactionService.deleteTransactions(
-        numberfy(where, ['id'])
-      );
+      res = await this.transactionService.deleteTransactions({
+        ...where,
+        expense: Number(where.expense),
+      });
     }
     return res ? true : false;
   }

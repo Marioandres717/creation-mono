@@ -12,9 +12,9 @@ model User {
   id          Int           @unique(map: "id_UNIQUE") @default(autoincrement())
   email       String        @unique(map: "email_UNIQUE") @db.VarChar(100)
   username    String?       @unique(map: "username_UNIQUE") @db.VarChar(100)
-  type        User_type?    @default(content_creator)
-  active      Int           @default(1) @db.TinyInt
+  active      Int?          @default(0) @db.TinyInt
   password    String?       @db.VarChar(250)
+  role        User_role?
   Category    Category[]
   Tag         Tag[]
   Transaction Transaction[]
@@ -23,62 +23,61 @@ model User {
 }
 
 model Category {
-  id             Int           @id @default(autoincrement())
-  name           String        @db.VarChar(255)
-  system_defined Int           @default(0) @db.TinyInt
-  user_id        Int?
-  User           User?         @relation(fields: [user_id], references: [id], onDelete: Restrict, onUpdate: NoAction, map: "category_user_id")
-  Transaction    Transaction[]
+  id            Int           @id @default(autoincrement())
+  name          String        @db.VarChar(255)
+  systemDefined Int           @default(0) @db.TinyInt
+  userId        Int?
+  User          User?         @relation(fields: [userId], references: [id], onDelete: Restrict, onUpdate: NoAction, map: "category_user_id")
+  Transaction   Transaction[]
 
-  @@index([user_id], map: "user_id_idx")
+  @@index([userId], map: "userId_idx")
 }
 
 model Tag {
-  id                Int                 @id @default(autoincrement())
-  name              String              @db.VarChar(50)
-  system_defined    Int                 @default(0) @db.TinyInt
-  user_id           Int?
-  User              User?               @relation(fields: [user_id], references: [id], onDelete: Restrict, onUpdate: NoAction, map: "tag_user_id")
-  Transactions_Tags Transactions_Tags[]
+  id               Int                @id @default(autoincrement())
+  name             String             @db.VarChar(50)
+  systemDefined    Int                @default(0) @db.TinyInt
+  userId           Int?
+  User             User?              @relation(fields: [userId], references: [id], onDelete: Restrict, onUpdate: NoAction, map: "tag_user_id")
+  TransactionsTags TransactionsTags[]
 
-  @@index([user_id], map: "user_id_idx")
+  @@index([userId], map: "userId_idx")
 }
 
 model Transaction {
-  id                Int                 @id @unique(map: "id_UNIQUE") @default(autoincrement())
-  description       String?             @db.VarChar(500)
-  user_id           Int
-  date              DateTime            @default(now()) @db.DateTime(0)
-  amount            Decimal             @default(0.000) @db.Decimal(11, 3)
-  expense           Int                 @default(1) @db.TinyInt
-  type              Transaction_type    @default(cash)
-  category_id       Int
-  Category          Category            @relation(fields: [category_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "category_id")
-  User              User                @relation(fields: [user_id], references: [id], onUpdate: NoAction, map: "user_id")
-  Transactions_Tags Transactions_Tags[]
+  id               Int                @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  description      String?            @db.VarChar(500)
+  userId           Int
+  date             DateTime?          @default(now()) @db.DateTime(0)
+  amount           Decimal            @default(0.000) @db.Decimal(11, 3)
+  expense          Int?               @default(1) @db.TinyInt
+  type             Transaction_type?  @default(cash)
+  categoryId       Int
+  Category         Category           @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "category_id")
+  User             User               @relation(fields: [userId], references: [id], onUpdate: NoAction, map: "user_id")
+  TransactionsTags TransactionsTags[]
 
-  @@index([category_id], map: "category_id_idx")
-  @@index([user_id], map: "user_id_idx")
+  @@index([categoryId], map: "categoryId_idx")
+  @@index([userId], map: "userId_idx")
 }
 
-model Transactions_Tags {
-  id             Int         @id @default(autoincrement())
-  transaction_id Int
-  tag_id         Int
-  Tag            Tag         @relation(fields: [tag_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tag_id")
-  Transaction    Transaction @relation(fields: [transaction_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "transaction_id")
+model TransactionsTags {
+  id            Int         @id @default(autoincrement())
+  transactionId Int
+  tagId         Int
+  Tag           Tag         @relation(fields: [tagId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tagId")
+  Transaction   Transaction @relation(fields: [transactionId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "transactionId")
 
-  @@index([tag_id], map: "tag_id_idx")
-  @@index([transaction_id], map: "transaction_id_idx")
-}
-
-enum User_type {
-  admin
-  content_creator
+  @@index([tagId], map: "tag_id_idx")
+  @@index([transactionId], map: "transaction_id_idx")
 }
 
 enum Transaction_type {
   cash
   cheque
   pending
+}
+
+enum User_role {
+  admin
 }
