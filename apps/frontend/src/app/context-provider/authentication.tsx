@@ -18,8 +18,7 @@ const GETUSER_QUERY = gql`
       id
       username
       email
-      type
-      active
+      isActive
     }
   }
 `;
@@ -39,9 +38,8 @@ const AuthContext = createContext({});
 const AuthProvider = AuthContext.Provider;
 
 const initialUser: User = {
-  id: 0,
+  id: '0',
   email: '',
-  active: 0,
 };
 const Authentication: FC<Props> = ({ children }) => {
   const { loading } = useQuery(GETUSER_QUERY, {
@@ -59,7 +57,7 @@ const Authentication: FC<Props> = ({ children }) => {
     },
   };
   let template = <div>loading...</div>;
-  if (!user.id && !loading) {
+  if (user.id === '0' && !loading) {
     template = (
       <Login
         onLogin={(user) => {

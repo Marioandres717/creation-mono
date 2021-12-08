@@ -8,6 +8,7 @@
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
 - [Docker](#docker)
+- [MySQL Workbench](#mysql-workbench)
 
 ## Prerequisites
 
@@ -37,23 +38,7 @@ NX_GRAPHQL_URI=http://localhost:3000/graphql
 
 ```
 
-3. Open `libs/shared/types` directory and create a `.meshrc.yml` file with the following config (make sure .env file matches meshrc information)
-
-   ```yml
-   sources:
-     - name: backend-sql
-       handler:
-         mysql:
-           host: localhost
-           port: 3306
-           user: root
-           password: asd123
-           database: walletdb
-   require:
-     - ts-node/register/transpile-only
-   ```
-
-4. Create `constants.ts` file in `apps/backend/src/app/auth/constants.ts`
+3. Create `constants.ts` file in `apps/backend/src/app/auth/constants.ts`
 
    ```javascript
    export const jwtConstants = {
@@ -61,7 +46,7 @@ NX_GRAPHQL_URI=http://localhost:3000/graphql
    };
    ```
 
-5. Prepare the database
+4. Prepare the database
 
    1. Turn db container on:
       Known Issues:
@@ -94,26 +79,35 @@ NX_GRAPHQL_URI=http://localhost:3000/graphql
       show databases;
       ```
 
-6. Generate types based on Schema
+   3. Generate prisma client
+      ```
+      npx nx run shared-models:gen-client
+      ```
+   4. Seed db
+      ```
+      npx nx run shared-models:db-seed
+      ```
+
+5. Generate types based on Schema
 
    ```
    npm run update-all
    ```
 
-7. Build docker containers
+6. Build docker containers
 
    ```
    cd creation-mono
    docker-compose build
    ```
 
-8. Run Docker compose
+7. Run Docker compose
 
 ```
 docker-compose up
 ```
 
-11. Open `localhost:3000/graphql` and create a new user
+9. Open `localhost:3000/graphql` and create a new user
 
 ```
 mutation createUser {
@@ -133,7 +127,7 @@ insert_User(User: {
 }
 ```
 
-12. Log in using the new created user at `localhost:4200`
+10. Log in using the new created user at `localhost:4200`
 
 # Docker
 
@@ -163,3 +157,12 @@ docker-compose build <compose container> bash
 # docker image list
 docker [image|container|volume] [list]
 ```
+
+# MySQL Workbench
+
+1. SSL required: this needs to be done every time :(
+
+   ```
+   add useSSL=1 to edit conection / advanced / others
+
+   ```

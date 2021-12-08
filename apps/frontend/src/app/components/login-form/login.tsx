@@ -25,8 +25,8 @@ const SIGNIN_QUERY = gql`
       id
       username
       email
-      type
-      active
+      role
+      isActive
     }
   }
 `;

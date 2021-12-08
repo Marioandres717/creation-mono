@@ -13,7 +13,7 @@ async function main() {
       email: 'tech@walletdb.com',
       username: 'tech',
       password: 'asd123',
-      active: 1,
+      isActive: 1,
     },
   });
 
@@ -22,7 +22,7 @@ async function main() {
       await prisma.category.create({
         data: {
           name: category,
-          system_defined: 1,
+          isSystemDefined: 1,
         },
       })
   );
@@ -32,7 +32,7 @@ async function main() {
       await prisma.tag.create({
         data: {
           name: tag,
-          system_defined: 1,
+          isSystemDefined: 1,
         },
       })
   );
