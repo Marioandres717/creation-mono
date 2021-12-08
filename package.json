@@ -7,7 +7,7 @@
     "build": "nx build",
     "test": "nx test",
     "prepare": "husky install",
-    "update-all": "nx run shared-models:db-pull && nx run shared-models:gen-client && nx run shared-types:gen-graphql && nx run shared-types:gen-ts"
+    "update-all": "nx run shared-models:db-pull && nx run shared-models:gen-client && nx run shared-types:gen-ts"
   },
   "private": true,
   "dependencies": {
@@ -41,8 +41,6 @@
   "devDependencies": {
     "@commitlint/cli": "^15.0.0",
     "@commitlint/config-conventional": "^15.0.0",
-    "@graphql-mesh/cli": "^0.44.0",
-    "@graphql-mesh/mysql": "^0.14.5",
     "@nestjs/schematics": "^8.0.0",
     "@nestjs/testing": "^8.0.0",
     "@nrwl/cli": "13.2.0",

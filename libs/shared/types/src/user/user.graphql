@@ -1,3 +1,77 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+enum OrderBy {
+  asc
+  desc
+}
+
+enum UserType {
+  admin
+  content_creator
+}
+
 type Query {
   me: User
+  user(where: UserWhereInput!): User
+  users(
+    where: UserWhereInput!
+    limit: Int
+    offset: Int
+    orderBy: UserOrderByInput
+  ): [User]
+  countUser(where: UserWhereInput!): Int
+}
+
+type Mutation {
+  signUp(user: UserInsertInput!): User
+  updateUser(user: UserUpdateInput!, where: UserWhereInput!): User
+  deleteUser(where: UserWhereInput!): Boolean
+}
+
+type User {
+  id: Int!
+  email: String!
+  username: String
+  type: UserType
+  active: Boolean
+  password: String
+}
+
+input UserWhereInput {
+  id: Int
+  email: String
+  username: String
+  type: UserType
+  active: Boolean
+  password: String
+}
+
+input UserOrderByInput {
+  id: OrderBy
+  email: OrderBy
+  username: OrderBy
+  type: OrderBy
+  active: OrderBy
+  password: OrderBy
+}
+
+input UserInsertInput {
+  id: Int
+  email: String!
+  username: String
+  type: UserType
+  active: Boolean
+  password: String!
+}
+
+input UserUpdateInput {
+  id: Int
+  email: String
+  username: String
+  type: UserType
+  active: Boolean
+  password: String
 }

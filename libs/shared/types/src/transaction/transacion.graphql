@@ -1,0 +1,83 @@
+"A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar."
+scalar DateTime
+
+enum TransactionType {
+  cash
+  cheque
+  pending
+}
+
+type Query {
+  transaction(where: TransactionWhereInput!): Transaction
+  transactions(
+    where: TransactionWhereInput!
+    limit: Int
+    offset: Int
+    orderBy: TransactionOrderByInput
+  ): [Transaction]
+  countTransaction(where: TransactionWhereInput!): Int
+}
+
+type Mutation {
+  insertTransaction(Transaction: TransactionInsertInput!): Transaction
+  updateTransaction(
+    Transaction: TransactionUpdateInput!
+    where: TransactionWhereInput!
+  ): Transaction
+  deleteTransaction(where: TransactionWhereInput!): Boolean
+}
+
+type Transaction {
+  id: Int!
+  description: String
+  userId: Int!
+  date: DateTime!
+  amount: Float!
+  expense: Boolean!
+  type: TransactionType!
+  categoryId: Int!
+}
+
+input TransactionWhereInput {
+  id: Int
+  description: String
+  userId: Int
+  date: DateTime
+  amount: Float
+  expense: Boolean
+  type: TransactionType
+  categoryId: Int
+}
+
+input TransactionOrderByInput {
+  id: OrderBy
+  description: OrderBy
+  userId: OrderBy
+  date: OrderBy
+  amount: OrderBy
+  expense: OrderBy
+  type: OrderBy
+  categoryId: OrderBy
+}
+
+input TransactionInsertInput {
+  id: Int
+  description: String
+  userId: Int!
+  date: DateTime!
+  amount: Float!
+  expense: Boolean!
+  type: TransactionType!
+  categoryId: Int!
+}
+
+input TransactionUpdateInput {
+  id: Int
+  description: String
+  userId: Int
+  date: DateTime
+  amount: Float
+  expense: Boolean
+  type: TransactionType
+  categoryId: Int
+}

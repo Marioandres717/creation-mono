@@ -1,0 +1,50 @@
+type Query {
+  TransactionsTags(
+    where: TransactionsTagsWhereInput!
+    limit: Int
+    offset: Int
+    orderBy: TransactionsTagsOrderByInput
+  ): [TransactionsTags]
+  countTransactionsTags(where: TransactionsTagsWhereInput!): Int
+}
+
+type Mutation {
+  insertTransactionsTags(
+    TransactionsTags: TransactionsTagsInsertInput!
+  ): TransactionsTags
+  updateTransactionsTags(
+    where: TransactionsTagsWhereInput!
+    TransactionsTags: TransactionsTagsUpdateInput!
+  ): TransactionsTags
+  deleteTransactionsTags(where: TransactionsTagsWhereInput!): Boolean
+}
+
+type TransactionsTags {
+  id: Int!
+  transactionId: Int!
+  tagId: Int!
+}
+
+input TransactionsTagsWhereInput {
+  id: Int
+  transactionId: Int
+  tagId: Int
+}
+
+input TransactionsTagsOrderByInput {
+  id: OrderBy
+  transactionId: OrderBy
+  tagId: OrderBy
+}
+
+input TransactionsTagsInsertInput {
+  id: Int
+  transactionId: Int!
+  tagId: Int!
+}
+
+input TransactionsTagsUpdateInput {
+  id: Int
+  transactionId: Int
+  tagId: Int
+}

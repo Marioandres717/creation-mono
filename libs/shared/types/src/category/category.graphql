@@ -1,0 +1,54 @@
+type Query {
+  category(where: CategoryWhereInput!): Category
+  categories(
+    where: CategoryWhereInput!
+    limit: Int
+    offset: Int
+    orderBy: CategoryOrderByInput
+  ): [Category]
+  countCategory(where: CategoryWhereInput!): Int
+}
+
+type Mutation {
+  insertCategory(Category: CategoryInsertInput!): Category
+  updateCategory(
+    category: CategoryUpdateInput!
+    where: CategoryWhereInput!
+  ): Category
+  deleteCategory(where: CategoryWhereInput!): Boolean
+}
+
+type Category {
+  id: Int!
+  name: String!
+  systemDefined: Boolean
+  userId: Int
+}
+
+input CategoryWhereInput {
+  id: Int
+  name: String
+  systemDefined: Boolean
+  userId: Int
+}
+
+input CategoryInsertInput {
+  id: Int!
+  name: String!
+  systemDefined: Boolean
+  userId: Int
+}
+
+input CategoryUpdateInput {
+  id: Int
+  name: String
+  systemDefined: Boolean
+  userId: Int
+}
+
+input CategoryOrderByInput {
+  id: OrderBy
+  name: OrderBy
+  systemDefined: OrderBy
+  userId: OrderBy
+}

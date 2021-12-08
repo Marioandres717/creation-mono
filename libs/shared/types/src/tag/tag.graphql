@@ -1,0 +1,51 @@
+type Query {
+  tag(where: TagWhereInput!): Tag
+  tags(
+    where: TagWhereInput!
+    limit: Int
+    offset: Int
+    orderBy: TagOrderByInput
+  ): [Tag]
+  countTag(where: TagWhereInput!): Int
+}
+
+type Mutation {
+  insertTag(Tag: TagInsertInput!): Tag
+  updateTag(Tag: TagUpdateInput!, where: TagWhereInput!): Tag
+  deleteTag(where: TagWhereInput!): Boolean
+}
+
+type Tag {
+  id: Int!
+  name: String!
+  systemDefined: Boolean
+  userId: Int
+}
+
+input TagWhereInput {
+  id: Int
+  name: String
+  systemDefined: Boolean
+  userId: Int
+}
+
+input TagInsertInput {
+  id: Int
+  name: String!
+  systemDefined: Boolean
+  userId: Int
+}
+
+input TagUpdateInput {
+  id: Int
+  name: String
+  systemDefined: Boolean
+  userId: Int
+}
+
+input TagOrderByInput {
+  id: OrderBy
+  name: OrderBy
+  systemDefined: OrderBy
+  userId: OrderBy
+}
