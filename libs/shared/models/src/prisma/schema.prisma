@@ -9,11 +9,11 @@ datasource db {
 }
 
 model User {
-  id          Int           @unique(map: "id_UNIQUE") @default(autoincrement())
-  email       String        @unique(map: "email_UNIQUE") @db.VarChar(100)
-  username    String?       @unique(map: "username_UNIQUE") @db.VarChar(100)
+  id          String        @unique(map: "id_UNIQUE") @default(uuid()) @db.VarChar(36)
+  email       String        @unique(map: "email_UNIQUE") @db.VarChar(50)
+  username    String?       @unique(map: "username_UNIQUE") @db.VarChar(20)
   active      Int?          @default(0) @db.TinyInt
-  password    String?       @db.VarChar(250)
+  password    String?       @db.VarChar(50)
   role        User_role?
   Category    Category[]
   Tag         Tag[]
@@ -23,53 +23,53 @@ model User {
 }
 
 model Category {
-  id            Int           @id @default(autoincrement())
-  name          String        @db.VarChar(255)
+  id            String        @id @unique(map: "id_UNIQUE") @default(uuid()) @db.VarChar(36)
+  name          String        @db.VarChar(50)
   systemDefined Int           @default(0) @db.TinyInt
-  userId        Int?
-  User          User?         @relation(fields: [userId], references: [id], onDelete: Restrict, onUpdate: NoAction, map: "category_user_id")
+  userId        String?       @db.VarChar(36)
+  User          User?         @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "category_userId")
   Transaction   Transaction[]
 
-  @@index([userId], map: "userId_idx")
+  @@index([userId], map: "category_userId_idx")
 }
 
 model Tag {
-  id               Int                @id @default(autoincrement())
+  id               String             @id @unique(map: "id_UNIQUE") @default(uuid()) @db.VarChar(36)
   name             String             @db.VarChar(50)
   systemDefined    Int                @default(0) @db.TinyInt
-  userId           Int?
-  User             User?              @relation(fields: [userId], references: [id], onDelete: Restrict, onUpdate: NoAction, map: "tag_user_id")
+  userId           String?            @db.VarChar(36)
+  User             User?              @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "tag_userId")
   TransactionsTags TransactionsTags[]
 
-  @@index([userId], map: "userId_idx")
+  @@index([userId], map: "tag_userId_idx")
 }
 
 model Transaction {
-  id               Int                @id @unique(map: "id_UNIQUE") @default(autoincrement())
-  description      String?            @db.VarChar(500)
-  userId           Int
+  id               String             @id @unique(map: "id_UNIQUE") @default(uuid()) @db.VarChar(36)
+  description      String?            @db.VarChar(250)
+  userId           String             @db.VarChar(36)
   date             DateTime?          @default(now()) @db.DateTime(0)
   amount           Decimal            @default(0.000) @db.Decimal(11, 3)
   expense          Int?               @default(1) @db.TinyInt
   type             Transaction_type?  @default(cash)
-  categoryId       Int
-  Category         Category           @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "category_id")
-  User             User               @relation(fields: [userId], references: [id], onUpdate: NoAction, map: "user_id")
+  categoryId       String?            @db.VarChar(36)
+  Category         Category?          @relation(fields: [categoryId], references: [id], onUpdate: NoAction, map: "transaction_categoryId")
+  User             User               @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "transaction_userId")
   TransactionsTags TransactionsTags[]
 
-  @@index([categoryId], map: "categoryId_idx")
-  @@index([userId], map: "userId_idx")
+  @@index([categoryId], map: "transaction_categoryId_idx")
+  @@index([userId], map: "transaction_userId_idx")
 }
 
 model TransactionsTags {
-  id            Int         @id @default(autoincrement())
-  transactionId Int
-  tagId         Int
-  Tag           Tag         @relation(fields: [tagId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tagId")
-  Transaction   Transaction @relation(fields: [transactionId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "transactionId")
+  id            String      @id @unique(map: "id_UNIQUE") @default(uuid()) @db.VarChar(36)
+  transactionId String      @db.VarChar(36)
+  tagId         String      @db.VarChar(36)
+  Tag           Tag         @relation(fields: [tagId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "trans_tags_tagId")
+  Transaction   Transaction @relation(fields: [transactionId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "trans_tags_transactionId")
 
-  @@index([tagId], map: "tag_id_idx")
-  @@index([transactionId], map: "transaction_id_idx")
+  @@index([tagId], map: "trans_tags_tagId_idx")
+  @@index([transactionId], map: "trans_tags_transactionId_idx")
 }
 
 enum Transaction_type {
