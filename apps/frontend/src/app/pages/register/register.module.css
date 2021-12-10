@@ -1,0 +1,23 @@
+.register {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--theme-blue);
+}
+
+.form-wrapper {
+  background-color: white;
+  width: 50rem;
+  height: 35rem;
+  border-radius: 10px;
+  box-shadow: 20px 20px 60px #4a907f, -20px -20px 60px #64c2ab;
+  display: flex;
+  align-items: center;
+}
+.form {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  margin: 5rem;
+  width: 100%;
+}
