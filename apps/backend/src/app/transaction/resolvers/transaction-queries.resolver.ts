@@ -14,10 +14,7 @@ export class TransactionQueriesResolver {
   async countCategories(
     @Args('where') where: TransactionWhereInput
   ): Promise<number> {
-    return await this.transactionService.countTransactions({
-      ...where,
-      isExpense: Number(where.isExpense),
-    });
+    return await this.transactionService.countTransactions(where);
   }
 
   @Query('transactions')
@@ -33,21 +30,21 @@ export class TransactionQueriesResolver {
       const transactionWithNumberAmount = <Transaction>{
         ...transaction,
         amount: transaction.amount as unknown as number,
-        isExpense: Boolean(transaction.isExpense),
       };
       return [transactionWithNumberAmount];
     } else {
       const transactions = (
-        await this.transactionService.transactions(limit, offset, orderBy, {
-          ...where,
-          isExpense: Number(where.isExpense),
-        })
+        await this.transactionService.transactions(
+          limit,
+          offset,
+          orderBy,
+          where
+        )
       ).map(
         (transaction) =>
           <Transaction>{
             ...transaction,
             amount: transaction.amount as unknown as number,
-            isExpense: Boolean(transaction.isExpense),
           }
       );
 

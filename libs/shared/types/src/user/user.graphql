@@ -36,8 +36,7 @@ type User {
   email: String!
   username: String
   role: UserRole
-  isActive: Boolean
-  password: String
+  isActive: Int
 }
 
 input UserWhereInput {
@@ -45,8 +44,7 @@ input UserWhereInput {
   email: String
   username: String
   role: UserRole
-  isActive: Boolean
-  password: String
+  isActive: Int
 }
 
 input UserOrderByInput {
@@ -55,7 +53,6 @@ input UserOrderByInput {
   username: OrderBy
   role: OrderBy
   isActive: OrderBy
-  password: OrderBy
 }
 
 input UserInsertInput {
@@ -63,8 +60,7 @@ input UserInsertInput {
   email: String!
   username: String
   role: UserRole
-  isActive: Boolean
-  password: String!
+  isActive: Int
 }
 
 input UserUpdateInput {
@@ -72,6 +68,5 @@ input UserUpdateInput {
   email: String
   username: String
   role: UserRole
-  isActive: Boolean
-  password: String
+  isActive: Int
 }

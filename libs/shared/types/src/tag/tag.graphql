@@ -18,28 +18,28 @@ type Mutation {
 type Tag {
   id: ID!
   name: String!
-  isSystemDefined: Boolean
+  isSystemDefined: Int
   userId: ID
 }
 
 input TagWhereInput {
   id: ID
   name: String
-  isSystemDefined: Boolean
+  isSystemDefined: Int
   userId: ID
 }
 
 input TagInsertInput {
   id: ID
   name: String!
-  isSystemDefined: Boolean
+  isSystemDefined: Int
   userId: ID
 }
 
 input TagUpdateInput {
   id: ID
   name: String
-  isSystemDefined: Boolean
+  isSystemDefined: Int
   userId: ID
 }
 

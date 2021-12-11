@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-types */
-export function parseStringToNumber(str: unknown): number | undefined {
+export function parseValueToNumber(str: unknown): number | undefined {
   return !str ? undefined : isNaN(Number(str)) ? undefined : Number(str);
 }
 
@@ -25,7 +25,7 @@ export function numberfy<R, Type extends object, Key extends keyof Type>(
     object = {
       ...obj,
       ...object,
-      [key]: parseStringToNumber(propToNumberfy),
+      [key]: parseValueToNumber(propToNumberfy),
     };
   });
 

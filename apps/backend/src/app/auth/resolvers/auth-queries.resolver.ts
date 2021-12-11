@@ -29,11 +29,12 @@ export class AuthQueriesResolver {
   @Query('login')
   async login(
     @Args('user') user: UserWhereInput,
+    @Args('password') password: string,
     @Context() context: GraphQLExecutionContext
   ): Promise<User> {
     const authenticatedUser = await this.authService.validateUser(
       user,
-      user.password
+      password
     );
 
     if (!authenticatedUser) throw new UnauthorizedException();
@@ -48,7 +49,7 @@ export class AuthQueriesResolver {
       httpOnly: true,
       secure: true,
       sameSite: true,
-      maxAge: process.env.TOKEN_DURATION, //30 min
+      maxAge: process.env.TOKEN_DURATION,
     });
     req.res.cookie('_csrf', csrfToken, {
       maxAge: process.env.TOKEN_DURATION,
@@ -56,7 +57,6 @@ export class AuthQueriesResolver {
     return {
       ...authenticatedUser,
       role: UserRole[authenticatedUser.role],
-      isActive: Boolean(authenticatedUser.isActive),
     };
   }
 }

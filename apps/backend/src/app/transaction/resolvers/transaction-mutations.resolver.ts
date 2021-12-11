@@ -21,17 +21,15 @@ export class TransactionMutationsResolver {
     @Args('transaction') transaction: TransactionInsertInput,
     @CurrentUser() user: User
   ): Promise<Transaction> {
-    const { id, userId, categoryId, isExpense, ...trans } = transaction;
+    const { categoryId, ...trans } = transaction;
     const createdTransaction = await this.transactionService.createTransaction({
       ...trans,
-      isExpense: Number(isExpense),
       User: { connect: { id: user.id } },
       Category: { connect: { id: categoryId } },
     });
     const transactionWithNumberAmount = <Transaction>{
       ...createdTransaction,
       amount: createdTransaction.amount as unknown as number,
-      isExpense: Boolean(createdTransaction.isExpense),
     };
     return transactionWithNumberAmount;
   }
@@ -43,12 +41,11 @@ export class TransactionMutationsResolver {
   ): Promise<Transaction> {
     const updatedTransaction = await this.transactionService.updateTransaction(
       where,
-      { ...transaction, isExpense: Number(transaction.isExpense) }
+      transaction
     );
     const transactionWithNumberAmount = <Transaction>{
       ...updatedTransaction,
       amount: updatedTransaction.amount as unknown as number,
-      isExpense: Boolean(updatedTransaction.isExpense),
     };
     return transactionWithNumberAmount;
   }
@@ -61,10 +58,7 @@ export class TransactionMutationsResolver {
     if (where.id) {
       res = await this.transactionService.deleteTransaction(where);
     } else {
-      res = await this.transactionService.deleteTransactions({
-        ...where,
-        isExpense: Number(where.isExpense),
-      });
+      res = await this.transactionService.deleteTransactions(where);
     }
     return res ? true : false;
   }

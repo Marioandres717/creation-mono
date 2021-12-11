@@ -17,10 +17,7 @@ export class CategoryQueriesResolver {
   async countCategories(
     @Args('where') where: CategoryWhereInput
   ): Promise<number> {
-    return await this.categoryService.countCategories({
-      ...where,
-      isSystemDefined: Number(where.isSystemDefined),
-    });
+    return await this.categoryService.countCategories(where);
   }
 
   @Query('categories')
@@ -30,17 +27,7 @@ export class CategoryQueriesResolver {
     @Args('where') where: CategoryWhereInput,
     @Args('orderBy') orderBy: CategoryOrderByInput
   ): Promise<Category[]> {
-    const categories = (
-      await this.categoryService.categories(limit, offset, orderBy, {
-        ...where,
-        isSystemDefined: Number(where.isSystemDefined),
-      })
-    ).map((category) => ({
-      ...category,
-      isSystemDefined: Boolean(category.isSystemDefined),
-    }));
-
-    return categories;
+    return await this.categoryService.categories(limit, offset, orderBy, where);
   }
 
   @Query('category')

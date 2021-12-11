@@ -15,10 +15,7 @@ export class TagQueriesResolver {
 
   @Query('countTag')
   async countCategories(@Args('where') where: TagWhereInput): Promise<number> {
-    return await this.tagService.countTags({
-      ...where,
-      isSystemDefined: Number(where.isSystemDefined),
-    });
+    return await this.tagService.countTags(where);
   }
 
   @Query('tags')
@@ -28,22 +25,12 @@ export class TagQueriesResolver {
     @Args('where') where: TagWhereInput,
     @Args('orderBy') orderBy: TagOrderByInput
   ): Promise<Tag[]> {
-    const tags = (
-      await this.tagService.tags(limit, offset, orderBy, {
-        ...where,
-        isSystemDefined: Number(where.isSystemDefined),
-      })
-    ).map((tag) => ({
-      ...tag,
-      isSystemDefined: Boolean(tag.isSystemDefined),
-    }));
-
+    const tags = await this.tagService.tags(limit, offset, orderBy, where);
     return tags;
   }
 
   @Query('tag')
   async tag(@Args('where') where: TagWhereInput): Promise<Tag> {
-    const tag = await this.tagService.tag(where);
-    return { ...tag, isSystemDefined: Boolean(tag.isSystemDefined) };
+    return await this.tagService.tag(where);
   }
 }

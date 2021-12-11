@@ -21,16 +21,10 @@ export class CategoryMutationsResolver {
     @Args('category') category: CategoryInsertInput,
     @CurrentUser() user: User
   ): Promise<Category> {
-    const newCategory = await this.categoryService.createCategory({
+    return await this.categoryService.createCategory({
       ...category,
-      isSystemDefined: Number(category.isSystemDefined),
       User: { connect: { id: user.id } },
     });
-
-    return {
-      ...newCategory,
-      isSystemDefined: Boolean(newCategory.isSystemDefined),
-    };
   }
 
   @Mutation('updateCategory')
@@ -38,15 +32,7 @@ export class CategoryMutationsResolver {
     @Args('category') category: CategoryUpdateInput,
     @Args('where') where: CategoryWhereInput
   ): Promise<Category> {
-    const updatedCategory = await this.categoryService.updateCategory(where, {
-      ...category,
-      isSystemDefined: Number(category.isSystemDefined),
-    });
-
-    return {
-      ...updatedCategory,
-      isSystemDefined: Boolean(updatedCategory.isSystemDefined),
-    };
+    return await this.categoryService.updateCategory(where, category);
   }
 
   @Mutation('deleteCategory')
@@ -57,10 +43,7 @@ export class CategoryMutationsResolver {
     if (where.id) {
       res = await this.categoryService.deleteCategory(where);
     } else {
-      res = await this.categoryService.deleteCategories({
-        ...where,
-        isSystemDefined: Number(where.isSystemDefined),
-      });
+      res = await this.categoryService.deleteCategories(where);
     }
     return res ? true : false;
   }

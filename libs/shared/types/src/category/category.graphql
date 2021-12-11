@@ -21,28 +21,28 @@ type Mutation {
 type Category {
   id: ID!
   name: String!
-  isSystemDefined: Boolean
+  isSystemDefined: Int
   userId: ID
 }
 
 input CategoryWhereInput {
   id: ID
   name: String
-  isSystemDefined: Boolean
+  isSystemDefined: Int
   userId: ID
 }
 
 input CategoryInsertInput {
   id: ID!
   name: String!
-  isSystemDefined: Boolean
+  isSystemDefined: Int
   userId: ID
 }
 
 input CategoryUpdateInput {
   id: ID
   name: String
-  isSystemDefined: Boolean
+  isSystemDefined: Int
   userId: ID
 }
 

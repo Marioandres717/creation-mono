@@ -21,12 +21,10 @@ export class TagMutationsResolver {
     @Args('tag') tag: TagInsertInput,
     @CurrentUser() user: User
   ): Promise<Tag> {
-    const newTag = await this.tagService.createTag({
+    return await this.tagService.createTag({
       ...tag,
-      isSystemDefined: Number(tag.isSystemDefined),
       User: { connect: { id: user.id } },
     });
-    return { ...newTag, isSystemDefined: Boolean(newTag.isSystemDefined) };
   }
 
   @Mutation('updateTag')
@@ -34,15 +32,7 @@ export class TagMutationsResolver {
     @Args('tag') tag: TagUpdateInput,
     @Args('where') where: TagWhereInput
   ): Promise<Tag> {
-    const updatedTag = await this.tagService.updateTag(where, {
-      ...tag,
-      isSystemDefined: Number(tag.isSystemDefined),
-    });
-
-    return {
-      ...updatedTag,
-      isSystemDefined: Boolean(updatedTag.isSystemDefined),
-    };
+    return await this.tagService.updateTag(where, tag);
   }
 
   @Mutation('deleteTag')
@@ -51,10 +41,7 @@ export class TagMutationsResolver {
     if (where.id) {
       res = await this.tagService.deleteTag(where);
     } else {
-      res = await this.tagService.deleteTags({
-        ...where,
-        isSystemDefined: Number(where.isSystemDefined),
-      });
+      res = await this.tagService.deleteTags(where);
     }
     return res ? true : false;
   }
