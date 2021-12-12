@@ -4,6 +4,7 @@ import {
   UserOrderByInput,
   UserRole,
   UserWhereInput,
+  UserWhereUniqueInput,
 } from '@creation-mono/shared/types';
 import { UserService } from '../repository/user.service';
 import { UseGuards } from '@nestjs/common';
@@ -37,7 +38,7 @@ export class UserQueriesResolver {
   }
 
   @Query('user')
-  async user(where: UserWhereInput): Promise<User> {
+  async user(where: UserWhereUniqueInput): Promise<User> {
     const user = await this.userService.user(where);
     if (!user) return null;
     return {

@@ -2,6 +2,7 @@ import {
   Tag,
   TagOrderByInput,
   TagWhereInput,
+  TagWhereUniqueInput,
 } from '@creation-mono/shared/types';
 import { UseGuards } from '@nestjs/common';
 import { Args, Int, Query, Resolver } from '@nestjs/graphql';
@@ -30,7 +31,7 @@ export class TagQueriesResolver {
   }
 
   @Query('tag')
-  async tag(@Args('where') where: TagWhereInput): Promise<Tag> {
+  async tag(@Args('where') where: TagWhereUniqueInput): Promise<Tag> {
     return await this.tagService.tag(where);
   }
 }

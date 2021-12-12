@@ -2,7 +2,7 @@ import {
   Category,
   CategoryInsertInput,
   CategoryUpdateInput,
-  CategoryWhereInput,
+  CategoryWhereUniqueInput,
   User,
 } from '@creation-mono/shared/types';
 import { UseGuards } from '@nestjs/common';
@@ -30,21 +30,15 @@ export class CategoryMutationsResolver {
   @Mutation('updateCategory')
   async updateCategory(
     @Args('category') category: CategoryUpdateInput,
-    @Args('where') where: CategoryWhereInput
+    @Args('where') where: CategoryWhereUniqueInput
   ): Promise<Category> {
     return await this.categoryService.updateCategory(where, category);
   }
 
   @Mutation('deleteCategory')
   async deleteCategory(
-    @Args('where') where: CategoryWhereInput
+    @Args('where') where: CategoryWhereUniqueInput
   ): Promise<boolean> {
-    let res;
-    if (where.id) {
-      res = await this.categoryService.deleteCategory(where);
-    } else {
-      res = await this.categoryService.deleteCategories(where);
-    }
-    return res ? true : false;
+    return (await this.categoryService.deleteCategory(where)) ? true : false;
   }
 }

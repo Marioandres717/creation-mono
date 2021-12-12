@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { User } from '@creation-mono/shared/types';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
@@ -38,8 +37,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(userInJWT: UserInJWT) {
-    const { _csrf, iat, exp, ...restOfUser } = userInJWT;
-    const { password: _, ...user } = await this.userService.user(restOfUser);
+    const { id, email, username } = userInJWT;
+    const user = await this.userService.user({ id, email, username });
+    if (!user) return;
+    delete user.password;
     return user;
   }
 }

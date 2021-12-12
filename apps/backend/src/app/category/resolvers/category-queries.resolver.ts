@@ -2,6 +2,7 @@ import {
   Category,
   CategoryOrderByInput,
   CategoryWhereInput,
+  CategoryWhereUniqueInput,
 } from '@creation-mono/shared/types';
 import { UseGuards } from '@nestjs/common';
 import { Query, Args, Int, Resolver } from '@nestjs/graphql';
@@ -31,7 +32,7 @@ export class CategoryQueriesResolver {
   }
 
   @Query('category')
-  async category(@Args('where') where: CategoryWhereInput) {
+  async category(@Args('where') where: CategoryWhereUniqueInput) {
     return await this.categoryService.category(where);
   }
 }

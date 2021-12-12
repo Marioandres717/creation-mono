@@ -1,5 +1,5 @@
 type Query {
-  login(user: UserWhereInput!, password: String): User
+  login(user: UserWhereUniqueInput!, password: String): User
 }
 
 type Mutation {

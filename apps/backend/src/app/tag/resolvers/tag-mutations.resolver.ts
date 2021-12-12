@@ -2,7 +2,7 @@ import {
   Tag,
   TagInsertInput,
   TagUpdateInput,
-  TagWhereInput,
+  TagWhereUniqueInput,
   User,
 } from '@creation-mono/shared/types';
 import { UseGuards } from '@nestjs/common';
@@ -30,19 +30,13 @@ export class TagMutationsResolver {
   @Mutation('updateTag')
   async updateTag(
     @Args('tag') tag: TagUpdateInput,
-    @Args('where') where: TagWhereInput
+    @Args('where') where: TagWhereUniqueInput
   ): Promise<Tag> {
     return await this.tagService.updateTag(where, tag);
   }
 
   @Mutation('deleteTag')
-  async deleteTag(@Args('where') where: TagWhereInput): Promise<boolean> {
-    let res;
-    if (where.id) {
-      res = await this.tagService.deleteTag(where);
-    } else {
-      res = await this.tagService.deleteTags(where);
-    }
-    return res ? true : false;
+  async deleteTag(@Args('where') where: TagWhereUniqueInput): Promise<boolean> {
+    return (await this.tagService.deleteTags(where)) ? true : false;
   }
 }

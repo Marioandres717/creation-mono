@@ -30,6 +30,10 @@ export interface CategoryWhereInput {
     userId?: Nullable<string>;
 }
 
+export interface CategoryWhereUniqueInput {
+    id?: Nullable<string>;
+}
+
 export interface CategoryInsertInput {
     id: string;
     name: string;
@@ -56,6 +60,10 @@ export interface TagWhereInput {
     name?: Nullable<string>;
     isSystemDefined?: Nullable<number>;
     userId?: Nullable<string>;
+}
+
+export interface TagWhereUniqueInput {
+    id?: Nullable<string>;
 }
 
 export interface TagInsertInput {
@@ -88,6 +96,10 @@ export interface TransactionWhereInput {
     isExpense?: Nullable<number>;
     type?: Nullable<TransactionType>;
     categoryId?: Nullable<string>;
+}
+
+export interface TransactionWhereUniqueInput {
+    id?: Nullable<string>;
 }
 
 export interface TransactionOrderByInput {
@@ -155,6 +167,12 @@ export interface UserWhereInput {
     isActive?: Nullable<number>;
 }
 
+export interface UserWhereUniqueInput {
+    id?: Nullable<string>;
+    email?: Nullable<string>;
+    username?: Nullable<string>;
+}
+
 export interface UserOrderByInput {
     id?: Nullable<OrderBy>;
     email?: Nullable<OrderBy>;
@@ -180,20 +198,20 @@ export interface UserUpdateInput {
 }
 
 export interface IQuery {
-    login(user: UserWhereInput, password?: Nullable<string>): Nullable<User> | Promise<Nullable<User>>;
-    category(where: CategoryWhereInput): Nullable<Category> | Promise<Nullable<Category>>;
+    login(user: UserWhereUniqueInput, password?: Nullable<string>): Nullable<User> | Promise<Nullable<User>>;
+    category(where: CategoryWhereUniqueInput): Nullable<Category> | Promise<Nullable<Category>>;
     categories(where: CategoryWhereInput, limit?: Nullable<number>, offset?: Nullable<number>, orderBy?: Nullable<CategoryOrderByInput>): Nullable<Nullable<Category>[]> | Promise<Nullable<Nullable<Category>[]>>;
     countCategory(where: CategoryWhereInput): Nullable<number> | Promise<Nullable<number>>;
-    tag(where: TagWhereInput): Nullable<Tag> | Promise<Nullable<Tag>>;
+    tag(where: TagWhereUniqueInput): Nullable<Tag> | Promise<Nullable<Tag>>;
     tags(where: TagWhereInput, limit?: Nullable<number>, offset?: Nullable<number>, orderBy?: Nullable<TagOrderByInput>): Nullable<Nullable<Tag>[]> | Promise<Nullable<Nullable<Tag>[]>>;
     countTag(where: TagWhereInput): Nullable<number> | Promise<Nullable<number>>;
-    transaction(where: TransactionWhereInput): Nullable<Transaction> | Promise<Nullable<Transaction>>;
+    transaction(where: TransactionWhereUniqueInput): Nullable<Transaction> | Promise<Nullable<Transaction>>;
     transactions(where: TransactionWhereInput, limit?: Nullable<number>, offset?: Nullable<number>, orderBy?: Nullable<TransactionOrderByInput>): Nullable<Nullable<Transaction>[]> | Promise<Nullable<Nullable<Transaction>[]>>;
     countTransaction(where: TransactionWhereInput): Nullable<number> | Promise<Nullable<number>>;
     transactionsTags(where: TransactionsTagsWhereInput, limit?: Nullable<number>, offset?: Nullable<number>, orderBy?: Nullable<TransactionsTagsOrderByInput>): Nullable<Nullable<TransactionsTags>[]> | Promise<Nullable<Nullable<TransactionsTags>[]>>;
     countTransactionsTags(where: TransactionsTagsWhereInput): Nullable<number> | Promise<Nullable<number>>;
     me(): Nullable<User> | Promise<Nullable<User>>;
-    user(where: UserWhereInput): Nullable<User> | Promise<Nullable<User>>;
+    user(where: UserWhereUniqueInput): Nullable<User> | Promise<Nullable<User>>;
     users(where: UserWhereInput, limit?: Nullable<number>, offset?: Nullable<number>, orderBy?: Nullable<UserOrderByInput>): Nullable<Nullable<User>[]> | Promise<Nullable<Nullable<User>[]>>;
     countUser(where: UserWhereInput): Nullable<number> | Promise<Nullable<number>>;
 }
@@ -201,20 +219,20 @@ export interface IQuery {
 export interface IMutation {
     signUp(User: UserInsertInput, password?: Nullable<string>): Nullable<User> | Promise<Nullable<User>>;
     insertCategory(Category: CategoryInsertInput): Nullable<Category> | Promise<Nullable<Category>>;
-    updateCategory(category: CategoryUpdateInput, where: CategoryWhereInput): Nullable<Category> | Promise<Nullable<Category>>;
-    deleteCategory(where: CategoryWhereInput): Nullable<boolean> | Promise<Nullable<boolean>>;
+    updateCategory(category: CategoryUpdateInput, where: CategoryWhereUniqueInput): Nullable<Category> | Promise<Nullable<Category>>;
+    deleteCategory(where: CategoryWhereUniqueInput): Nullable<boolean> | Promise<Nullable<boolean>>;
     insertTag(Tag: TagInsertInput): Nullable<Tag> | Promise<Nullable<Tag>>;
-    updateTag(Tag: TagUpdateInput, where: TagWhereInput): Nullable<Tag> | Promise<Nullable<Tag>>;
-    deleteTag(where: TagWhereInput): Nullable<boolean> | Promise<Nullable<boolean>>;
+    updateTag(Tag: TagUpdateInput, where: TagWhereUniqueInput): Nullable<Tag> | Promise<Nullable<Tag>>;
+    deleteTag(where: TagWhereUniqueInput): Nullable<boolean> | Promise<Nullable<boolean>>;
     insertTransaction(Transaction: TransactionInsertInput): Nullable<Transaction> | Promise<Nullable<Transaction>>;
-    updateTransaction(Transaction: TransactionUpdateInput, where: TransactionWhereInput): Nullable<Transaction> | Promise<Nullable<Transaction>>;
-    deleteTransaction(where: TransactionWhereInput): Nullable<boolean> | Promise<Nullable<boolean>>;
+    updateTransaction(Transaction: TransactionUpdateInput, where: TransactionWhereUniqueInput): Nullable<Transaction> | Promise<Nullable<Transaction>>;
+    deleteTransaction(where: TransactionWhereUniqueInput): Nullable<boolean> | Promise<Nullable<boolean>>;
     insertTransactionsTags(TransactionsTags: TransactionsTagsInsertInput): Nullable<TransactionsTags> | Promise<Nullable<TransactionsTags>>;
     updateTransactionsTags(where: TransactionsTagsWhereInput, TransactionsTags: TransactionsTagsUpdateInput): Nullable<TransactionsTags> | Promise<Nullable<TransactionsTags>>;
     deleteTransactionsTags(where: TransactionsTagsWhereInput): Nullable<boolean> | Promise<Nullable<boolean>>;
     insertUser(user: UserInsertInput): Nullable<User> | Promise<Nullable<User>>;
-    updateUser(user: UserUpdateInput, where: UserWhereInput): Nullable<User> | Promise<Nullable<User>>;
-    deleteUser(where: UserWhereInput): Nullable<boolean> | Promise<Nullable<boolean>>;
+    updateUser(user: UserUpdateInput, where: UserWhereUniqueInput): Nullable<User> | Promise<Nullable<User>>;
+    deleteUser(where: UserWhereUniqueInput): Nullable<boolean> | Promise<Nullable<boolean>>;
 }
 
 export interface Category {

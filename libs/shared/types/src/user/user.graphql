@@ -15,7 +15,7 @@ enum UserRole {
 
 type Query {
   me: User
-  user(where: UserWhereInput!): User
+  user(where: UserWhereUniqueInput!): User
   users(
     where: UserWhereInput!
     limit: Int
@@ -27,8 +27,8 @@ type Query {
 
 type Mutation {
   insertUser(user: UserInsertInput!): User
-  updateUser(user: UserUpdateInput!, where: UserWhereInput!): User
-  deleteUser(where: UserWhereInput!): Boolean
+  updateUser(user: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  deleteUser(where: UserWhereUniqueInput!): Boolean
 }
 
 type User {
@@ -45,6 +45,12 @@ input UserWhereInput {
   username: String
   role: UserRole
   isActive: Int
+}
+
+input UserWhereUniqueInput {
+  id: ID
+  email: String
+  username: String
 }
 
 input UserOrderByInput {

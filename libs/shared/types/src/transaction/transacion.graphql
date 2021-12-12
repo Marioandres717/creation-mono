@@ -8,7 +8,7 @@ enum TransactionType {
 }
 
 type Query {
-  transaction(where: TransactionWhereInput!): Transaction
+  transaction(where: TransactionWhereUniqueInput!): Transaction
   transactions(
     where: TransactionWhereInput!
     limit: Int
@@ -22,9 +22,9 @@ type Mutation {
   insertTransaction(Transaction: TransactionInsertInput!): Transaction
   updateTransaction(
     Transaction: TransactionUpdateInput!
-    where: TransactionWhereInput!
+    where: TransactionWhereUniqueInput!
   ): Transaction
-  deleteTransaction(where: TransactionWhereInput!): Boolean
+  deleteTransaction(where: TransactionWhereUniqueInput!): Boolean
 }
 
 type Transaction {
@@ -47,6 +47,10 @@ input TransactionWhereInput {
   isExpense: Int
   type: TransactionType
   categoryId: ID
+}
+
+input TransactionWhereUniqueInput {
+  id: ID
 }
 
 input TransactionOrderByInput {

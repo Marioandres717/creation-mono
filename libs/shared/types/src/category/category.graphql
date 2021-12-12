@@ -1,5 +1,5 @@
 type Query {
-  category(where: CategoryWhereInput!): Category
+  category(where: CategoryWhereUniqueInput!): Category
   categories(
     where: CategoryWhereInput!
     limit: Int
@@ -13,9 +13,9 @@ type Mutation {
   insertCategory(Category: CategoryInsertInput!): Category
   updateCategory(
     category: CategoryUpdateInput!
-    where: CategoryWhereInput!
+    where: CategoryWhereUniqueInput!
   ): Category
-  deleteCategory(where: CategoryWhereInput!): Boolean
+  deleteCategory(where: CategoryWhereUniqueInput!): Boolean
 }
 
 type Category {
@@ -30,6 +30,10 @@ input CategoryWhereInput {
   name: String
   isSystemDefined: Int
   userId: ID
+}
+
+input CategoryWhereUniqueInput {
+  id: ID
 }
 
 input CategoryInsertInput {

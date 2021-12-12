@@ -1,5 +1,5 @@
 type Query {
-  tag(where: TagWhereInput!): Tag
+  tag(where: TagWhereUniqueInput!): Tag
   tags(
     where: TagWhereInput!
     limit: Int
@@ -11,8 +11,8 @@ type Query {
 
 type Mutation {
   insertTag(Tag: TagInsertInput!): Tag
-  updateTag(Tag: TagUpdateInput!, where: TagWhereInput!): Tag
-  deleteTag(where: TagWhereInput!): Boolean
+  updateTag(Tag: TagUpdateInput!, where: TagWhereUniqueInput!): Tag
+  deleteTag(where: TagWhereUniqueInput!): Boolean
 }
 
 type Tag {
@@ -27,6 +27,10 @@ input TagWhereInput {
   name: String
   isSystemDefined: Int
   userId: ID
+}
+
+input TagWhereUniqueInput {
+  id: ID
 }
 
 input TagInsertInput {

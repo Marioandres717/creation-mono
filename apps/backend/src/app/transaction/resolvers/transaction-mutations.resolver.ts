@@ -2,7 +2,7 @@ import {
   Transaction,
   TransactionInsertInput,
   TransactionUpdateInput,
-  TransactionWhereInput,
+  TransactionWhereUniqueInput,
   User,
 } from '@creation-mono/shared/types';
 import { UseGuards } from '@nestjs/common';
@@ -37,7 +37,7 @@ export class TransactionMutationsResolver {
   @Mutation('updateTransaction')
   async updateTransaction(
     @Args('transaction') transaction: TransactionUpdateInput,
-    @Args('where') where: TransactionWhereInput
+    @Args('where') where: TransactionWhereUniqueInput
   ): Promise<Transaction> {
     const updatedTransaction = await this.transactionService.updateTransaction(
       where,
@@ -52,7 +52,7 @@ export class TransactionMutationsResolver {
 
   @Mutation('deleteTransaction')
   async deleteTransaction(
-    @Args('where') where: TransactionWhereInput
+    @Args('where') where: TransactionWhereUniqueInput
   ): Promise<boolean> {
     let res;
     if (where.id) {

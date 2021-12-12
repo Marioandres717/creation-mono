@@ -5,11 +5,11 @@ import {
   User,
   UserRole,
   UserUpdateInput,
-  UserWhereInput,
+  UserWhereUniqueInput,
+  UserInsertInput,
 } from '@creation-mono/shared/types';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth-guard';
-import { UserInsertInput } from '../validators';
 
 @Resolver('User')
 export class UserMutationsResolver {
@@ -29,7 +29,7 @@ export class UserMutationsResolver {
   @UseGuards(JwtAuthGuard)
   async updateUser(
     @Args('user') user: UserUpdateInput,
-    @Args('where') where: UserWhereInput
+    @Args('where') where: UserWhereUniqueInput
   ): Promise<User> {
     const updatedUser = await this.userService.updateUser(user, where);
 
@@ -41,13 +41,9 @@ export class UserMutationsResolver {
 
   @Mutation('deleteUser')
   @UseGuards(JwtAuthGuard)
-  async deleteUser(@Args('where') where: UserWhereInput): Promise<boolean> {
-    let res;
-    if (where.id) {
-      res = await this.userService.deleteUser(where);
-    } else {
-      res = await this.userService.deleteUsers(where);
-    }
-    return res ? true : false;
+  async deleteUser(
+    @Args('where') where: UserWhereUniqueInput
+  ): Promise<boolean> {
+    return (await this.userService.deleteUser(where)) ? true : false;
   }
 }
