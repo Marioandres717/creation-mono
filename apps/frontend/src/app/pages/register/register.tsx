@@ -1,12 +1,42 @@
 import Layout from '../../components/layout/layout';
-import styles from './register.module.css'
+import styles from './register.module.css';
 
-const Register = () => {
+import { FormEvent, useState } from 'react';
+import { gql, useMutation } from '@apollo/client';
+
+
+
+const INSERT_USER = gql`
+  mutation createUser($username: String, $email: String, $password: String) {
+    insertUser(
+      user: { username: $username, email: $email, password: $password }
+    ) {
+      id
+      email
+      password
+      username
+      isActive
+    }
+  }
+`;
+
+const Register= () => {
+  const [form, setform] = useState({ username: '', email: '', password: '' });
+  const [newUser] = useMutation(INSERT_USER)
+
+  const updateform = (value: string, type: string) => {
+    setform({ ...form, ...{ [type]: value } });
+  };
+  const onSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    newUser({ variables: form });
+    console.log(form)
+  };
   return (
     <Layout className={styles.register}>
       <div className={styles['form-wrapper']}>
-        <form className={styles.form} action="">
-          <h1>Register page</h1>
+        <form className={styles.form} action="" onSubmit={onSubmit}>
+          <h1>Register </h1>
           <label htmlFor="name" className="label">
             User-Name
           </label>
@@ -14,7 +44,10 @@ const Register = () => {
             type="text"
             id="username"
             placeholder="User01"
-            className="input input-name"
+            className=""
+            onChange={(e) => {
+              updateform(e.target.value, 'username');
+            }}
           />
 
           <label htmlFor="email" className="label">
@@ -25,6 +58,9 @@ const Register = () => {
             id="email"
             placeholder="Client@example.com"
             className="input input-email"
+            onChange={(e) => {
+              updateform(e.target.value, 'email');
+            }}
           />
 
           <label htmlFor="password" className="label">
@@ -34,9 +70,12 @@ const Register = () => {
             type="password"
             id="password"
             placeholder="*********"
-            className="input input-password"
+            className=""
+            onChange={(e) => {
+              updateform(e.target.value, 'password');
+            }}
           />
-          <button placeholder='Create Account' />
+          <input type="submit" value="Create Account" /> 
         </form>
       </div>
     </Layout>
