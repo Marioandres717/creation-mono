@@ -3,5 +3,5 @@ type Query {
 }
 
 type Mutation {
-  signUp(User: UserInsertInput!, password: String): User
+  signUp(user: UserInsertInput!, password: String): User
 }

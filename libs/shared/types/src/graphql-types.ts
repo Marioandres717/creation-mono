@@ -217,7 +217,7 @@ export interface IQuery {
 }
 
 export interface IMutation {
-    signUp(User: UserInsertInput, password?: Nullable<string>): Nullable<User> | Promise<Nullable<User>>;
+    signUp(user: UserInsertInput, password?: Nullable<string>): Nullable<User> | Promise<Nullable<User>>;
     insertCategory(Category: CategoryInsertInput): Nullable<Category> | Promise<Nullable<Category>>;
     updateCategory(category: CategoryUpdateInput, where: CategoryWhereUniqueInput): Nullable<Category> | Promise<Nullable<Category>>;
     deleteCategory(where: CategoryWhereUniqueInput): Nullable<boolean> | Promise<Nullable<boolean>>;

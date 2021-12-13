@@ -35,7 +35,7 @@ export class UserQueriesResolver {
   }
 
   @Query('user')
-  async user(where: UserInputValidationPipe): Promise<User> {
+  async user(@Args('where') where: UserInputValidationPipe): Promise<User> {
     const user = await this.userService.user(where);
     if (!user) return null;
     return {
