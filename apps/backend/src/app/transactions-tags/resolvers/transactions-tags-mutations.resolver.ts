@@ -1,13 +1,9 @@
-import {
-  TransactionsTags,
-  TransactionsTagsInsertInput,
-  TransactionsTagsUpdateInput,
-  TransactionsTagsWhereInput,
-} from '@creation-mono/shared/types';
+import { TransactionsTags } from '@creation-mono/shared/types';
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth-guard';
 import { TransactionsTagsService } from '../repository/transactions-tags.service';
+import TransactionsTagsValidationPipe from '../validators';
 
 @Resolver('TransactionTags')
 @UseGuards(JwtAuthGuard)
@@ -16,7 +12,7 @@ export class TransactionsTagsMutationsResolver {
 
   @Mutation('insertTransactionsTags')
   async createTransactionsTags(
-    @Args('transactionsTags') data: TransactionsTagsInsertInput
+    @Args('transactionsTags') data: TransactionsTagsValidationPipe
   ): Promise<TransactionsTags> {
     return await this.service.add({
       Tag: { connect: { id: data.tagId } },
@@ -26,8 +22,8 @@ export class TransactionsTagsMutationsResolver {
 
   @Mutation('updateTransactionsTags')
   async updateTransactionsTags(
-    @Args('transactionsTags') data: TransactionsTagsUpdateInput,
-    @Args('where') where: TransactionsTagsWhereInput
+    @Args('transactionsTags') data: TransactionsTagsValidationPipe,
+    @Args('where') where: TransactionsTagsValidationPipe
   ): Promise<TransactionsTags> {
     return await this.service.update(where, {
       Tag: { connect: { id: data.tagId } },
@@ -37,7 +33,7 @@ export class TransactionsTagsMutationsResolver {
 
   @Mutation('deleteTransactionsTags')
   async deleteTransactionsTags(
-    @Args('where') where: TransactionsTagsWhereInput
+    @Args('where') where: TransactionsTagsValidationPipe
   ): Promise<boolean> {
     let res;
     if (where.id) {
