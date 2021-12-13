@@ -1,14 +1,9 @@
 import { Args, Int, Query, Resolver } from '@nestjs/graphql';
-import {
-  User,
-  UserOrderByInput,
-  UserRole,
-  UserWhereInput,
-  UserWhereUniqueInput,
-} from '@creation-mono/shared/types';
+import { User, UserOrderByInput, UserRole } from '@creation-mono/shared/types';
 import { UserService } from '../repository/user.service';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth-guard';
+import UserInputValidationPipe from '../validators';
 
 @Resolver('User')
 @UseGuards(JwtAuthGuard)
@@ -16,7 +11,9 @@ export class UserQueriesResolver {
   constructor(private userService: UserService) {}
 
   @Query('countUser')
-  async countUsers(@Args('where') where: UserWhereInput): Promise<number> {
+  async countUsers(
+    @Args('where') where: UserInputValidationPipe
+  ): Promise<number> {
     return await this.userService.countUsers(where);
   }
 
@@ -24,7 +21,7 @@ export class UserQueriesResolver {
   async users(
     @Args('limit', { type: () => Int }) limit: number,
     @Args('offset', { type: () => Int }) offset: number,
-    @Args('where') where: UserWhereInput,
+    @Args('where') where: UserInputValidationPipe,
     @Args('orderBy') orderBy: UserOrderByInput
   ): Promise<User[]> {
     const users = (
@@ -38,7 +35,7 @@ export class UserQueriesResolver {
   }
 
   @Query('user')
-  async user(where: UserWhereUniqueInput): Promise<User> {
+  async user(where: UserInputValidationPipe): Promise<User> {
     const user = await this.userService.user(where);
     if (!user) return null;
     return {
