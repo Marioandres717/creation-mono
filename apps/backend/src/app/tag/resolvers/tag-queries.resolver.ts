@@ -1,13 +1,9 @@
-import {
-  Tag,
-  TagOrderByInput,
-  TagWhereInput,
-  TagWhereUniqueInput,
-} from '@creation-mono/shared/types';
+import { Tag, TagOrderByInput } from '@creation-mono/shared/types';
 import { UseGuards } from '@nestjs/common';
 import { Args, Int, Query, Resolver } from '@nestjs/graphql';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth-guard';
 import { TagService } from '../repository/tag.service';
+import TagValidationPipe from '../validators';
 
 UseGuards(JwtAuthGuard);
 @Resolver('Tag')
@@ -15,7 +11,9 @@ export class TagQueriesResolver {
   constructor(private tagService: TagService) {}
 
   @Query('countTag')
-  async countCategories(@Args('where') where: TagWhereInput): Promise<number> {
+  async countCategories(
+    @Args('where') where: TagValidationPipe
+  ): Promise<number> {
     return await this.tagService.countTags(where);
   }
 
@@ -23,7 +21,7 @@ export class TagQueriesResolver {
   async tags(
     @Args('limit', { type: () => Int }) limit: number,
     @Args('offset', { type: () => Int }) offset: number,
-    @Args('where') where: TagWhereInput,
+    @Args('where') where: TagValidationPipe,
     @Args('orderBy') orderBy: TagOrderByInput
   ): Promise<Tag[]> {
     const tags = await this.tagService.tags(limit, offset, orderBy, where);
@@ -31,7 +29,7 @@ export class TagQueriesResolver {
   }
 
   @Query('tag')
-  async tag(@Args('where') where: TagWhereUniqueInput): Promise<Tag> {
+  async tag(@Args('where') where: TagValidationPipe): Promise<Tag> {
     return await this.tagService.tag(where);
   }
 }

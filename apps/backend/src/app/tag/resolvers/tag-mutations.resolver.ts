@@ -1,15 +1,10 @@
-import {
-  Tag,
-  TagInsertInput,
-  TagUpdateInput,
-  TagWhereUniqueInput,
-  User,
-} from '@creation-mono/shared/types';
+import { Tag, User } from '@creation-mono/shared/types';
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { CurrentUser } from '../../auth/decorators/current-user.decorator';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth-guard';
 import { TagService } from '../repository/tag.service';
+import TagValidationPipe from '../validators';
 
 @Resolver('Tag')
 @UseGuards(JwtAuthGuard)
@@ -18,7 +13,7 @@ export class TagMutationsResolver {
 
   @Mutation('insertTag')
   async insertTag(
-    @Args('tag') tag: TagInsertInput,
+    @Args('tag') tag: TagValidationPipe,
     @CurrentUser() user: User
   ): Promise<Tag> {
     return await this.tagService.createTag({
@@ -29,14 +24,14 @@ export class TagMutationsResolver {
 
   @Mutation('updateTag')
   async updateTag(
-    @Args('tag') tag: TagUpdateInput,
-    @Args('where') where: TagWhereUniqueInput
+    @Args('tag') tag: TagValidationPipe,
+    @Args('where') where: TagValidationPipe
   ): Promise<Tag> {
     return await this.tagService.updateTag(where, tag);
   }
 
   @Mutation('deleteTag')
-  async deleteTag(@Args('where') where: TagWhereUniqueInput): Promise<boolean> {
+  async deleteTag(@Args('where') where: TagValidationPipe): Promise<boolean> {
     return (await this.tagService.deleteTags(where)) ? true : false;
   }
 }
