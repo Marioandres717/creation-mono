@@ -19,4 +19,11 @@ export class AuthService {
     user.password = null;
     return user;
   }
+
+  registerUser(user: Prisma.UserCreateInput, password: string): Promise<User> {
+    return this.userService.createUser({
+      ...user,
+      password,
+    });
+  }
 }

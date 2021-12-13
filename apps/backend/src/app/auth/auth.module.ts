@@ -6,6 +6,7 @@ import { AuthService } from './repository/auth.service';
 import { jwtConstants } from './constants';
 import { JwtStrategy } from './strategies/jwt';
 import { AuthQueriesResolver } from './resolvers/auth-queries.resolver';
+import { AuthMutationsResolver } from './resolvers/auth-mutations.resolver';
 
 @Module({
   imports: [
@@ -16,7 +17,12 @@ import { AuthQueriesResolver } from './resolvers/auth-queries.resolver';
       signOptions: { expiresIn: process.env.TOKEN_DURATION },
     }),
   ],
-  providers: [AuthService, JwtStrategy, AuthQueriesResolver],
+  providers: [
+    AuthService,
+    JwtStrategy,
+    AuthQueriesResolver,
+    AuthMutationsResolver,
+  ],
   exports: [AuthService],
 })
 export class AuthModule {}
