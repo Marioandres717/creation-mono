@@ -8,6 +8,7 @@ import { UseGuards } from '@nestjs/common';
 import { Query, Args, Int, Resolver } from '@nestjs/graphql';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth-guard';
 import { CategoryService } from '../repository/category.service';
+import CategoryValidationPipe from '../validators';
 
 @Resolver('Category')
 @UseGuards(JwtAuthGuard)
@@ -16,7 +17,7 @@ export class CategoryQueriesResolver {
 
   @Query('countCategory')
   async countCategories(
-    @Args('where') where: CategoryWhereInput
+    @Args('where') where: CategoryValidationPipe
   ): Promise<number> {
     return await this.categoryService.countCategories(where);
   }
@@ -25,14 +26,14 @@ export class CategoryQueriesResolver {
   async categories(
     @Args('limit', { type: () => Int }) limit: number,
     @Args('offset', { type: () => Int }) offset: number,
-    @Args('where') where: CategoryWhereInput,
+    @Args('where') where: CategoryValidationPipe,
     @Args('orderBy') orderBy: CategoryOrderByInput
   ): Promise<Category[]> {
     return await this.categoryService.categories(limit, offset, orderBy, where);
   }
 
   @Query('category')
-  async category(@Args('where') where: CategoryWhereUniqueInput) {
+  async category(@Args('where') where: CategoryValidationPipe) {
     return await this.categoryService.category(where);
   }
 }

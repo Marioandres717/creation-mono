@@ -1,15 +1,10 @@
-import {
-  Category,
-  CategoryInsertInput,
-  CategoryUpdateInput,
-  CategoryWhereUniqueInput,
-  User,
-} from '@creation-mono/shared/types';
+import { Category, User } from '@creation-mono/shared/types';
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { CurrentUser } from '../../auth/decorators/current-user.decorator';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth-guard';
 import { CategoryService } from '../repository/category.service';
+import CategoryValidationPipe from '../validators';
 
 @Resolver('Category')
 @UseGuards(JwtAuthGuard)
@@ -18,7 +13,7 @@ export class CategoryMutationsResolver {
 
   @Mutation('insertCategory')
   async insertCategory(
-    @Args('category') category: CategoryInsertInput,
+    @Args('category') category: CategoryValidationPipe,
     @CurrentUser() user: User
   ): Promise<Category> {
     return await this.categoryService.createCategory({
@@ -29,15 +24,15 @@ export class CategoryMutationsResolver {
 
   @Mutation('updateCategory')
   async updateCategory(
-    @Args('category') category: CategoryUpdateInput,
-    @Args('where') where: CategoryWhereUniqueInput
+    @Args('category') category: CategoryValidationPipe,
+    @Args('where') where: CategoryValidationPipe
   ): Promise<Category> {
     return await this.categoryService.updateCategory(where, category);
   }
 
   @Mutation('deleteCategory')
   async deleteCategory(
-    @Args('where') where: CategoryWhereUniqueInput
+    @Args('where') where: CategoryValidationPipe
   ): Promise<boolean> {
     return (await this.categoryService.deleteCategory(where)) ? true : false;
   }

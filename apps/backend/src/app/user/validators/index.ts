@@ -1,7 +1,7 @@
-import { User as IUser, UserRole } from '@creation-mono/shared/types';
-import { IsEmail, IsIn, IsUUID, Matches } from 'class-validator';
+import { User, UserRole } from '@creation-mono/shared/types';
+import { IsEmail, IsEnum, IsIn, IsUUID, Matches } from 'class-validator';
 
-export default class UserValidationPipe implements IUser {
+export default class UserValidationPipe implements User {
   @IsUUID()
   id: string;
 
@@ -17,6 +17,6 @@ export default class UserValidationPipe implements IUser {
   @IsIn([0, 1])
   isActive?: number;
 
-  @IsIn([UserRole.admin, UserRole.basic])
+  @IsEnum(UserRole)
   role?: UserRole;
 }
