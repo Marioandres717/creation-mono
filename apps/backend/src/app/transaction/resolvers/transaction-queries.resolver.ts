@@ -1,10 +1,10 @@
 import {
   Transaction,
   TransactionOrderByInput,
-  TransactionWhereInput,
 } from '@creation-mono/shared/types';
 import { Args, Int, Query, Resolver } from '@nestjs/graphql';
 import { TransactionService } from '../repository/transaction.service';
+import TransactionValidationPipe from '../validators';
 
 @Resolver('Transaction')
 export class TransactionQueriesResolver {
@@ -12,7 +12,7 @@ export class TransactionQueriesResolver {
 
   @Query('countTransaction')
   async countCategories(
-    @Args('where') where: TransactionWhereInput
+    @Args('where') where: TransactionValidationPipe
   ): Promise<number> {
     return await this.transactionService.countTransactions(where);
   }
@@ -21,7 +21,7 @@ export class TransactionQueriesResolver {
   async transactions(
     @Args('limit', { type: () => Int }) limit: number,
     @Args('offset', { type: () => Int }) offset: number,
-    @Args('where') where: TransactionWhereInput,
+    @Args('where') where: TransactionValidationPipe,
     @Args('orderBy') orderBy: TransactionOrderByInput
   ): Promise<Transaction[]> {
     if (where.id) {
