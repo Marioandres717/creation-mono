@@ -13,6 +13,8 @@ import { Context } from '../decorators/context.decorator';
 import { JwtAuthGuard } from '../guards/jwt-auth-guard';
 import { CurrentUser } from '../decorators/current-user.decorator';
 import UserValidationPipe from '../../user/validators';
+import { matches } from 'class-validator';
+import { passwordRegex, passwordValidationErrorMessage } from '../validators';
 
 @Resolver()
 export class AuthQueriesResolver {
@@ -33,6 +35,9 @@ export class AuthQueriesResolver {
     @Args('password') password: string,
     @Context() context: GraphQLExecutionContext
   ): Promise<User> {
+    if (!matches(password, passwordRegex))
+      throw new UnauthorizedException(passwordValidationErrorMessage);
+
     const authenticatedUser = await this.authService.validateUser(
       user,
       password
