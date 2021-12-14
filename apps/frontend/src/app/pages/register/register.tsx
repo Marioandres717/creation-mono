@@ -35,42 +35,42 @@ const Register= () => {
   return (
     <Layout className={styles.register}>
       <div className={styles['form-wrapper']}>
-        <form className={styles.form} action="" onSubmit={onSubmit}>
-          <h1>Register </h1>
-          <label htmlFor="name" className="label">
+        <form className={styles.form} onSubmit={onSubmit}>
+          <h1 className={styles.title}>Register </h1>
+          <label htmlFor="name" className={styles.label}>
             User-Name
           </label>
           <input
             type="text"
             id="username"
             placeholder="User01"
-            className=""
+            className={styles.input}
             onChange={(e) => {
               updateform(e.target.value, 'username');
             }}
           />
 
-          <label htmlFor="email" className="label">
+          <label htmlFor="email" className={styles.label}>
             Email
           </label>
           <input
             type="email"
             id="email"
             placeholder="Client@example.com"
-            className="input input-email"
+            className={styles.input}
             onChange={(e) => {
               updateform(e.target.value, 'email');
             }}
           />
 
-          <label htmlFor="password" className="label">
+          <label htmlFor="password" className={styles.label}>
             Password
           </label>
           <input
             type="password"
             id="password"
             placeholder="*********"
-            className=""
+            className={styles.input}
             onChange={(e) => {
               updateform(e.target.value, 'password');
             }}
