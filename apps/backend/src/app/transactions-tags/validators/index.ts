@@ -1,8 +1,8 @@
-import { TransactionsTags } from '@creation-mono/shared/types';
+import { TransactionsTagsWhereInput } from '@creation-mono/shared/types';
 import { IsUUID } from 'class-validator';
 
 export default class TransactionsTagsValidationPipe
-  implements TransactionsTags
+  implements TransactionsTagsWhereInput
 {
   @IsUUID()
   id: string;

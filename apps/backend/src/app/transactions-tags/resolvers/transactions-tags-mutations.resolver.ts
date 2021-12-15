@@ -15,8 +15,8 @@ export class TransactionsTagsMutationsResolver {
     @Args('transactionsTags') data: TransactionsTagsValidationPipe
   ): Promise<TransactionsTags> {
     return await this.service.add({
-      Tag: { connect: { id: data.tagId } },
-      Transaction: { connect: { id: data.transactionId } },
+      tag: { connect: { id: data.tagId } },
+      transaction: { connect: { id: data.transactionId } },
     });
   }
 
@@ -26,8 +26,8 @@ export class TransactionsTagsMutationsResolver {
     @Args('where') where: TransactionsTagsValidationPipe
   ): Promise<TransactionsTags> {
     return await this.service.update(where, {
-      Tag: { connect: { id: data.tagId } },
-      Transaction: { connect: { id: data.transactionId } },
+      tag: { connect: { id: data.tagId } },
+      transaction: { connect: { id: data.transactionId } },
     });
   }
 

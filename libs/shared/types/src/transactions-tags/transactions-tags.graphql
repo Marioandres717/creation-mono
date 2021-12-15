@@ -10,19 +10,19 @@ type Query {
 
 type Mutation {
   insertTransactionsTags(
-    TransactionsTags: TransactionsTagsInsertInput!
+    transactionsTags: TransactionsTagsInsertInput!
   ): TransactionsTags
   updateTransactionsTags(
     where: TransactionsTagsWhereInput!
-    TransactionsTags: TransactionsTagsUpdateInput!
+    transactionsTags: TransactionsTagsUpdateInput!
   ): TransactionsTags
   deleteTransactionsTags(where: TransactionsTagsWhereInput!): Boolean
 }
 
 type TransactionsTags {
-  id: ID!
-  transactionId: ID!
-  tagId: ID!
+  id: ID
+  transaction: Transaction
+  tag: Tag
 }
 
 input TransactionsTagsWhereInput {
@@ -38,7 +38,6 @@ input TransactionsTagsOrderByInput {
 }
 
 input TransactionsTagsInsertInput {
-  id: ID
   transactionId: ID!
   tagId: ID!
 }

@@ -8,6 +8,15 @@ export class TransactionsTagsService {
   unique(uniqueInput: Prisma.TransactionsTagsWhereUniqueInput) {
     return this.prisma.transactionsTags.findFirst({
       where: uniqueInput,
+      include: {
+        tag: true,
+        transaction: {
+          include: {
+            category: true,
+            user: true,
+          },
+        },
+      },
     });
   }
 
@@ -22,12 +31,30 @@ export class TransactionsTagsService {
       take: limit,
       skip: offset,
       orderBy: order,
+      include: {
+        tag: true,
+        transaction: {
+          include: {
+            category: true,
+            user: true,
+          },
+        },
+      },
     });
   }
 
   add(item: Prisma.TransactionsTagsCreateInput) {
     return this.prisma.transactionsTags.create({
       data: item,
+      include: {
+        tag: true,
+        transaction: {
+          include: {
+            category: true,
+            user: true,
+          },
+        },
+      },
     });
   }
 
@@ -41,7 +68,19 @@ export class TransactionsTagsService {
     where: Prisma.TransactionsTagsWhereUniqueInput,
     item: Prisma.TransactionsTagsUpdateInput
   ) {
-    return this.prisma.transactionsTags.update({ where, data: item });
+    return this.prisma.transactionsTags.update({
+      where,
+      data: item,
+      include: {
+        tag: true,
+        transaction: {
+          include: {
+            category: true,
+            user: true,
+          },
+        },
+      },
+    });
   }
 
   updateUsers(
