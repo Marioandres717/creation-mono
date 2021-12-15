@@ -1,5 +1,6 @@
 "A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar."
 scalar DateTime
+scalar Decimal
 
 enum TransactionType {
   cash
@@ -19,23 +20,23 @@ type Query {
 }
 
 type Mutation {
-  insertTransaction(Transaction: TransactionInsertInput!): Transaction
+  insertTransaction(transaction: TransactionInsertInput!): Transaction
   updateTransaction(
-    Transaction: TransactionUpdateInput!
+    transaction: TransactionUpdateInput!
     where: TransactionWhereUniqueInput!
   ): Transaction
   deleteTransaction(where: TransactionWhereUniqueInput!): Boolean
 }
 
 type Transaction {
-  id: ID!
+  id: ID
   description: String
-  userId: ID!
+  user: User
   date: DateTime
-  amount: Float!
+  amount: Decimal
   isExpense: Int
   type: TransactionType
-  categoryId: ID!
+  category: Category
 }
 
 input TransactionWhereInput {
@@ -43,7 +44,7 @@ input TransactionWhereInput {
   description: String
   userId: ID
   date: DateTime
-  amount: Float
+  amount: Decimal
   isExpense: Int
   type: TransactionType
   categoryId: ID
@@ -65,22 +66,20 @@ input TransactionOrderByInput {
 }
 
 input TransactionInsertInput {
-  id: ID
   description: String
-  userId: ID
+  userId: ID!
   date: DateTime
-  amount: Float!
+  amount: Decimal!
   isExpense: Int
   type: TransactionType
-  categoryId: ID!
+  categoryId: ID
 }
 
 input TransactionUpdateInput {
   id: ID
   description: String
-  userId: ID
   date: DateTime
-  amount: Float
+  amount: Decimal
   isExpense: Int
   type: TransactionType
   categoryId: ID

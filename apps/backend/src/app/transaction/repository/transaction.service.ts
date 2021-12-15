@@ -8,6 +8,10 @@ export class TransactionService {
   transaction(transactionWhereUniqueInput: Prisma.TransactionWhereUniqueInput) {
     return this.prisma.transaction.findFirst({
       where: transactionWhereUniqueInput,
+      include: {
+        category: true,
+        user: true,
+      },
     });
   }
 
@@ -22,12 +26,20 @@ export class TransactionService {
       take: limit,
       skip: offset,
       orderBy: order,
+      include: {
+        category: true,
+        user: true,
+      },
     });
   }
 
   createTransaction(transaction: Prisma.TransactionCreateInput) {
     return this.prisma.transaction.create({
       data: transaction,
+      include: {
+        category: true,
+        user: true,
+      },
     });
   }
 
@@ -41,7 +53,14 @@ export class TransactionService {
     where: Prisma.TransactionWhereUniqueInput,
     transaction: Prisma.TransactionUpdateInput
   ) {
-    return this.prisma.transaction.update({ where, data: transaction });
+    return this.prisma.transaction.update({
+      where,
+      data: transaction,
+      include: {
+        category: true,
+        user: true,
+      },
+    });
   }
 
   updateTransactions(
