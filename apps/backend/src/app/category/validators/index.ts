@@ -1,7 +1,7 @@
-import { Category } from '@creation-mono/shared/types';
+import { CategoryWhereInput } from '@creation-mono/shared/types';
 import { IsIn, IsUUID, Length } from 'class-validator';
 
-export default class CategoryValidationPipe implements Category {
+export default class CategoryValidationPipe implements CategoryWhereInput {
   @IsUUID()
   id: string;
 
@@ -11,6 +11,6 @@ export default class CategoryValidationPipe implements Category {
   @Length(1, 50)
   name: string;
 
-  @IsIn([0, 1])
+  @IsIn([0])
   isSystemDefined?: number;
 }

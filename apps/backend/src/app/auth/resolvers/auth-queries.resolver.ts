@@ -7,7 +7,7 @@ import {
 import { UnauthorizedException, UseGuards } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 import { JwtService } from '@nestjs/jwt';
-import { User, UserRole } from '@creation-mono/shared/types';
+import { User } from '@creation-mono/shared/types';
 import { AuthService } from '../repository/auth.service';
 import { Context } from '../decorators/context.decorator';
 import { JwtAuthGuard } from '../guards/jwt-auth-guard';
@@ -60,9 +60,6 @@ export class AuthQueriesResolver {
     req.res.cookie('_csrf', csrfToken, {
       maxAge: process.env.TOKEN_DURATION,
     });
-    return {
-      ...authenticatedUser,
-      role: UserRole[authenticatedUser.role],
-    };
+    return authenticatedUser;
   }
 }

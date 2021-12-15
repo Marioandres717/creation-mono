@@ -8,6 +8,9 @@ export class CategoryService {
   category(categoryWhereUniqueInput: Prisma.CategoryWhereUniqueInput) {
     return this.prisma.category.findFirst({
       where: categoryWhereUniqueInput,
+      include: {
+        user: true,
+      },
     });
   }
 
@@ -22,15 +25,21 @@ export class CategoryService {
       take: limit,
       skip: offset,
       orderBy: order,
+      include: {
+        user: true,
+      },
     });
   }
 
   createCategory(category: Prisma.CategoryCreateInput) {
-    const { name, User } = category;
+    const { name, user } = category;
     return this.prisma.category.create({
       data: {
         name,
-        User,
+        user,
+      },
+      include: {
+        user: true,
       },
     });
   }
@@ -45,7 +54,13 @@ export class CategoryService {
     where: Prisma.CategoryWhereUniqueInput,
     category: Prisma.CategoryUpdateInput
   ) {
-    return this.prisma.category.update({ where, data: category });
+    return this.prisma.category.update({
+      where,
+      data: category,
+      include: {
+        user: true,
+      },
+    });
   }
 
   updateCategories(

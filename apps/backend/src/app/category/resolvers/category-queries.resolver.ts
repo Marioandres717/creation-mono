@@ -1,9 +1,4 @@
-import {
-  Category,
-  CategoryOrderByInput,
-  CategoryWhereInput,
-  CategoryWhereUniqueInput,
-} from '@creation-mono/shared/types';
+import { Category, CategoryOrderByInput } from '@creation-mono/shared/types';
 import { UseGuards } from '@nestjs/common';
 import { Query, Args, Int, Resolver } from '@nestjs/graphql';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth-guard';
@@ -29,11 +24,15 @@ export class CategoryQueriesResolver {
     @Args('where') where: CategoryValidationPipe,
     @Args('orderBy') orderBy: CategoryOrderByInput
   ): Promise<Category[]> {
-    return await this.categoryService.categories(limit, offset, orderBy, where);
+    return <Category[]>(
+      await this.categoryService.categories(limit, offset, orderBy, where)
+    );
   }
 
   @Query('category')
-  async category(@Args('where') where: CategoryValidationPipe) {
-    return await this.categoryService.category(where);
+  async category(
+    @Args('where') where: CategoryValidationPipe
+  ): Promise<Category> {
+    return <Category>await this.categoryService.category(where);
   }
 }
