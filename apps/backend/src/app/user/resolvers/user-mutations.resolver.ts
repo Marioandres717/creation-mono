@@ -1,7 +1,7 @@
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { UserService } from '../repository/user.service';
 
-import { User, UserRole } from '@creation-mono/shared/types';
+import { User } from '@creation-mono/shared/types';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth-guard';
 import UserInputValidationPipe from '../validators';
@@ -12,12 +12,7 @@ export class UserMutationsResolver {
 
   @Mutation('insertUser')
   async insertUser(@Args('user') user: UserInputValidationPipe): Promise<User> {
-    const newUser = await this.userService.createUser(user);
-
-    return {
-      ...newUser,
-      role: UserRole[newUser.role],
-    };
+    return await this.userService.createUser(user);
   }
 
   @Mutation('updateUser')
@@ -26,12 +21,7 @@ export class UserMutationsResolver {
     @Args('user') user: UserInputValidationPipe,
     @Args('where') where: UserInputValidationPipe
   ): Promise<User> {
-    const updatedUser = await this.userService.updateUser(where, user);
-
-    return {
-      ...updatedUser,
-      role: UserRole[updatedUser.role],
-    };
+    return await this.userService.updateUser(where, user);
   }
 
   @Mutation('deleteUser')

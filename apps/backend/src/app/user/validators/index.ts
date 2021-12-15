@@ -1,5 +1,5 @@
-import { User, UserRole } from '@creation-mono/shared/types';
-import { IsEmail, IsEnum, IsIn, IsUUID, Matches } from 'class-validator';
+import { User } from '@creation-mono/shared/types';
+import { IsEmail, IsIn, IsUUID, Matches } from 'class-validator';
 
 export const usernameRegex =
   /^(?=.{4,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/;
@@ -20,7 +20,4 @@ export default class UserValidationPipe implements User {
 
   @IsIn([0, 1])
   isActive?: number;
-
-  @IsEnum(UserRole)
-  role?: UserRole;
 }

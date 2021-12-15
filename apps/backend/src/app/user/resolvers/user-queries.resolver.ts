@@ -1,5 +1,5 @@
 import { Args, Int, Query, Resolver } from '@nestjs/graphql';
-import { User, UserOrderByInput, UserRole } from '@creation-mono/shared/types';
+import { User, UserOrderByInput } from '@creation-mono/shared/types';
 import { UserService } from '../repository/user.service';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth-guard';
@@ -24,23 +24,11 @@ export class UserQueriesResolver {
     @Args('where') where: UserInputValidationPipe,
     @Args('orderBy') orderBy: UserOrderByInput
   ): Promise<User[]> {
-    const users = (
-      await this.userService.users(limit, offset, orderBy, where)
-    ).map((user) => ({
-      ...user,
-      role: UserRole[user.role],
-    }));
-
-    return users;
+    return await this.userService.users(limit, offset, orderBy, where);
   }
 
   @Query('user')
   async user(@Args('where') where: UserInputValidationPipe): Promise<User> {
-    const user = await this.userService.user(where);
-    if (!user) return null;
-    return {
-      ...user,
-      role: UserRole[user.role],
-    };
+    return await this.userService.user(where);
   }
 }

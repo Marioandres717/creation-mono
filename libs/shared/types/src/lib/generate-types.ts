@@ -8,4 +8,5 @@ definitionsFactory.generate({
   outputAs: 'interface',
   watch: false,
   emitTypenameField: false,
+  enumsAsTypes: true,
 });

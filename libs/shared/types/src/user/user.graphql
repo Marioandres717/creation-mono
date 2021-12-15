@@ -32,11 +32,14 @@ type Mutation {
 }
 
 type User {
-  id: ID!
-  email: String!
+  id: ID
+  email: String
   username: String
   role: UserRole
   isActive: Int
+  transactions: [Transaction]
+  categories: [Category]
+  tags: [Tag]
 }
 
 input UserWhereInput {
@@ -62,17 +65,12 @@ input UserOrderByInput {
 }
 
 input UserInsertInput {
-  id: ID
   email: String!
   username: String
-  role: UserRole
-  isActive: Int
 }
 
 input UserUpdateInput {
   id: ID
   email: String
   username: String
-  role: UserRole
-  isActive: Int
 }

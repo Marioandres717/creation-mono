@@ -15,9 +15,9 @@ model User {
   isActive    Int?          @default(0) @db.TinyInt
   password    String?       @db.VarChar(50)
   role        User_role?    @default(basic)
-  Category    Category[]
-  Tag         Tag[]
-  Transaction Transaction[]
+  categories    Category[]
+  tags         Tag[]
+  transactions Transaction[]
 
   @@id([id, email])
 }
@@ -27,8 +27,8 @@ model Category {
   name            String        @db.VarChar(50)
   isSystemDefined Int           @default(0) @db.TinyInt
   userId          String?       @db.VarChar(36)
-  User            User?         @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "category_userId")
-  Transaction     Transaction[]
+  user            User?         @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "category_userId")
+  transactions     Transaction[]
 
   @@index([userId], map: "category_userId_idx")
 }
@@ -38,8 +38,8 @@ model Tag {
   name             String             @db.VarChar(50)
   isSystemDefined  Int                @default(0) @db.TinyInt
   userId           String?            @db.VarChar(36)
-  User             User?              @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "tag_userId")
-  TransactionsTags TransactionsTags[]
+  user             User?              @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "tag_userId")
+  transactionsTags TransactionsTags[]
 
   @@index([userId], map: "tag_userId_idx")
 }
@@ -53,9 +53,9 @@ model Transaction {
   isExpense        Int?               @default(1) @db.TinyInt
   type             Transaction_type?  @default(cash)
   categoryId       String?            @db.VarChar(36)
-  Category         Category?          @relation(fields: [categoryId], references: [id], onUpdate: NoAction, map: "transaction_categoryId")
-  User             User               @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "transaction_userId")
-  TransactionsTags TransactionsTags[]
+  category         Category?          @relation(fields: [categoryId], references: [id], onUpdate: NoAction, map: "transaction_categoryId")
+  user             User               @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "transaction_userId")
+  transactionsTags TransactionsTags[]
 
   @@index([categoryId], map: "transaction_categoryId_idx")
   @@index([userId], map: "transaction_userId_idx")
@@ -65,8 +65,8 @@ model TransactionsTags {
   id            String      @id @unique(map: "id_UNIQUE") @default(uuid()) @db.VarChar(36)
   transactionId String      @db.VarChar(36)
   tagId         String      @db.VarChar(36)
-  Tag           Tag         @relation(fields: [tagId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "trans_tags_tagId")
-  Transaction   Transaction @relation(fields: [transactionId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "trans_tags_transactionId")
+  tag           Tag         @relation(fields: [tagId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "trans_tags_tagId")
+  transaction   Transaction @relation(fields: [transactionId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "trans_tags_transactionId")
 
   @@index([tagId], map: "trans_tags_tagId_idx")
   @@index([transactionId], map: "trans_tags_transactionId_idx")

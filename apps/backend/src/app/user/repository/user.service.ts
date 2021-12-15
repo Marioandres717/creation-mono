@@ -8,6 +8,25 @@ export class UserService {
   user(userWhereUniqueInput: Prisma.UserWhereUniqueInput) {
     return this.prisma.user.findFirst({
       where: userWhereUniqueInput,
+      include: {
+        categories: {
+          include: {
+            user: true,
+            transactions: true,
+          },
+        },
+        tags: {
+          include: {
+            user: true,
+          },
+        },
+        transactions: {
+          include: {
+            user: true,
+            category: true,
+          },
+        },
+      },
     });
   }
 
@@ -22,12 +41,22 @@ export class UserService {
       take: limit,
       skip: offset,
       orderBy: order,
+      include: {
+        categories: true,
+        tags: true,
+        transactions: true,
+      },
     });
   }
 
   createUser(user: Prisma.UserCreateInput) {
     return this.prisma.user.create({
       data: user,
+      include: {
+        categories: true,
+        tags: true,
+        transactions: true,
+      },
     });
   }
 
@@ -38,7 +67,15 @@ export class UserService {
   }
 
   updateUser(where: Prisma.UserWhereUniqueInput, user: Prisma.UserUpdateInput) {
-    return this.prisma.user.update({ where, data: user });
+    return this.prisma.user.update({
+      where,
+      data: user,
+      include: {
+        categories: true,
+        tags: true,
+        transactions: true,
+      },
+    });
   }
 
   updateUsers(

@@ -7,21 +7,9 @@
 
 /* tslint:disable */
 /* eslint-disable */
-export enum TransactionType {
-    cash = "cash",
-    cheque = "cheque",
-    pending = "pending"
-}
-
-export enum OrderBy {
-    asc = "asc",
-    desc = "desc"
-}
-
-export enum UserRole {
-    admin = "admin",
-    basic = "basic"
-}
+export type TransactionType = "cash" | "cheque" | "pending";
+export type OrderBy = "asc" | "desc";
+export type UserRole = "admin" | "basic";
 
 export interface CategoryWhereInput {
     id?: Nullable<string>;
@@ -35,17 +23,13 @@ export interface CategoryWhereUniqueInput {
 }
 
 export interface CategoryInsertInput {
-    id: string;
     name: string;
-    isSystemDefined?: Nullable<number>;
-    userId?: Nullable<string>;
+    userId: string;
 }
 
 export interface CategoryUpdateInput {
     id?: Nullable<string>;
     name?: Nullable<string>;
-    isSystemDefined?: Nullable<number>;
-    userId?: Nullable<string>;
 }
 
 export interface CategoryOrderByInput {
@@ -67,17 +51,13 @@ export interface TagWhereUniqueInput {
 }
 
 export interface TagInsertInput {
-    id?: Nullable<string>;
     name: string;
-    isSystemDefined?: Nullable<number>;
-    userId?: Nullable<string>;
+    userId: string;
 }
 
 export interface TagUpdateInput {
     id?: Nullable<string>;
     name?: Nullable<string>;
-    isSystemDefined?: Nullable<number>;
-    userId?: Nullable<string>;
 }
 
 export interface TagOrderByInput {
@@ -92,7 +72,7 @@ export interface TransactionWhereInput {
     description?: Nullable<string>;
     userId?: Nullable<string>;
     date?: Nullable<DateTime>;
-    amount?: Nullable<number>;
+    amount?: Nullable<Decimal>;
     isExpense?: Nullable<number>;
     type?: Nullable<TransactionType>;
     categoryId?: Nullable<string>;
@@ -114,22 +94,20 @@ export interface TransactionOrderByInput {
 }
 
 export interface TransactionInsertInput {
-    id?: Nullable<string>;
     description?: Nullable<string>;
-    userId?: Nullable<string>;
+    userId: string;
     date?: Nullable<DateTime>;
-    amount: number;
+    amount: Decimal;
     isExpense?: Nullable<number>;
     type?: Nullable<TransactionType>;
-    categoryId: string;
+    categoryId?: Nullable<string>;
 }
 
 export interface TransactionUpdateInput {
     id?: Nullable<string>;
     description?: Nullable<string>;
-    userId?: Nullable<string>;
     date?: Nullable<DateTime>;
-    amount?: Nullable<number>;
+    amount?: Nullable<Decimal>;
     isExpense?: Nullable<number>;
     type?: Nullable<TransactionType>;
     categoryId?: Nullable<string>;
@@ -148,7 +126,6 @@ export interface TransactionsTagsOrderByInput {
 }
 
 export interface TransactionsTagsInsertInput {
-    id?: Nullable<string>;
     transactionId: string;
     tagId: string;
 }
@@ -182,19 +159,14 @@ export interface UserOrderByInput {
 }
 
 export interface UserInsertInput {
-    id?: Nullable<string>;
     email: string;
     username?: Nullable<string>;
-    role?: Nullable<UserRole>;
-    isActive?: Nullable<number>;
 }
 
 export interface UserUpdateInput {
     id?: Nullable<string>;
     email?: Nullable<string>;
     username?: Nullable<string>;
-    role?: Nullable<UserRole>;
-    isActive?: Nullable<number>;
 }
 
 export interface IQuery {
@@ -218,17 +190,17 @@ export interface IQuery {
 
 export interface IMutation {
     signUp(user: UserInsertInput, password?: Nullable<string>): Nullable<User> | Promise<Nullable<User>>;
-    insertCategory(Category: CategoryInsertInput): Nullable<Category> | Promise<Nullable<Category>>;
+    insertCategory(category: CategoryInsertInput): Nullable<Category> | Promise<Nullable<Category>>;
     updateCategory(category: CategoryUpdateInput, where: CategoryWhereUniqueInput): Nullable<Category> | Promise<Nullable<Category>>;
     deleteCategory(where: CategoryWhereUniqueInput): Nullable<boolean> | Promise<Nullable<boolean>>;
-    insertTag(Tag: TagInsertInput): Nullable<Tag> | Promise<Nullable<Tag>>;
-    updateTag(Tag: TagUpdateInput, where: TagWhereUniqueInput): Nullable<Tag> | Promise<Nullable<Tag>>;
+    insertTag(tag: TagInsertInput): Nullable<Tag> | Promise<Nullable<Tag>>;
+    updateTag(tag: TagUpdateInput, where: TagWhereUniqueInput): Nullable<Tag> | Promise<Nullable<Tag>>;
     deleteTag(where: TagWhereUniqueInput): Nullable<boolean> | Promise<Nullable<boolean>>;
-    insertTransaction(Transaction: TransactionInsertInput): Nullable<Transaction> | Promise<Nullable<Transaction>>;
-    updateTransaction(Transaction: TransactionUpdateInput, where: TransactionWhereUniqueInput): Nullable<Transaction> | Promise<Nullable<Transaction>>;
+    insertTransaction(transaction: TransactionInsertInput): Nullable<Transaction> | Promise<Nullable<Transaction>>;
+    updateTransaction(transaction: TransactionUpdateInput, where: TransactionWhereUniqueInput): Nullable<Transaction> | Promise<Nullable<Transaction>>;
     deleteTransaction(where: TransactionWhereUniqueInput): Nullable<boolean> | Promise<Nullable<boolean>>;
-    insertTransactionsTags(TransactionsTags: TransactionsTagsInsertInput): Nullable<TransactionsTags> | Promise<Nullable<TransactionsTags>>;
-    updateTransactionsTags(where: TransactionsTagsWhereInput, TransactionsTags: TransactionsTagsUpdateInput): Nullable<TransactionsTags> | Promise<Nullable<TransactionsTags>>;
+    insertTransactionsTags(transactionsTags: TransactionsTagsInsertInput): Nullable<TransactionsTags> | Promise<Nullable<TransactionsTags>>;
+    updateTransactionsTags(where: TransactionsTagsWhereInput, transactionsTags: TransactionsTagsUpdateInput): Nullable<TransactionsTags> | Promise<Nullable<TransactionsTags>>;
     deleteTransactionsTags(where: TransactionsTagsWhereInput): Nullable<boolean> | Promise<Nullable<boolean>>;
     insertUser(user: UserInsertInput): Nullable<User> | Promise<Nullable<User>>;
     updateUser(user: UserUpdateInput, where: UserWhereUniqueInput): Nullable<User> | Promise<Nullable<User>>;
@@ -236,43 +208,47 @@ export interface IMutation {
 }
 
 export interface Category {
-    id: string;
-    name: string;
+    id?: Nullable<string>;
+    name?: Nullable<string>;
     isSystemDefined?: Nullable<number>;
-    userId?: Nullable<string>;
+    user?: Nullable<User>;
 }
 
 export interface Tag {
-    id: string;
-    name: string;
+    id?: Nullable<string>;
+    name?: Nullable<string>;
     isSystemDefined?: Nullable<number>;
-    userId?: Nullable<string>;
+    user?: Nullable<User>;
 }
 
 export interface Transaction {
-    id: string;
+    id?: Nullable<string>;
     description?: Nullable<string>;
-    userId: string;
+    user?: Nullable<User>;
     date?: Nullable<DateTime>;
-    amount: number;
+    amount?: Nullable<Decimal>;
     isExpense?: Nullable<number>;
     type?: Nullable<TransactionType>;
-    categoryId: string;
+    category?: Nullable<Category>;
 }
 
 export interface TransactionsTags {
-    id: string;
-    transactionId: string;
-    tagId: string;
+    id?: Nullable<string>;
+    transaction?: Nullable<Transaction>;
+    tag?: Nullable<Tag>;
 }
 
 export interface User {
-    id: string;
-    email: string;
+    id?: Nullable<string>;
+    email?: Nullable<string>;
     username?: Nullable<string>;
     role?: Nullable<UserRole>;
     isActive?: Nullable<number>;
+    transactions?: Nullable<Nullable<Transaction>[]>;
+    categories?: Nullable<Nullable<Category>[]>;
+    tags?: Nullable<Nullable<Tag>[]>;
 }
 
 export type DateTime = any;
+export type Decimal = any;
 type Nullable<T> = T | null;
