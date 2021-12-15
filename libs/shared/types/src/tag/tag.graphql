@@ -10,16 +10,16 @@ type Query {
 }
 
 type Mutation {
-  insertTag(Tag: TagInsertInput!): Tag
-  updateTag(Tag: TagUpdateInput!, where: TagWhereUniqueInput!): Tag
+  insertTag(tag: TagInsertInput!): Tag
+  updateTag(tag: TagUpdateInput!, where: TagWhereUniqueInput!): Tag
   deleteTag(where: TagWhereUniqueInput!): Boolean
 }
 
 type Tag {
-  id: ID!
-  name: String!
+  id: ID
+  name: String
   isSystemDefined: Int
-  userId: ID
+  user: User
 }
 
 input TagWhereInput {
@@ -34,17 +34,13 @@ input TagWhereUniqueInput {
 }
 
 input TagInsertInput {
-  id: ID
   name: String!
-  isSystemDefined: Int
-  userId: ID
+  userId: ID!
 }
 
 input TagUpdateInput {
   id: ID
   name: String
-  isSystemDefined: Int
-  userId: ID
 }
 
 input TagOrderByInput {

@@ -5,8 +5,8 @@ import { JwtAuthGuard } from '../../auth/guards/jwt-auth-guard';
 import { TagService } from '../repository/tag.service';
 import TagValidationPipe from '../validators';
 
-UseGuards(JwtAuthGuard);
 @Resolver('Tag')
+@UseGuards(JwtAuthGuard)
 export class TagQueriesResolver {
   constructor(private tagService: TagService) {}
 
@@ -24,8 +24,7 @@ export class TagQueriesResolver {
     @Args('where') where: TagValidationPipe,
     @Args('orderBy') orderBy: TagOrderByInput
   ): Promise<Tag[]> {
-    const tags = await this.tagService.tags(limit, offset, orderBy, where);
-    return tags;
+    return await this.tagService.tags(limit, offset, orderBy, where);
   }
 
   @Query('tag')

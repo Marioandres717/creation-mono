@@ -18,7 +18,7 @@ export class TagMutationsResolver {
   ): Promise<Tag> {
     return await this.tagService.createTag({
       ...tag,
-      User: { connect: { id: user.id } },
+      user: { connect: { id: user.id } },
     });
   }
 

@@ -1,7 +1,7 @@
-import { Tag } from '@creation-mono/shared/types';
+import { TagWhereInput } from '@creation-mono/shared/types';
 import { IsIn, IsUUID, Length } from 'class-validator';
 
-export default class TagValidationPipe implements Tag {
+export default class TagValidationPipe implements TagWhereInput {
   @IsUUID()
   id: string;
 

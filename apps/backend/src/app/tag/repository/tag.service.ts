@@ -8,6 +8,9 @@ export class TagService {
   tag(tagWhereUniqueInput: Prisma.TagWhereUniqueInput) {
     return this.prisma.tag.findFirst({
       where: tagWhereUniqueInput,
+      include: {
+        user: true,
+      },
     });
   }
 
@@ -22,15 +25,21 @@ export class TagService {
       take: limit,
       skip: offset,
       orderBy: order,
+      include: {
+        user: true,
+      },
     });
   }
 
   createTag(tag: Prisma.TagCreateInput) {
-    const { name, User } = tag;
+    const { name, user } = tag;
     return this.prisma.tag.create({
       data: {
         name,
-        User,
+        user,
+      },
+      include: {
+        user: true,
       },
     });
   }
@@ -42,7 +51,13 @@ export class TagService {
   }
 
   updateTag(where: Prisma.TagWhereUniqueInput, tag: Prisma.TagUpdateInput) {
-    return this.prisma.tag.update({ where, data: tag });
+    return this.prisma.tag.update({
+      where,
+      data: tag,
+      include: {
+        user: true,
+      },
+    });
   }
 
   updateTags(where: Prisma.TagWhereUniqueInput, tag: Prisma.TagUpdateInput) {
