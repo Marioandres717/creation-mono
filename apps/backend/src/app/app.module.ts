@@ -7,6 +7,8 @@ import { CategoryModule } from './category/category.module';
 import { TagModule } from './tag/tag.module';
 import { TransactionModule } from './transaction/transaction.module';
 import { TransactionsTagsModule } from './transactions-tags/transactions-tags.module';
+import { DateTimeScalar } from './scalars/date-time.scalar';
+import { DecimalScalar } from './scalars/decimal.scalar';
 
 @Module({
   imports: [
@@ -30,5 +32,6 @@ import { TransactionsTagsModule } from './transactions-tags/transactions-tags.mo
     TransactionModule,
     TransactionsTagsModule,
   ],
+  providers: [DateTimeScalar, DecimalScalar],
 })
 export class AppModule {}

@@ -1,5 +1,5 @@
 import { DateTime, TransactionWhereInput } from '@creation-mono/shared/types';
-import { IsCurrency, IsDate, IsIn, IsUUID, Length } from 'class-validator';
+import { IsDate, IsIn, IsUUID, Length } from 'class-validator';
 
 export default class TransactionValidationPipe
   implements TransactionWhereInput
@@ -12,9 +12,6 @@ export default class TransactionValidationPipe
 
   @IsUUID()
   categoryId: string;
-
-  @IsCurrency()
-  amount: number;
 
   @Length(0, 250)
   description?: string;
