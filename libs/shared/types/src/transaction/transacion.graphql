@@ -67,7 +67,6 @@ input TransactionOrderByInput {
 
 input TransactionInsertInput {
   description: String
-  userId: ID!
   date: DateTime
   amount: Decimal!
   isExpense: Int

@@ -24,7 +24,6 @@ export interface CategoryWhereUniqueInput {
 
 export interface CategoryInsertInput {
     name: string;
-    userId: string;
 }
 
 export interface CategoryUpdateInput {
@@ -52,7 +51,6 @@ export interface TagWhereUniqueInput {
 
 export interface TagInsertInput {
     name: string;
-    userId: string;
 }
 
 export interface TagUpdateInput {
@@ -95,7 +93,6 @@ export interface TransactionOrderByInput {
 
 export interface TransactionInsertInput {
     description?: Nullable<string>;
-    userId: string;
     date?: Nullable<DateTime>;
     amount: Decimal;
     isExpense?: Nullable<number>;
