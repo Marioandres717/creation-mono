@@ -48,7 +48,11 @@ export class AuthQueriesResolver {
     const { req } = context.getContext();
     const csrfToken = uuidv4();
     const jwtToken = this.jwtService.sign({
-      ...authenticatedUser,
+      id: authenticatedUser.id,
+      email: authenticatedUser.email,
+      username: authenticatedUser.username,
+      isActive: authenticatedUser.isActive,
+      role: authenticatedUser.role,
       _csrf: csrfToken,
     });
     req.res.cookie('access-token', jwtToken, {
