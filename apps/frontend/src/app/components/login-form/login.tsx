@@ -20,8 +20,8 @@ type LoginError = {
 /********** */
 
 const SIGNIN_QUERY = gql`
-  query Login($password: String, $email: String) {
-    login(user: { password: $password, email: $email }) {
+  query Login($password: String!, $email: String) {
+    login(user: { email: $email }, password: $password) {
       id
       username
       email
@@ -55,7 +55,7 @@ const Login: FC<Props> = ({ onLogin }) => {
       // TODO: not all error contain extension.response
       // CORS errors for instance break this function
       const graphQLError: GraphQLError = error.graphQLErrors[0];
-      setError(graphQLError.extensions.response);
+      setError(graphQLError?.extensions?.response || error?.message);
     },
   });
   const onSubmit = (e: FormEvent) => {
