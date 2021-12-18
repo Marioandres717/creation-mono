@@ -1,5 +1,5 @@
 export const passwordRegex =
-  /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+  /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,30}$/;
 
 export const passwordValidationErrorMessage =
-  'Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character:';
+  'Minimum eight characters, Maximum of 30 characters, at least one uppercase letter, one lowercase letter, one number and one special character:';

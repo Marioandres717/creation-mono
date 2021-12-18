@@ -26,8 +26,10 @@ export class TransactionsTagsMutationsResolver {
     @Args('where') where: TransactionsTagsValidationPipe
   ): Promise<TransactionsTags> {
     return await this.service.update(where, {
-      tag: { connect: { id: data.tagId } },
-      transaction: { connect: { id: data.transactionId } },
+      tag: data.tagId ? { connect: { id: data.tagId } } : undefined,
+      transaction: data.transactionId
+        ? { connect: { id: data.transactionId } }
+        : undefined,
     });
   }
 

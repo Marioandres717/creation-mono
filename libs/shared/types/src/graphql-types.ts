@@ -167,7 +167,7 @@ export interface UserUpdateInput {
 }
 
 export interface IQuery {
-    login(user: UserWhereUniqueInput, password?: Nullable<string>): Nullable<User> | Promise<Nullable<User>>;
+    login(user: UserWhereUniqueInput, password: string): Nullable<User> | Promise<Nullable<User>>;
     category(where: CategoryWhereUniqueInput): Nullable<Category> | Promise<Nullable<Category>>;
     categories(where: CategoryWhereInput, limit?: Nullable<number>, offset?: Nullable<number>, orderBy?: Nullable<CategoryOrderByInput>): Nullable<Nullable<Category>[]> | Promise<Nullable<Nullable<Category>[]>>;
     countCategory(where: CategoryWhereInput): Nullable<number> | Promise<Nullable<number>>;
@@ -186,7 +186,7 @@ export interface IQuery {
 }
 
 export interface IMutation {
-    signUp(user: UserInsertInput, password?: Nullable<string>): Nullable<User> | Promise<Nullable<User>>;
+    signUp(user: UserInsertInput, password: string): Nullable<User> | Promise<Nullable<User>>;
     insertCategory(category: CategoryInsertInput): Nullable<Category> | Promise<Nullable<Category>>;
     updateCategory(category: CategoryUpdateInput, where: CategoryWhereUniqueInput): Nullable<Category> | Promise<Nullable<Category>>;
     deleteCategory(where: CategoryWhereUniqueInput): Nullable<boolean> | Promise<Nullable<boolean>>;

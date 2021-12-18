@@ -13,7 +13,7 @@ export class AuthMutationsResolver {
   @Mutation('signUp')
   async signUp(
     @Args('user') user: UserValidationPipe,
-    password: string
+    @Args('password') password: string
   ): Promise<User> {
     if (!matches(password, passwordRegex))
       throw new UnauthorizedException(passwordValidationErrorMessage);
