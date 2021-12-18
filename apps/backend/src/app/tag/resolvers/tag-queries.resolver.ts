@@ -1,7 +1,7 @@
 import { Tag, TagOrderByInput } from '@creation-mono/shared/types';
 import { UseGuards } from '@nestjs/common';
 import { Args, Int, Query, Resolver } from '@nestjs/graphql';
-import { JwtAuthGuard } from '../../auth/guards/jwt-auth-guard';
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { TagService } from '../repository/tag.service';
 import TagValidationPipe from '../validators';
 

@@ -4,7 +4,7 @@ import {
 } from '@creation-mono/shared/types';
 import { UseGuards } from '@nestjs/common';
 import { Args, Int, Query, Resolver } from '@nestjs/graphql';
-import { JwtAuthGuard } from '../../auth/guards/jwt-auth-guard';
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { TransactionService } from '../repository/transaction.service';
 import TransactionValidationPipe from '../validators';
 

@@ -2,7 +2,7 @@ import { Transaction, User } from '@creation-mono/shared/types';
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { CurrentUser } from '../../auth/decorators/current-user.decorator';
-import { JwtAuthGuard } from '../../auth/guards/jwt-auth-guard';
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { TransactionService } from '../repository/transaction.service';
 import TransactionValidationPipe from '../validators';
 

@@ -2,8 +2,10 @@ import { Args, Int, Query, Resolver } from '@nestjs/graphql';
 import { User, UserOrderByInput } from '@creation-mono/shared/types';
 import { UserService } from '../repository/user.service';
 import { UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '../../auth/guards/jwt-auth-guard';
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import UserInputValidationPipe from '../validators';
+import { APP_ROLES, Roles } from '../../auth/decorators/roles.decorator';
+import { RolesGuard } from '../../auth/guards/roles.guard';
 
 @Resolver('User')
 @UseGuards(JwtAuthGuard)
@@ -18,6 +20,8 @@ export class UserQueriesResolver {
   }
 
   @Query('users')
+  @Roles(APP_ROLES.admin)
+  @UseGuards(RolesGuard)
   async users(
     @Args('limit', { type: () => Int }) limit: number,
     @Args('offset', { type: () => Int }) offset: number,

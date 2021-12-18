@@ -10,7 +10,7 @@ import { JwtService } from '@nestjs/jwt';
 import { User } from '@creation-mono/shared/types';
 import { AuthService } from '../repository/auth.service';
 import { Context } from '../decorators/context.decorator';
-import { JwtAuthGuard } from '../guards/jwt-auth-guard';
+import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { CurrentUser } from '../decorators/current-user.decorator';
 import UserValidationPipe from '../../user/validators';
 import { matches } from 'class-validator';

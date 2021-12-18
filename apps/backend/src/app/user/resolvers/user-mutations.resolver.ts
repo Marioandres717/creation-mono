@@ -3,10 +3,11 @@ import { UserService } from '../repository/user.service';
 
 import { User } from '@creation-mono/shared/types';
 import { UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '../../auth/guards/jwt-auth-guard';
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import UserInputValidationPipe from '../validators';
 
 @Resolver('User')
+@UseGuards(JwtAuthGuard)
 export class UserMutationsResolver {
   constructor(private userService: UserService) {}
 
@@ -16,7 +17,6 @@ export class UserMutationsResolver {
   }
 
   @Mutation('updateUser')
-  @UseGuards(JwtAuthGuard)
   async updateUser(
     @Args('user') user: UserInputValidationPipe,
     @Args('where') where: UserInputValidationPipe
@@ -25,7 +25,6 @@ export class UserMutationsResolver {
   }
 
   @Mutation('deleteUser')
-  @UseGuards(JwtAuthGuard)
   async deleteUser(
     @Args('where') where: UserInputValidationPipe
   ): Promise<boolean> {
