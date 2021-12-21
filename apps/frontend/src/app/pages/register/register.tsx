@@ -4,25 +4,20 @@ import styles from './register.module.css';
 import { FormEvent, useState } from 'react';
 import { gql, useMutation } from '@apollo/client';
 
-
-
-const INSERT_USER = gql`
-  mutation createUser($username: String, $email: String, $password: String) {
-    insertUser(
-      user: { username: $username, email: $email, password: $password }
-    ) {
+const SIGN_UP = gql`
+  mutation createUser($password: String!, $username: String!, $email: String!) {
+    signUp(user: { username: $username, email: $email }, password: $password) {
       id
       email
-      password
       username
       isActive
     }
   }
 `;
 
-const Register= () => {
+const Register = () => {
   const [form, setform] = useState({ username: '', email: '', password: '' });
-  const [newUser] = useMutation(INSERT_USER)
+  const [newUser] = useMutation(SIGN_UP);
 
   const updateform = (value: string, type: string) => {
     setform({ ...form, ...{ [type]: value } });
@@ -30,7 +25,7 @@ const Register= () => {
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
     newUser({ variables: form });
-    console.log(form)
+    console.log(form);
   };
   return (
     <Layout className={styles.register}>
@@ -75,7 +70,7 @@ const Register= () => {
               updateform(e.target.value, 'password');
             }}
           />
-          <input type="submit" value="Create Account" /> 
+          <input type="submit" value="Create Account" />
         </form>
       </div>
     </Layout>

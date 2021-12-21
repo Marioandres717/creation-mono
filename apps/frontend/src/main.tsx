@@ -9,9 +9,9 @@ ReactDOM.render(
   <StrictMode>
     <BrowserRouter>
       <Apollo>
-        {/* <Authentication> */}
+        <Authentication>
           <App />
-        {/* </Authentication> */}
+        </Authentication>
       </Apollo>
     </BrowserRouter>
   </StrictMode>,
