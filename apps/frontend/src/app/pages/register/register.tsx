@@ -2,8 +2,13 @@ import Layout from '../../components/layout/layout';
 import styles from './register.module.css';
 
 import { FormEvent, useState } from 'react';
-import { gql, useMutation } from '@apollo/client';
+import { gql, useMutation, ApolloError } from '@apollo/client';
+import { GraphQLError } from 'graphql';
 
+type LoginError = {
+  message: string;
+  statusCode: number;
+};
 const SIGN_UP = gql`
   mutation createUser($password: String!, $username: String!, $email: String!) {
     signUp(user: { username: $username, email: $email }, password: $password) {
@@ -17,7 +22,13 @@ const SIGN_UP = gql`
 
 const Register = () => {
   const [form, setform] = useState({ username: '', email: '', password: '' });
-  const [newUser] = useMutation(SIGN_UP);
+  const [error, setError] = useState<LoginError | undefined>();
+  const [newUser] = useMutation(SIGN_UP, {
+    onError: (error: ApolloError) => {
+      const graphQLError: GraphQLError = error.graphQLErrors[0];
+      setError(graphQLError?.extensions?.response || error?.message);
+    },
+  });
 
   const updateform = (value: string, type: string) => {
     setform({ ...form, ...{ [type]: value } });
