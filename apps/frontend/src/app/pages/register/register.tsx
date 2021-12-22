@@ -5,9 +5,20 @@ import { FormEvent, useState } from 'react';
 import { gql, useMutation, ApolloError } from '@apollo/client';
 import { GraphQLError } from 'graphql';
 
-type LoginError = {
+type RegisterError = {
   message: string;
   statusCode: number;
+};
+
+const ErrorMessage = ({ error }: { error: RegisterError }) => {
+  switch (error.statusCode) {
+    case 401: {
+      return <div className={styles.error}>Invalid Form</div>;
+    }
+    default: {
+      return null;
+    }
+  }
 };
 const SIGN_UP = gql`
   mutation createUser($password: String!, $username: String!, $email: String!) {
@@ -21,8 +32,13 @@ const SIGN_UP = gql`
 `;
 
 const Register = () => {
-  const [form, setform] = useState({ username: '', email: '', password: '' });
-  const [error, setError] = useState<LoginError | undefined>();
+  const [form, setform] = useState({
+    username: '',
+    email: '',
+    password: '',
+    password2: '',
+  });
+  const [error, setError] = useState<RegisterError | undefined>();
   const [newUser] = useMutation(SIGN_UP, {
     onError: (error: ApolloError) => {
       const graphQLError: GraphQLError = error.graphQLErrors[0];
@@ -38,8 +54,10 @@ const Register = () => {
     newUser({ variables: form });
     console.log(form);
   };
+
   return (
     <Layout className={styles.register}>
+      {error && <ErrorMessage error={error} />}
       <div className={styles['form-wrapper']}>
         <form className={styles.form} onSubmit={onSubmit}>
           <h1 className={styles.title}>Register </h1>
@@ -81,7 +99,31 @@ const Register = () => {
               updateform(e.target.value, 'password');
             }}
           />
-          <input type="submit" value="Create Account" />
+
+          <label htmlFor="password" className={styles.label}>
+            confirm Password
+          </label>
+          <input
+            type="password"
+            id="password2"
+            placeholder="*********"
+            className={styles.input}
+            onChange={(e) => {
+              updateform(e.target.value, 'password2');
+            }}
+          />
+          <div>
+            {form.password2.length > 0
+              ? form.password2 !== form.password
+                ? 'the password must be the same'
+                : 'Correct'
+              : null}
+          </div>
+          <input
+            type="submit"
+            value="Create Account"
+            disabled={form.password2 !== form.password}
+          />
         </form>
       </div>
     </Layout>

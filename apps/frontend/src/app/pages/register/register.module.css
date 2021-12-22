@@ -7,7 +7,7 @@
 .form-wrapper {
   background-color: var(--white);
   width: 50rem;
-  height: 35rem;
+  height: 43rem;
   border-radius: 10px;
   box-shadow: 20px 20px 60px #4a907f, -20px -20px 60px #64c2ab;
   display: flex;
@@ -20,7 +20,7 @@
   margin: 5rem;
   width: 100%;
 }
-.form input[type=submit]{
+.form input[type='submit'] {
   cursor: pointer;
   background-color: var(--orange-100);
   color: var(--white);
@@ -34,12 +34,27 @@
   width: 100%;
   border: 0.1rem solid;
   height: 3.4rem;
-  margin-bottom: 0.8rem; 
+  margin-bottom: 0.8rem;
 }
-.title{
+.title {
   font-size: 2rem;
   margin-bottom: 2rem;
 }
-.label{
+.label {
   padding-bottom: 0.5rem;
+}
+.error {
+  position: absolute;
+  top: 0;
+  height: 4rem;
+  background: var(--orange-200);
+  width: 98%;
+  display: flex;
+  align-items: center;
+  border: 1px solid gray;
+  margin: 2rem 0;
+  border-radius: 10px;
+  padding: 2rem;
+  color: var(--white);
+  justify-content: center;
 }
