@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
+import { APP_GUARD } from '@nestjs/core';
+import { ThrottlerModule } from '@nestjs/throttler';
 import { SharedModelsModule } from '@creation-mono/shared/models';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
@@ -9,6 +11,7 @@ import { TransactionModule } from './transaction/transaction.module';
 import { TransactionsTagsModule } from './transactions-tags/transactions-tags.module';
 import { DateTimeScalar } from './scalars/date-time.scalar';
 import { DecimalScalar } from './scalars/decimal.scalar';
+import { GqlThrottlerGuard } from './auth/guards/gql-throttle.guard';
 
 @Module({
   imports: [
@@ -31,7 +34,18 @@ import { DecimalScalar } from './scalars/decimal.scalar';
     TagModule,
     TransactionModule,
     TransactionsTagsModule,
+    ThrottlerModule.forRoot({
+      ttl: Number(process.env.THROTTLE_TTL) || 60,
+      limit: Number(process.env.THROTTLE_LIMIT) ||10,
+    }),
   ],
-  providers: [DateTimeScalar, DecimalScalar],
+  providers: [
+    DateTimeScalar,
+    DecimalScalar,
+    {
+      provide: APP_GUARD,
+      useClass: GqlThrottlerGuard,
+    },
+  ],
 })
 export class AppModule {}
