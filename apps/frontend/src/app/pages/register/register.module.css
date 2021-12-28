@@ -20,9 +20,18 @@
   margin: 5rem;
   width: 100%;
 }
-.form input[type='submit'] {
+.active {
   cursor: pointer;
   background-color: var(--orange-100);
+  color: var(--white);
+  margin-top: 1rem;
+  border: none;
+  height: 3.4rem;
+  border-radius: 5px;
+}
+.disabled {
+  cursor: pointer;
+  background-color: var(--dark-gray);
   color: var(--white);
   margin-top: 1rem;
   border: none;

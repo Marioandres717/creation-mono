@@ -59,7 +59,7 @@ const Register = () => {
     <Layout className={styles.register}>
       {error && <ErrorMessage error={error} />}
       <div className={styles['form-wrapper']}>
-        <form className={styles.form} onSubmit={onSubmit}>
+        <form className={styles.form} onSubmit={onSubmit} action="/">
           <h1 className={styles.title}>Register </h1>
           <label htmlFor="name" className={styles.label}>
             User-Name
@@ -120,6 +120,14 @@ const Register = () => {
               : null}
           </div>
           <input
+            className={
+              form.password2 !== form.password ? styles.disabled : styles.active
+            }
+            // className={
+            //   !form.email && !form.password && !form.username && !form.password2
+            //     ? styles.disabled
+            //     : styles.active
+            // }
             type="submit"
             value="Create Account"
             disabled={form.password2 !== form.password}
