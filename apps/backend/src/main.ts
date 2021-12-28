@@ -4,7 +4,7 @@ import * as helmet from 'helmet';
 import * as cookieParser from 'cookie-parser';
 
 import { AppModule } from './app/app.module';
-import { AllExceptionFilter } from './app/filters';
+import { AllExceptionFilter } from './app/filters/all-exception.filter';
 import { TimeoutInterceptor } from './app/interceptors/timeout.interceptor';
 
 async function bootstrap() {
