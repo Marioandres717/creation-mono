@@ -4,6 +4,7 @@ import * as helmet from 'helmet';
 import * as cookieParser from 'cookie-parser';
 
 import { AppModule } from './app/app.module';
+import { AllExceptionFilter } from './app/filters';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -19,11 +20,14 @@ async function bootstrap() {
       skipMissingProperties: true,
     })
   );
+  if (process.env.NODE_ENV === 'production') {
+    app.useGlobalFilters(new AllExceptionFilter());
+  }
   const port = process.env.PORT || 3000;
   await app.listen(port);
   Logger.log(`🚀 Application is running on: http://localhost:${port}`);
   Logger.log(
-    `🚀 Graphql server is running on: http://localhost:${port}/graphql`
+    `🚀 Graphql playground is running on: http://localhost:${port}/graphql`
   );
 }
 
