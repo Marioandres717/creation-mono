@@ -168,6 +168,7 @@ export interface UserUpdateInput {
 
 export interface IQuery {
     login(user: UserWhereUniqueInput, password: string): Nullable<User> | Promise<Nullable<User>>;
+    logout(): Nullable<boolean> | Promise<Nullable<boolean>>;
     category(where: CategoryWhereUniqueInput): Nullable<Category> | Promise<Nullable<Category>>;
     categories(where: CategoryWhereInput, limit?: Nullable<number>, offset?: Nullable<number>, orderBy?: Nullable<CategoryOrderByInput>): Nullable<Nullable<Category>[]> | Promise<Nullable<Nullable<Category>[]>>;
     countCategory(where: CategoryWhereInput): Nullable<number> | Promise<Nullable<number>>;

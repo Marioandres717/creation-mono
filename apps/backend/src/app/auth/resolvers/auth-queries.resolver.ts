@@ -23,7 +23,7 @@ export class AuthQueriesResolver {
     private jwtService: JwtService
   ) {}
 
-  @Query()
+  @Query('me')
   @UseGuards(JwtAuthGuard)
   me(@CurrentUser() user: User): User {
     return user;
@@ -65,5 +65,14 @@ export class AuthQueriesResolver {
       maxAge: process.env.TOKEN_DURATION,
     });
     return authenticatedUser;
+  }
+
+  @Query('logout')
+  @UseGuards(JwtAuthGuard)
+  logout(@Context() context: GraphQLExecutionContext) {
+    const { req } = context.getContext();
+    req.res.clearCookie('access-token');
+    req.res.clearCookie('_csrf');
+    return true;
   }
 }
