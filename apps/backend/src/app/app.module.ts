@@ -12,6 +12,7 @@ import { TransactionsTagsModule } from './transactions-tags/transactions-tags.mo
 import { DateTimeScalar } from './scalars/date-time.scalar';
 import { DecimalScalar } from './scalars/decimal.scalar';
 import { GqlThrottlerGuard } from './auth/guards/gql-throttle.guard';
+import { LoggerModule } from './logger';
 
 @Module({
   imports: [
@@ -36,8 +37,9 @@ import { GqlThrottlerGuard } from './auth/guards/gql-throttle.guard';
     TransactionsTagsModule,
     ThrottlerModule.forRoot({
       ttl: Number(process.env.THROTTLE_TTL) || 60,
-      limit: Number(process.env.THROTTLE_LIMIT) ||10,
+      limit: Number(process.env.THROTTLE_LIMIT) || 10,
     }),
+    LoggerModule,
   ],
   providers: [
     DateTimeScalar,

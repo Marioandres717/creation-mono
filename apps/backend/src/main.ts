@@ -6,9 +6,13 @@ import * as cookieParser from 'cookie-parser';
 import { AppModule } from './app/app.module';
 import { AllExceptionFilter } from './app/filters/all-exception.filter';
 import { TimeoutInterceptor } from './app/interceptors/timeout.interceptor';
+import { LoggerService } from './app/logger';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    bufferLogs: true,
+    abortOnError: false,
+  });
   app.use(
     helmet({
       contentSecurityPolicy:
@@ -22,6 +26,7 @@ async function bootstrap() {
     })
   );
   app.useGlobalInterceptors(new TimeoutInterceptor());
+  app.useLogger(new LoggerService());
   if (process.env.NODE_ENV === 'production') {
     app.useGlobalFilters(new AllExceptionFilter());
   }

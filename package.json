@@ -40,7 +40,9 @@
     "rxjs": "^7.0.0",
     "styled-components": "5.3.3",
     "tslib": "^2.0.0",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "winston": "^3.3.3",
+    "winston-papertrail": "^1.0.5"
   },
   "devDependencies": {
     "@commitlint/cli": "^15.0.0",
