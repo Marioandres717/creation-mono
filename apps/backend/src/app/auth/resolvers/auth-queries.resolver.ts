@@ -15,13 +15,17 @@ import { CurrentUser } from '../decorators/current-user.decorator';
 import UserValidationPipe from '../../user/validators';
 import { matches } from 'class-validator';
 import { passwordRegex, passwordValidationErrorMessage } from '../validators';
+import { LoggerService } from '../../logger';
 
 @Resolver()
 export class AuthQueriesResolver {
   constructor(
     private authService: AuthService,
-    private jwtService: JwtService
-  ) {}
+    private jwtService: JwtService,
+    private loggerService: LoggerService
+  ) {
+    this.loggerService.setContext('AuthQueriesResolver');
+  }
 
   @Query('me')
   @UseGuards(JwtAuthGuard)

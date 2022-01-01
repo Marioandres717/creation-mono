@@ -2,13 +2,19 @@ import { Tag, TagOrderByInput } from '@creation-mono/shared/types';
 import { UseGuards } from '@nestjs/common';
 import { Args, Int, Query, Resolver } from '@nestjs/graphql';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { LoggerService } from '../../logger';
 import { TagService } from '../repository/tag.service';
 import TagValidationPipe from '../validators';
 
 @Resolver('Tag')
 @UseGuards(JwtAuthGuard)
 export class TagQueriesResolver {
-  constructor(private tagService: TagService) {}
+  constructor(
+    private tagService: TagService,
+    private loggerService: LoggerService
+  ) {
+    this.loggerService.setContext('TagQueriesResolver');
+  }
 
   @Query('countTag')
   async countCategories(

@@ -3,6 +3,7 @@ import { TransactionsTagsMutationsResolver } from './resolvers/transactions-tags
 import { TransactionsTagsQueriesResolver } from './resolvers/transactions-tags-queries.resolver';
 import { PrismaService } from '@creation-mono/shared/models';
 import { TransactionsTagsService } from './repository/transactions-tags.service';
+import { LoggerService } from '../logger';
 
 @Module({
   providers: [
@@ -10,6 +11,7 @@ import { TransactionsTagsService } from './repository/transactions-tags.service'
     TransactionsTagsQueriesResolver,
     TransactionsTagsService,
     PrismaService,
+    LoggerService,
   ],
 })
 export class TransactionsTagsModule {}

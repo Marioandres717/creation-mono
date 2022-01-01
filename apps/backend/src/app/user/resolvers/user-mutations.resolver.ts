@@ -5,11 +5,17 @@ import { User } from '@creation-mono/shared/types';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import UserInputValidationPipe from '../validators';
+import { LoggerService } from '../../logger';
 
 @Resolver('User')
 @UseGuards(JwtAuthGuard)
 export class UserMutationsResolver {
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private loggerService: LoggerService
+  ) {
+    this.loggerService.setContext('UserMutationsResolver');
+  }
 
   @Mutation('insertUser')
   async insertUser(@Args('user') user: UserInputValidationPipe): Promise<User> {

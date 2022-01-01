@@ -3,6 +3,7 @@ import { TagQueriesResolver } from './resolvers/tag-queries.resolver';
 import { TagMutationsResolver } from './resolvers/tag-mutations.resolver';
 import { TagService } from './repository/tag.service';
 import { PrismaService } from '@creation-mono/shared/models';
+import { LoggerService } from '../logger';
 
 @Module({
   providers: [
@@ -10,6 +11,7 @@ import { PrismaService } from '@creation-mono/shared/models';
     TagMutationsResolver,
     TagService,
     PrismaService,
+    LoggerService,
   ],
 })
 export class TagModule {}

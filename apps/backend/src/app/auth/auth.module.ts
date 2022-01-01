@@ -7,6 +7,7 @@ import { jwtConstants } from './constants';
 import { JwtStrategy } from './strategies/jwt';
 import { AuthQueriesResolver } from './resolvers/auth-queries.resolver';
 import { AuthMutationsResolver } from './resolvers/auth-mutations.resolver';
+import { LoggerService } from '../logger';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { AuthMutationsResolver } from './resolvers/auth-mutations.resolver';
     JwtStrategy,
     AuthQueriesResolver,
     AuthMutationsResolver,
+    LoggerService,
   ],
   exports: [AuthService],
 })

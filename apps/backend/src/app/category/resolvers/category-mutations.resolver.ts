@@ -3,13 +3,19 @@ import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { CurrentUser } from '../../auth/decorators/current-user.decorator';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { LoggerService } from '../../logger';
 import { CategoryService } from '../repository/category.service';
 import CategoryValidationPipe from '../validators';
 
 @Resolver('Category')
 @UseGuards(JwtAuthGuard)
 export class CategoryMutationsResolver {
-  constructor(private categoryService: CategoryService) {}
+  constructor(
+    private categoryService: CategoryService,
+    private loggerService: LoggerService
+  ) {
+    this.loggerService.setContext('CategoryMutationsResolver');
+  }
 
   @Mutation('insertCategory')
   async insertCategory(

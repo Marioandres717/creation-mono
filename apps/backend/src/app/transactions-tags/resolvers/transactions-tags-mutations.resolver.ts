@@ -2,13 +2,19 @@ import { TransactionsTags } from '@creation-mono/shared/types';
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { LoggerService } from '../../logger';
 import { TransactionsTagsService } from '../repository/transactions-tags.service';
 import TransactionsTagsValidationPipe from '../validators';
 
 @Resolver('TransactionTags')
 @UseGuards(JwtAuthGuard)
 export class TransactionsTagsMutationsResolver {
-  constructor(private service: TransactionsTagsService) {}
+  constructor(
+    private service: TransactionsTagsService,
+    private loggerService: LoggerService
+  ) {
+    this.loggerService.setContext('TransactionTagsMutationsResolver');
+  }
 
   @Mutation('insertTransactionsTags')
   async createTransactionsTags(

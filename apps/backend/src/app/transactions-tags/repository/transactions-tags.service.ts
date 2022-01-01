@@ -83,7 +83,7 @@ export class TransactionsTagsService {
     });
   }
 
-  updateUsers(
+  updateTransactionTags(
     where: Prisma.TransactionsTagsWhereUniqueInput,
     item: Prisma.TransactionsTagsUpdateInput
   ) {

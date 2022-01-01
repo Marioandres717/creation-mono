@@ -6,11 +6,17 @@ import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import UserInputValidationPipe from '../validators';
 import { APP_ROLES, Roles } from '../../auth/decorators/roles.decorator';
 import { RolesGuard } from '../../auth/guards/roles.guard';
+import { LoggerService } from '../../logger';
 
 @Resolver('User')
 @UseGuards(JwtAuthGuard)
 export class UserQueriesResolver {
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private loggerService: LoggerService
+  ) {
+    this.loggerService.setContext('UserQueriesResolver');
+  }
 
   @Query('countUser')
   async countUsers(

@@ -3,12 +3,18 @@ import {
   TransactionsTagsOrderByInput,
 } from '@creation-mono/shared/types';
 import { Args, Int, Query, Resolver } from '@nestjs/graphql';
+import { LoggerService } from '../../logger';
 import { TransactionsTagsService } from '../repository/transactions-tags.service';
 import TransactionsTagsValidationPipe from '../validators';
 
 @Resolver('TransactionsTags')
 export class TransactionsTagsQueriesResolver {
-  constructor(private service: TransactionsTagsService) {}
+  constructor(
+    private service: TransactionsTagsService,
+    private loggerService: LoggerService
+  ) {
+    this.loggerService.setContext('TransactionTagsQueriesResolver');
+  }
 
   @Query('countTransactionsTags')
   async countTransactionsTags(

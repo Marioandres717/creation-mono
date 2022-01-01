@@ -3,6 +3,7 @@ import { UserQueriesResolver } from './resolvers/user-queries.resolver';
 import { UserMutationsResolver } from './resolvers/user-mutations.resolver';
 import { PrismaService } from '@creation-mono/shared/models';
 import { UserService } from './repository/user.service';
+import { LoggerService } from '../logger';
 
 @Module({
   providers: [
@@ -10,6 +11,7 @@ import { UserService } from './repository/user.service';
     UserMutationsResolver,
     UserService,
     PrismaService,
+    LoggerService,
   ],
   exports: [UserService],
 })

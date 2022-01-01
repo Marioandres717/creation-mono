@@ -3,13 +3,19 @@ import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { CurrentUser } from '../../auth/decorators/current-user.decorator';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { LoggerService } from '../../logger';
 import { TagService } from '../repository/tag.service';
 import TagValidationPipe from '../validators';
 
 @Resolver('Tag')
 @UseGuards(JwtAuthGuard)
 export class TagMutationsResolver {
-  constructor(private tagService: TagService) {}
+  constructor(
+    private tagService: TagService,
+    private loggerService: LoggerService
+  ) {
+    this.loggerService.setContext('TagMutationsResolver');
+  }
 
   @Mutation('insertTag')
   async insertTag(

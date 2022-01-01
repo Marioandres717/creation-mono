@@ -3,6 +3,7 @@ import { TransactionMutationsResolver } from './resolvers/transaction-mutations.
 import { TransactionService } from './repository/transaction.service';
 import { TransactionQueriesResolver } from './resolvers/transaction-queries.resolver';
 import { PrismaService } from '@creation-mono/shared/models';
+import { LoggerService } from '../logger';
 
 @Module({
   providers: [
@@ -10,6 +11,7 @@ import { PrismaService } from '@creation-mono/shared/models';
     TransactionService,
     TransactionQueriesResolver,
     PrismaService,
+    LoggerService,
   ],
 })
 export class TransactionModule {}

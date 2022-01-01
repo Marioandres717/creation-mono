@@ -5,13 +5,19 @@ import {
 import { UseGuards } from '@nestjs/common';
 import { Args, Int, Query, Resolver } from '@nestjs/graphql';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { LoggerService } from '../../logger';
 import { TransactionService } from '../repository/transaction.service';
 import TransactionValidationPipe from '../validators';
 
 @Resolver('Transaction')
 @UseGuards(JwtAuthGuard)
 export class TransactionQueriesResolver {
-  constructor(private transactionService: TransactionService) {}
+  constructor(
+    private transactionService: TransactionService,
+    private loggerService: LoggerService
+  ) {
+    this.loggerService.setContext('TransactionQueriesResolver');
+  }
 
   @Query('countTransaction')
   async countCategories(
