@@ -5,6 +5,12 @@ import { PrismaService, Prisma } from '@creation-mono/shared/models';
 export class UserService {
   constructor(private prisma: PrismaService) {}
 
+  simpleUser(userWhereUniqueInput: Prisma.UserWhereUniqueInput) {
+    return this.prisma.user.findFirst({
+      where: userWhereUniqueInput,
+    });
+  }
+
   user(userWhereUniqueInput: Prisma.UserWhereUniqueInput) {
     return this.prisma.user.findFirst({
       where: userWhereUniqueInput,

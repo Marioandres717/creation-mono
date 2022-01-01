@@ -48,15 +48,11 @@ export class AuthQueriesResolver {
     );
 
     if (!authenticatedUser) throw new UnauthorizedException();
-
+    delete authenticatedUser.password;
     const { req } = context.getContext();
     const csrfToken = uuidv4();
     const jwtToken = this.jwtService.sign({
-      id: authenticatedUser.id,
-      email: authenticatedUser.email,
-      username: authenticatedUser.username,
-      isActive: authenticatedUser.isActive,
-      role: authenticatedUser.role,
+      ...authenticatedUser,
       _csrf: csrfToken,
     });
     req.res.cookie('access-token', jwtToken, {

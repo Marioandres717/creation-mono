@@ -10,7 +10,7 @@ export class AuthService {
     { email, username }: Prisma.UserWhereUniqueInput,
     password: string
   ): Promise<User> {
-    const user = await this.userService.user({
+    const user = await this.userService.simpleUser({
       email,
       username,
     });

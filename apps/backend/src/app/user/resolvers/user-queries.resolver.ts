@@ -4,7 +4,7 @@ import { UserService } from '../repository/user.service';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import UserInputValidationPipe from '../validators';
-import { APP_ROLES, Roles } from '../../auth/decorators/roles.decorator';
+import { AppRoles, Roles } from '../../auth/decorators/roles.decorator';
 import { RolesGuard } from '../../auth/guards/roles.guard';
 import { LoggerService } from '../../logger';
 
@@ -26,7 +26,7 @@ export class UserQueriesResolver {
   }
 
   @Query('users')
-  @Roles(APP_ROLES.admin)
+  @Roles(AppRoles.ADMIN)
   @UseGuards(RolesGuard)
   async users(
     @Args('limit', { type: () => Int }) limit: number,

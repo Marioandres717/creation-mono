@@ -31,7 +31,7 @@ export class LoggerService extends ConsoleLogger {
     super.debug(message);
     this.Logger.debug(message);
   }
-  critial(message: string) {
+  critical(message: string) {
     super.error(message);
     this.Logger.crit(message);
   }
