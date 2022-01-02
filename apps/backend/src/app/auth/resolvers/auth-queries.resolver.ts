@@ -46,9 +46,6 @@ export class AuthQueriesResolver {
       user,
       password
     );
-
-    if (!authenticatedUser) throw new UnauthorizedException();
-    delete authenticatedUser.password;
     const { req } = context.getContext();
     const csrfToken = uuidv4();
     const jwtToken = this.jwtService.sign({

@@ -16,14 +16,19 @@ export class AuthService {
     });
 
     if (!user || user.password !== password) throw new UnauthorizedException();
-    user.password = null;
+    delete user.password;
     return user;
   }
 
-  registerUser(user: Prisma.UserCreateInput, password: string): Promise<User> {
-    return this.userService.createUser({
+  async registerUser(
+    user: Prisma.UserCreateInput,
+    password: string
+  ): Promise<User> {
+    const registerUser = await this.userService.createUser({
       ...user,
       password,
     });
+    delete registerUser.password;
+    return registerUser;
   }
 }
