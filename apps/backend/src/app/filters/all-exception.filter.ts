@@ -2,12 +2,14 @@ import {
   ArgumentsHost,
   BadRequestException,
   Catch,
+  ForbiddenException,
   InternalServerErrorException,
   NotImplementedException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { GqlExceptionFilter } from '@nestjs/graphql';
 import {
+  AuthenticationLoginFailure,
   AuthorizationFailure,
   InputValidationFailure,
   LoggerService,
@@ -15,6 +17,7 @@ import {
 
 const HANDLED_EXCEPTIONS = [
   UnauthorizedException,
+  ForbiddenException,
   BadRequestException,
   NotImplementedException,
 ];
@@ -36,6 +39,10 @@ export class AllExceptionFilter implements GqlExceptionFilter {
     const excep = this.instanceOfException(exception);
     switch (excep) {
       case UnauthorizedException: {
+        this.loggerService.warn(new AuthenticationLoginFailure(req, {}).log());
+        break;
+      }
+      case ForbiddenException: {
         this.loggerService.critical(new AuthorizationFailure(req).log());
         break;
       }

@@ -2,11 +2,17 @@ import { UserRole } from '@creation-mono/shared/types';
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Observable } from 'rxjs';
+import { AuthorizationFailure, LoggerService } from '../../logger';
 import { ROLES_KEY } from '../decorators/roles.decorator';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
-  constructor(private reflector: Reflector) {}
+  constructor(
+    private reflector: Reflector,
+    private loggerService: LoggerService
+  ) {
+    this.loggerService.setContext('RolesGuard');
+  }
   canActivate(
     context: ExecutionContext
   ): boolean | Promise<boolean> | Observable<boolean> {
@@ -18,8 +24,12 @@ export class RolesGuard implements CanActivate {
       return true;
     }
 
-    const {req} = context.getArgByIndex(2);
-
-    return requiredRoles.includes(req.user.role);
+    const { req } = context.getArgByIndex(2);
+    const userRole = req.user && req.user.role;
+    if (!requiredRoles.includes(userRole)) {
+      this.loggerService.critical(new AuthorizationFailure(req).log());
+      return false;
+    }
+    return true;
   }
 }
