@@ -1,22 +1,54 @@
 import {
+  ArgumentsHost,
   BadRequestException,
   Catch,
   InternalServerErrorException,
+  NotImplementedException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { GqlExceptionFilter } from '@nestjs/graphql';
+import {
+  AuthorizationFailure,
+  InputValidationFailure,
+  LoggerService,
+} from '../logger';
 
-const HANDLED_EXCEPTIONS = [UnauthorizedException, BadRequestException];
+const HANDLED_EXCEPTIONS = [
+  UnauthorizedException,
+  BadRequestException,
+  NotImplementedException,
+];
 
 @Catch()
 export class AllExceptionFilter implements GqlExceptionFilter {
-  catch(exception: unknown) {
-    const handledExceptions = HANDLED_EXCEPTIONS.map(
-      (excep) => exception instanceof excep
-    ).filter((except) => except === true);
+  constructor(private loggerService: LoggerService) {
+    this.loggerService.setContext('AllExceptionFilter');
+  }
+  instanceOfException(exception) {
+    const [handledException] = HANDLED_EXCEPTIONS.map((excep) =>
+      exception instanceof excep ? excep : undefined
+    ).filter((except) => except);
+    return handledException ? handledException : InternalServerErrorException;
+  }
 
-    return handledExceptions.length
-      ? exception
-      : new InternalServerErrorException();
+  catch(exception: unknown, host: ArgumentsHost) {
+    const { req } = host.getArgByIndex(2);
+    const excep = this.instanceOfException(exception);
+    switch (excep) {
+      case UnauthorizedException: {
+        this.loggerService.critical(new AuthorizationFailure(req).log());
+        break;
+      }
+      case BadRequestException: {
+        this.loggerService.warn(new InputValidationFailure(req).log());
+        break;
+      }
+      case NotImplementedException:
+      case InternalServerErrorException:
+      default: {
+        break;
+      }
+    }
+    return new excep();
   }
 }

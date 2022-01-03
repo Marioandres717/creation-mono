@@ -28,7 +28,7 @@ async function bootstrap() {
   app.useGlobalInterceptors(new TimeoutInterceptor());
   app.useLogger(new LoggerService());
   if (process.env.NODE_ENV === 'production') {
-    app.useGlobalFilters(new AllExceptionFilter());
+    app.useGlobalFilters(new AllExceptionFilter(new LoggerService()));
   }
   const port = process.env.PORT || 3000;
   await app.listen(port);
