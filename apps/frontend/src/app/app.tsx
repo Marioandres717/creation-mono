@@ -7,13 +7,12 @@ import Register from './pages/register/register';
 
 import { Switch, Route } from 'react-router-dom';
 
-
 export function App() {
   return (
     <Switch>
-      <Route path="/register">
+      {/* <Route path="/register">
         <Register />
-      </Route>
+      </Route> */}
       <Route path="/profile">
         <Profile />
       </Route>

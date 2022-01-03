@@ -123,11 +123,6 @@ const Register = () => {
             className={
               form.password2 !== form.password ? styles.disabled : styles.active
             }
-            // className={
-            //   !form.email && !form.password && !form.username && !form.password2
-            //     ? styles.disabled
-            //     : styles.active
-            // }
             type="submit"
             value="Create Account"
             disabled={form.password2 !== form.password}
