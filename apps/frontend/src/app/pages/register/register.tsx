@@ -4,6 +4,8 @@ import styles from './register.module.css';
 import { FormEvent, useState } from 'react';
 import { gql, useMutation, ApolloError } from '@apollo/client';
 import { GraphQLError } from 'graphql';
+import { useHistory } from 'react-router-dom';
+import { format } from 'path';
 
 type RegisterError = {
   message: string;
@@ -32,6 +34,7 @@ const SIGN_UP = gql`
 `;
 
 const Register = () => {
+  const history = useHistory();
   const [form, setform] = useState({
     username: '',
     email: '',
@@ -40,6 +43,9 @@ const Register = () => {
   });
   const [error, setError] = useState<RegisterError | undefined>();
   const [newUser] = useMutation(SIGN_UP, {
+    onCompleted: () => {
+      history.push('/');
+    },
     onError: (error: ApolloError) => {
       const graphQLError: GraphQLError = error.graphQLErrors[0];
       setError(graphQLError?.extensions?.response || error?.message);
@@ -52,7 +58,6 @@ const Register = () => {
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
     newUser({ variables: form });
-    console.log(form);
   };
 
   return (
