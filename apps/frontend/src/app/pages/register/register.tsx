@@ -5,8 +5,6 @@ import { FormEvent, useState } from 'react';
 import { gql, useMutation, ApolloError } from '@apollo/client';
 import { GraphQLError } from 'graphql';
 import { useHistory } from 'react-router-dom';
-import { format } from 'path';
-
 type RegisterError = {
   message: string;
   statusCode: number;
