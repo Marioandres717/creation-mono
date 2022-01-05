@@ -6,6 +6,7 @@ import { ApolloError, gql, useLazyQuery } from '@apollo/client';
 import { GraphQLError } from 'graphql';
 
 import { User } from '@creation-mono/shared/types';
+import { Link } from 'react-router-dom';
 
 /**
  * Types
@@ -102,6 +103,9 @@ const Login: FC<Props> = ({ onLogin }) => {
             ></input>
           </label>
           <input type="submit" value="Login" />
+          <Link to="/register" className={styles.link}>
+            Create Account
+          </Link>
         </form>
       </div>
     </Layout>
