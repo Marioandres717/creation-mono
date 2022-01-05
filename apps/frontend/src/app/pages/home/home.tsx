@@ -1,8 +1,10 @@
 import Layout from '../../components/layout/layout';
+import Transactions from '../../components/transactions/transactions';
+
 const Home = () => {
   return (
     <Layout>
-      <div>Home Page</div>
+      <Transactions />
     </Layout>
   );
 };

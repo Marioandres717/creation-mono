@@ -158,6 +158,29 @@ docker-compose build <compose container> bash
 docker [image|container|volume] [list]
 ```
 
+## Update node_modules from whitin a container
+
+Useful steps to update the node_modules for a docker image to avoid rebuilding the entire project.
+
+1. run `docker ps` and get wallet container id
+
+2. ```
+   docker exec -it [container-id] bash
+
+   npm install
+
+   exit
+   ```
+
+3. Outside the container
+
+   ```
+   # container that changes -> image to commit the changes
+   docker commit [container-id] wallet:latest
+   ```
+
+4. run `docker-compose restart`
+
 # MySQL Workbench
 
 1. SSL required: this needs to be done every time :(
