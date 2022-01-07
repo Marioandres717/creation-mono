@@ -1,23 +1,29 @@
-import { useState, FC, ReactNode, FormEvent } from 'react';
+import { useState, FC, ReactNode, FormEvent, useEffect } from 'react';
 import { PlusIcon } from '@radix-ui/react-icons';
 import * as Tooltip from '@radix-ui/react-tooltip';
 import * as Dialog from '@radix-ui/react-dialog';
-import { gql, useMutation, ApolloError } from '@apollo/client';
+import { gql, useMutation, useLazyQuery } from '@apollo/client';
 import styles from './transactions.module.css';
+import { Category } from '@creation-mono/shared/types';
+import { GETCATEGORY } from '../../services/category';
 
 type Props = {
   children: ReactNode;
 };
 const TRANSACTION = gql`
-  mutation transaction($description: String!, $amount: Decimal!) {
+  mutation transaction(
+    $description: String
+    $amount: Decimal!
+    $date: DateTime
+  ) {
     insertTransaction(
       transaction: {
         description: $description
         amount: $amount
         isExpense: 1
         type: cash
-        categoryId: "79439952-027b-4506-a99e-463e5677a887"
-        date: "2022-01-05T21:27:59.104Z"
+        categoryId: "e98d4b08-0375-48c7-a508-c6eaf957a78f"
+        date: $date
       }
     ) {
       id
@@ -28,7 +34,6 @@ const TRANSACTION = gql`
     }
   }
 `;
-
 const TransactionModal: FC<Props> = ({ children, ...props }) => {
   return (
     <Dialog.Portal>
@@ -50,6 +55,7 @@ const TransactionModal: FC<Props> = ({ children, ...props }) => {
 };
 
 const Transactions = () => {
+  const [getCategory, { data }] = useLazyQuery(GETCATEGORY);
   const [open, onOpenChange] = useState(false);
   const openTransactionModal = () => {
     onOpenChange(true);
@@ -63,11 +69,20 @@ const Transactions = () => {
 
   const addTransaction = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    newTransaction({ variables: form });
+    newTransaction({
+      variables: {
+        description: form.description,
+        amount: form.amount,
+        date: new Date().toISOString(),
+      },
+    });
     setTimeout(() => {
       onOpenChange(false);
     }, 3000);
   };
+  useEffect(() => {
+    getCategory();
+  }, []);
 
   return (
     <div className={styles.transactions}>
@@ -112,6 +127,17 @@ const Transactions = () => {
                   updateform(e.target.value, 'amount');
                 }}
               />
+            </fieldset>
+            <fieldset>
+              <label htmlFor="categories">Categoria</label>
+              <input list="categories-list" />
+              <datalist id="categories-list">
+                {data &&
+                  data.categories &&
+                  data.categories.map((category: Category) => {
+                    return <option key={category.id}>{category.name}</option>;
+                  })}
+              </datalist>
             </fieldset>
             <input type="submit" value="Crear" />
           </form>
