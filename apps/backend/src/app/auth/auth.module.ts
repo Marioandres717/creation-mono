@@ -7,7 +7,7 @@ import { jwtConstants } from './constants';
 import { JwtStrategy } from './strategies/jwt';
 import { AuthQueriesResolver } from './resolvers/auth-queries.resolver';
 import { AuthMutationsResolver } from './resolvers/auth-mutations.resolver';
-import { LoggerService } from '../logger';
+import { LoggerService } from '@creation-mono/shared/logger';
 
 @Module({
   imports: [

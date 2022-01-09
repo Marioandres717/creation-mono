@@ -3,7 +3,7 @@ import { PrismaService } from '@creation-mono/shared/models';
 import { CategoryQueriesResolver } from './resolvers/category-queries.resolver';
 import { CategoryMutationsResolver } from './resolvers/category-mutations.resolver';
 import { CategoryService } from './repository/category.service';
-import { LoggerService } from '../logger';
+import { LoggerService } from '@creation-mono/shared/logger';
 
 @Module({
   providers: [

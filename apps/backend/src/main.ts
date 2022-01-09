@@ -6,7 +6,7 @@ import * as cookieParser from 'cookie-parser';
 import { AppModule } from './app/app.module';
 import { AllExceptionFilter } from './app/filters/all-exception.filter';
 import { TimeoutInterceptor } from './app/interceptors/timeout.interceptor';
-import { LoggerService } from './app/logger';
+import { LoggerService } from '@creation-mono/shared/logger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {

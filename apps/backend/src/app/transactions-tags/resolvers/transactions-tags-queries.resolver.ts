@@ -3,7 +3,7 @@ import {
   TransactionsTagsOrderByInput,
 } from '@creation-mono/shared/types';
 import { Args, Int, Query, Resolver } from '@nestjs/graphql';
-import { LoggerService } from '../../logger';
+import { LoggerService } from '@creation-mono/shared/logger';
 import { TransactionsTagsService } from '../repository/transactions-tags.service';
 import TransactionsTagsValidationPipe from '../validators';
 

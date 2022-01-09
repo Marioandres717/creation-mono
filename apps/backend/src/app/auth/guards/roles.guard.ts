@@ -2,8 +2,9 @@ import { UserRole } from '@creation-mono/shared/types';
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Observable } from 'rxjs';
-import { AuthorizationFailure, LoggerService } from '../../logger';
+import { LoggerService } from '@creation-mono/shared/logger';
 import { ROLES_KEY } from '../decorators/roles.decorator';
+import { AuthorizationFailure } from '../../logger-events/types';
 
 @Injectable()
 export class RolesGuard implements CanActivate {

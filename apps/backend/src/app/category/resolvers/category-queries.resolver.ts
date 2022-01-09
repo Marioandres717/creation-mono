@@ -2,7 +2,7 @@ import { Category, CategoryOrderByInput } from '@creation-mono/shared/types';
 import { UseGuards } from '@nestjs/common';
 import { Query, Args, Int, Resolver } from '@nestjs/graphql';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
-import { LoggerService } from '../../logger';
+import { LoggerService } from '@creation-mono/shared/logger';
 import { CategoryService } from '../repository/category.service';
 import CategoryValidationPipe from '../validators';
 

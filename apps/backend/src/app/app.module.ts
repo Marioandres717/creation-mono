@@ -3,6 +3,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { SharedModelsModule } from '@creation-mono/shared/models';
+import { SharedLoggerModule } from '@creation-mono/shared/logger';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { CategoryModule } from './category/category.module';
@@ -12,7 +13,6 @@ import { TransactionsTagsModule } from './transactions-tags/transactions-tags.mo
 import { DateTimeScalar } from './scalars/date-time.scalar';
 import { DecimalScalar } from './scalars/decimal.scalar';
 import { GqlThrottlerGuard } from './auth/guards/gql-throttle.guard';
-import { LoggerModule } from './logger';
 
 @Module({
   imports: [
@@ -39,7 +39,7 @@ import { LoggerModule } from './logger';
       ttl: Number(process.env.THROTTLE_TTL) || 60,
       limit: Number(process.env.THROTTLE_LIMIT) || 10,
     }),
-    LoggerModule,
+    SharedLoggerModule,
   ],
   providers: [
     DateTimeScalar,

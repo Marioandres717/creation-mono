@@ -2,7 +2,7 @@ import { User } from '@creation-mono/shared/types';
 import { UnauthorizedException } from '@nestjs/common';
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { matches } from 'class-validator';
-import { LoggerService } from '../../logger';
+import { LoggerService } from '@creation-mono/shared/logger';
 import UserValidationPipe from '../../user/validators';
 import { AuthService } from '../repository/auth.service';
 import { passwordRegex, passwordValidationErrorMessage } from '../validators';

@@ -6,7 +6,7 @@ import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import UserInputValidationPipe from '../validators';
 import { AppRoles, Roles } from '../../auth/decorators/roles.decorator';
 import { RolesGuard } from '../../auth/guards/roles.guard';
-import { LoggerService } from '../../logger';
+import { LoggerService } from '@creation-mono/shared/logger';
 
 @Resolver('User')
 @UseGuards(JwtAuthGuard)

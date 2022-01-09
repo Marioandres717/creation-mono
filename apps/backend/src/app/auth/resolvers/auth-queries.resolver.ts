@@ -15,7 +15,7 @@ import { CurrentUser } from '../decorators/current-user.decorator';
 import UserValidationPipe from '../../user/validators';
 import { matches } from 'class-validator';
 import { passwordRegex, passwordValidationErrorMessage } from '../validators';
-import { LoggerService } from '../../logger';
+import { LoggerService } from '@creation-mono/shared/logger';
 
 @Resolver()
 export class AuthQueriesResolver {

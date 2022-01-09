@@ -5,7 +5,7 @@ import { User } from '@creation-mono/shared/types';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import UserInputValidationPipe from '../validators';
-import { LoggerService } from '../../logger';
+import { LoggerService } from '@creation-mono/shared/logger';
 
 @Resolver('User')
 @UseGuards(JwtAuthGuard)

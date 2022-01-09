@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@creation-mono/shared/logger": ["libs/shared/logger/src/index.ts"],
       "@creation-mono/shared/models": ["libs/shared/models/src/index.ts"],
       "@creation-mono/shared/types": ["libs/shared/types/src/index.ts"]
     }

@@ -8,12 +8,12 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { GqlExceptionFilter } from '@nestjs/graphql';
+import { LoggerService } from '@creation-mono/shared/logger';
 import {
   AuthenticationLoginFailure,
   AuthorizationFailure,
   InputValidationFailure,
-  LoggerService,
-} from '../logger';
+} from '../logger-events/types';
 
 const HANDLED_EXCEPTIONS = [
   UnauthorizedException,
