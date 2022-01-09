@@ -1,6 +1,6 @@
 import { ConsoleLogger, Injectable, Scope } from '@nestjs/common';
 import * as Winston from 'winston';
-// import * as papertrail from 'winston-papertrail';
+import * as SlackHook from 'winston-slack-webhook-transport';
 
 @Injectable({ scope: Scope.TRANSIENT })
 export class LoggerService extends ConsoleLogger {
@@ -10,9 +10,14 @@ export class LoggerService extends ConsoleLogger {
     this.Logger = Winston.createLogger({
       level: 'debug',
       format: Winston.format.json(),
-      transports: [new Winston.transports.Console()],
+      transports: [
+        new Winston.transports.Console(),
+        new SlackHook({
+          webhookUrl: process.env.SLACK_HOOK_URL,
+        }),
+      ],
       exitOnError: false,
-      // silent: process.env.NODE_ENV !== 'production' ? true : false,
+      silent: process.env.NODE_ENV !== 'production' ? true : false,
     });
   }
   log(message: string) {
