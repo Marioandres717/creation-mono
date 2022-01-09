@@ -20,7 +20,7 @@ export class LoggerService extends ConsoleLogger {
       silent: process.env.NODE_ENV !== 'production' ? true : false,
     });
   }
-  log(message: string) {
+  info(message: string) {
     super.log(message);
     this.Logger.info(message);
   }

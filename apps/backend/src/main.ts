@@ -7,6 +7,7 @@ import { AppModule } from './app/app.module';
 import { AllExceptionFilter } from './app/filters/all-exception.filter';
 import { TimeoutInterceptor } from './app/interceptors/timeout.interceptor';
 import { LoggerService } from '@creation-mono/shared/logger';
+import { PrismaService } from '@creation-mono/shared/models';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -27,6 +28,8 @@ async function bootstrap() {
   );
   app.useGlobalInterceptors(new TimeoutInterceptor());
   app.useLogger(new LoggerService());
+  const prismaService: PrismaService = app.get(PrismaService);
+  prismaService.enableShutdownHooks(app);
   if (process.env.NODE_ENV === 'production') {
     app.useGlobalFilters(new AllExceptionFilter(new LoggerService()));
   }
