@@ -91,9 +91,12 @@ const Transactions = () => {
             >
               Agregar Transacción
             </Tooltip.Content>
-            <TransactionCards />
           </Tooltip.Root>
         </div>
+        <div className={styles.cards}>
+          <TransactionCards />
+        </div>
+
         <TransactionModal>
           <form className={styles.form} onSubmit={addTransaction}>
             <fieldset>

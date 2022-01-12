@@ -5,10 +5,8 @@
   padding: 2rem;
 }
 .header {
-  flex-direction: column;
   display: flex;
   justify-content: space-between;
-  height: 100%;
 }
 .transaction-title {
   color: var(--white-300);
@@ -60,4 +58,8 @@
 }
 .form_button {
   margin-right: 12px;
+}
+
+.cards {
+  height: 100%;
 }

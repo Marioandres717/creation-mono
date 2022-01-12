@@ -1,5 +1,6 @@
 .cards {
   overflow: auto;
+  height: 97%;
 }
 .card {
   background: linear-gradient(
