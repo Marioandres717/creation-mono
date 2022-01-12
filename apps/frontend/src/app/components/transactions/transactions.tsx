@@ -2,38 +2,17 @@ import { useState, FC, ReactNode, FormEvent, useEffect } from 'react';
 import { PlusIcon } from '@radix-ui/react-icons';
 import * as Tooltip from '@radix-ui/react-tooltip';
 import * as Dialog from '@radix-ui/react-dialog';
-import { gql, useMutation, useLazyQuery } from '@apollo/client';
+import { useMutation, useLazyQuery } from '@apollo/client';
 import styles from './transactions.module.css';
 import { Category } from '@creation-mono/shared/types';
 import { GETCATEGORY } from '../../services/category';
+import { TRANSACTION } from '../../services/transactions';
+import TransactionCards from '../transactionCards/transactionCards';
 
 type Props = {
   children: ReactNode;
 };
-const TRANSACTION = gql`
-  mutation transaction(
-    $description: String
-    $amount: Decimal!
-    $date: DateTime
-  ) {
-    insertTransaction(
-      transaction: {
-        description: $description
-        amount: $amount
-        isExpense: 1
-        type: cash
-        categoryId: "e98d4b08-0375-48c7-a508-c6eaf957a78f"
-        date: $date
-      }
-    ) {
-      id
-      description
-      date
-      amount
-      isExpense
-    }
-  }
-`;
+
 const TransactionModal: FC<Props> = ({ children, ...props }) => {
   return (
     <Dialog.Portal>
@@ -60,7 +39,12 @@ const Transactions = () => {
   const openTransactionModal = () => {
     onOpenChange(true);
   };
-  const [form, setForm] = useState({ description: '', amount: '' });
+  const [form, setForm] = useState({
+    description: '',
+    amount: '',
+    categoryId: '',
+    type: '',
+  });
   const [newTransaction] = useMutation(TRANSACTION);
 
   const updateform = (value: string, type: string) => {
@@ -74,6 +58,8 @@ const Transactions = () => {
         description: form.description,
         amount: form.amount,
         date: new Date().toISOString(),
+        categoryId: form.categoryId,
+        type: form.type,
       },
     });
     setTimeout(() => {
@@ -89,6 +75,7 @@ const Transactions = () => {
       <Dialog.Root open={open} onOpenChange={onOpenChange}>
         <div className={styles.header}>
           <span className={styles['transaction-title']}>Transacciones</span>
+
           <Tooltip.Root delayDuration={0}>
             <Tooltip.Trigger
               className={styles['add-btn']}
@@ -104,12 +91,13 @@ const Transactions = () => {
             >
               Agregar Transacción
             </Tooltip.Content>
+            <TransactionCards />
           </Tooltip.Root>
         </div>
         <TransactionModal>
-          <form onSubmit={addTransaction}>
+          <form className={styles.form} onSubmit={addTransaction}>
             <fieldset>
-              <label htmlFor="description">Tipo</label>
+              <label htmlFor="description">descripción:</label>
               <input
                 id="description"
                 type="text"
@@ -119,7 +107,7 @@ const Transactions = () => {
               />
             </fieldset>
             <fieldset>
-              <label htmlFor="amount_value">Valor</label>
+              <label htmlFor="amount_value">Valor:</label>
               <input
                 id="amount"
                 type="number"
@@ -129,8 +117,21 @@ const Transactions = () => {
               />
             </fieldset>
             <fieldset>
-              <label htmlFor="categories">Categoria</label>
-              <input list="categories-list" />
+              <label htmlFor="categories">categoría:</label>
+              <input
+                list="categories-list"
+                onChange={(e) => {
+                  updateform(
+                    data.categories
+                      .filter(
+                        (category: Category) => e.target.value === category.name
+                      )
+                      .map((getId: Category) => getId.id)
+                      .pop(),
+                    'categoryId'
+                  );
+                }}
+              />
               <datalist id="categories-list">
                 {data &&
                   data.categories &&
@@ -139,7 +140,21 @@ const Transactions = () => {
                   })}
               </datalist>
             </fieldset>
-            <input type="submit" value="Crear" />
+            <fieldset>
+              <label htmlFor="type">tipo:</label>
+              <input
+                list="type_list"
+                onChange={(e) => {
+                  updateform(e.target.value, 'type');
+                }}
+              />
+              <datalist id="type_list">
+                <option>cash</option>
+                <option>cheque</option>
+                <option>pending</option>
+              </datalist>
+            </fieldset>
+            <input className={styles.form_button} type="submit" value="Crear" />
           </form>
         </TransactionModal>
       </Dialog.Root>

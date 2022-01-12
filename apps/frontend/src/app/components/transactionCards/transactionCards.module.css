@@ -1,0 +1,12 @@
+.cards {
+  overflow: auto;
+}
+.card {
+  background: linear-gradient(
+    to bottom right,
+    var(--white-100),
+    var(--white-200)
+  );
+  border: 1px solid var(--dark-gray);
+  border-radius: 5px;
+}

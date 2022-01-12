@@ -19,9 +19,7 @@ const Categories = () => {
   };
   const handleClick = (e: FormEvent) => {
     e.preventDefault();
-    getCategory({
-      variables: data,
-    });
+    getCategory();
   };
   return (
     <div>

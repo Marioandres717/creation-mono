@@ -5,8 +5,10 @@
   padding: 2rem;
 }
 .header {
+  flex-direction: column;
   display: flex;
   justify-content: space-between;
+  height: 100%;
 }
 .transaction-title {
   color: var(--white-300);
@@ -50,4 +52,12 @@
   background-color: rgba(0, 0, 0, 0.44);
   position: fixed;
   inset: 0;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.form_button {
+  margin-right: 12px;
 }
