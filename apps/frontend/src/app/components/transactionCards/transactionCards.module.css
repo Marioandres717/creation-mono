@@ -3,11 +3,36 @@
   height: 97%;
 }
 .card {
+  margin: 10px;
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+}
+.card:hover {
   background: linear-gradient(
     to bottom right,
     var(--white-100),
     var(--white-200)
   );
-  border: 1px solid var(--dark-gray);
   border-radius: 5px;
+  margin: 10px;
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+}
+.button {
+  border-radius: 100%;
+  border: 1px solid var(--white-200);
+  width: 2.5rem;
+  height: 2.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin: 0.5rem 0.5rem 0rem 0rem;
+}
+.ul {
+  list-style-type: none;
+  padding: 0px 20px 0 20px;
+  margin-top: 0px;
 }

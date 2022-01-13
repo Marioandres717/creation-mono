@@ -37,8 +37,17 @@ const GETTRANSACTION = gql`
       amount
       type
       date
+      category {
+        name
+      }
     }
   }
 `;
-
 export { GETTRANSACTION };
+
+const DELETETRANSACTION = gql`
+  mutation deleteTransaction($id: ID) {
+    deleteTransaction(where: { id: $id })
+  }
+`;
+export { DELETETRANSACTION };
