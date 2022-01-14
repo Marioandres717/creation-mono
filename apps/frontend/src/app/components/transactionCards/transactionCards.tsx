@@ -1,14 +1,21 @@
 import { useLazyQuery, useMutation } from '@apollo/client';
 import { Transaction } from '@creation-mono/shared/types';
 import { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
 import { GETTRANSACTION, DELETETRANSACTION } from '../../services/transactions';
-import { Cross2Icon } from '@radix-ui/react-icons';
+import {
+  Cross2Icon,
+  DrawingPinFilledIcon,
+  ExitIcon,
+  QuestionMarkCircledIcon,
+  ReaderIcon,
+  RocketIcon,
+} from '@radix-ui/react-icons';
 import * as Tooltip from '@radix-ui/react-tooltip';
 import styles from './transactionCards.module.css';
+
 type Nullable<T> = T | null;
+
 const TransactionCards = () => {
-  const history = useHistory();
   const [getTransaction, { data }] = useLazyQuery(GETTRANSACTION);
   const [deleteTransaction] = useMutation(DELETETRANSACTION);
   const handleClick = (id: Nullable<string> | undefined) => {
@@ -18,10 +25,24 @@ const TransactionCards = () => {
       },
     });
   };
-
   useEffect(() => {
     getTransaction();
   }, []);
+
+  const selectedIcon = (category: Nullable<string> | undefined) => {
+    if (category === 'Servicios publicos') {
+      return <ReaderIcon />;
+    } else if (category === 'ocio') {
+      return <RocketIcon />;
+    } else if (category === 'pagos') {
+      return <ExitIcon />;
+    } else if (category === 'salud') {
+      return <DrawingPinFilledIcon />;
+    } else {
+      return <QuestionMarkCircledIcon />;
+    }
+  };
+
   return (
     <div className={styles.cards}>
       {data &&
@@ -29,20 +50,31 @@ const TransactionCards = () => {
         data.transactions.map((transaction: Transaction) => {
           return (
             <div className={styles.card} key={transaction.id}>
-              <Tooltip.Root>
-                <Tooltip.Trigger
-                  className={styles.button}
-                  onClick={() => {
-                    handleClick(transaction.id);
-                  }}
-                >
-                  <Cross2Icon />
-                </Tooltip.Trigger>
-              </Tooltip.Root>
+              <Cross2Icon
+                className={styles.button}
+                onClick={() => {
+                  handleClick(transaction.id);
+                }}
+              />
+
               <ul className={styles.ul}>
-                <li>Descripcion: {transaction.description}</li>
-                <li>Valor: {transaction.amount}</li>
-                <li>Categoria: {transaction.category?.name}</li>
+                <Tooltip.Root delayDuration={0}>
+                  <Tooltip.Trigger className={styles.icon}>
+                    {selectedIcon(transaction.category?.name)}
+                  </Tooltip.Trigger>
+                  <Tooltip.Content
+                    side="right"
+                    className={styles.tooltip}
+                    sideOffset={20}
+                  >
+                    {transaction.category?.name}
+                  </Tooltip.Content>
+                </Tooltip.Root>
+
+                <li className={styles.list_value}>$ {transaction.amount}</li>
+                <li className={styles.list_description}>
+                  {transaction.description}
+                </li>
               </ul>
             </div>
           );
