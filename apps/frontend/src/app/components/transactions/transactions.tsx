@@ -12,6 +12,9 @@ import TransactionCards from '../transactionCards/transactionCards';
 type Props = {
   children: ReactNode;
 };
+type onSelect = {
+  onSelect: (id: string | null) => void;
+};
 
 const TransactionModal: FC<Props> = ({ children, ...props }) => {
   return (
@@ -33,7 +36,7 @@ const TransactionModal: FC<Props> = ({ children, ...props }) => {
   );
 };
 
-const Transactions = () => {
+const Transactions = ({ onSelect }: onSelect) => {
   const [getCategory, { data }] = useLazyQuery(GETCATEGORY);
   const [open, onOpenChange] = useState(false);
   const openTransactionModal = () => {
@@ -94,7 +97,11 @@ const Transactions = () => {
           </Tooltip.Root>
         </div>
         <div className={styles.cards}>
-          <TransactionCards />
+          <TransactionCards
+            onSelected={(id) => {
+              onSelect(id);
+            }}
+          />
         </div>
 
         <TransactionModal>
@@ -136,11 +143,9 @@ const Transactions = () => {
                 }}
               />
               <datalist id="categories-list">
-                {data &&
-                  data.categories &&
-                  data.categories.map((category: Category) => {
-                    return <option key={category.id}>{category.name}</option>;
-                  })}
+                {data?.categories.map((category: Category) => {
+                  return <option key={category.id}>{category.name}</option>;
+                })}
               </datalist>
             </fieldset>
             <fieldset>

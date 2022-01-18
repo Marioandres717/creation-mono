@@ -19,7 +19,7 @@
   position: fixed;
   top: 0;
   left: -100%;
-  transition: 850ms;
+  /* transition: 850ms; */
 }
 .nav_menu_active {
   left: 0;

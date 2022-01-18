@@ -51,3 +51,19 @@ const DELETETRANSACTION = gql`
   }
 `;
 export { DELETETRANSACTION };
+
+const PULLTRANSACTION = gql`
+  query getTransaction($id: ID) {
+    transactions(where: { id: $id }) {
+      id
+      description
+      amount
+      type
+      date
+      category {
+        name
+      }
+    }
+  }
+`;
+export { PULLTRANSACTION };
