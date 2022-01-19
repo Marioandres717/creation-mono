@@ -55,7 +55,13 @@ const TransactionCards = ({ onSelected }: Props) => {
     <div className={styles.cards}>
       {data?.transactions.map((transaction: Transaction) => {
         return (
-          <div className={styles.card} key={transaction.id}>
+          <div
+            className={styles.card}
+            key={transaction.id}
+            onClick={() => {
+              onSelectedCard(transaction.id);
+            }}
+          >
             <Cross2Icon
               className={styles.button}
               onClick={() => {
@@ -63,12 +69,7 @@ const TransactionCards = ({ onSelected }: Props) => {
               }}
             />
 
-            <ul
-              className={styles.ul}
-              onClick={() => {
-                onSelectedCard(transaction.id);
-              }}
-            >
+            <ul className={styles.list_container}>
               <Tooltip.Root delayDuration={0}>
                 <Tooltip.Trigger className={styles.icon}>
                   {selectedIcon(transaction.category?.name)}
@@ -82,7 +83,7 @@ const TransactionCards = ({ onSelected }: Props) => {
                 </Tooltip.Content>
               </Tooltip.Root>
 
-              <li className={styles.list_value}>$ {transaction.amount}</li>
+              <li className={styles.list_value}>{transaction.amount}</li>
               <li className={styles.list_description}>
                 {transaction.description}
               </li>

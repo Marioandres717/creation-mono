@@ -7,7 +7,8 @@
   margin: 10px;
   max-height: 43px;
 }
-.card:hover {
+.card_active {
+  position: relative;
   background-color: white;
   box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.2);
   margin: 10px;
@@ -21,7 +22,7 @@
   margin: 0.5rem 0.5rem 0rem 0rem;
   background: none;
 }
-.ul {
+.list_container {
   list-style-type: none;
   padding: 0px 14px 0 22px;
 }

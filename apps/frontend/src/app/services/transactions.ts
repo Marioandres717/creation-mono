@@ -30,8 +30,8 @@ const TRANSACTION = gql`
 export { TRANSACTION };
 
 const GETTRANSACTION = gql`
-  query getTransaction {
-    transactions(where: { isExpense: 1 }) {
+  query getTransaction($id:ID) {
+    transactions(where: { id : $id}) {
       id
       description
       amount
@@ -52,18 +52,4 @@ const DELETETRANSACTION = gql`
 `;
 export { DELETETRANSACTION };
 
-const PULLTRANSACTION = gql`
-  query getTransaction($id: ID) {
-    transactions(where: { id: $id }) {
-      id
-      description
-      amount
-      type
-      date
-      category {
-        name
-      }
-    }
-  }
-`;
-export { PULLTRANSACTION };
+
