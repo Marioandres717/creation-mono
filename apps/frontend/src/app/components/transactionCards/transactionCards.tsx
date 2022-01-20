@@ -1,6 +1,6 @@
 import { useLazyQuery, useMutation } from '@apollo/client';
 import { Transaction } from '@creation-mono/shared/types';
-import { useEffect } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 import { GETTRANSACTION, DELETETRANSACTION } from '../../services/transactions';
 import {
   Cross2Icon,
@@ -21,7 +21,7 @@ type Props = {
 const TransactionCards = ({ onSelected }: Props) => {
   const [getTransaction, { data }] = useLazyQuery(GETTRANSACTION);
   const [deleteTransaction] = useMutation(DELETETRANSACTION);
-
+  const [active, setActive] = useState('');
   const handleClick = (id: Nullable<string> | undefined) => {
     deleteTransaction({
       variables: {
@@ -35,6 +35,7 @@ const TransactionCards = ({ onSelected }: Props) => {
 
   const onSelectedCard = (id: any) => {
     onSelected(id);
+    setActive(id);
   };
 
   const selectedIcon = (category: Nullable<string> | undefined) => {
@@ -56,7 +57,9 @@ const TransactionCards = ({ onSelected }: Props) => {
       {data?.transactions.map((transaction: Transaction) => {
         return (
           <div
-            className={styles.card}
+            className={
+              active === transaction.id ? styles.card_active : styles.card
+            }
             key={transaction.id}
             onClick={() => {
               onSelectedCard(transaction.id);

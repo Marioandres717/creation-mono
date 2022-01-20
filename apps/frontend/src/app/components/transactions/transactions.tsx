@@ -128,8 +128,9 @@ const Transactions = ({ onSelect }: onSelect) => {
             </fieldset>
             <fieldset>
               <label htmlFor="categories">categoría:</label>
-              <input
-                list="categories-list"
+              <select
+                className={styles.select_input}
+                id="categories-list"
                 onChange={(e) => {
                   updateform(
                     data.categories
@@ -141,26 +142,24 @@ const Transactions = ({ onSelect }: onSelect) => {
                     'categoryId'
                   );
                 }}
-              />
-              <datalist id="categories-list">
+              >
                 {data?.categories.map((category: Category) => {
                   return <option key={category.id}>{category.name}</option>;
                 })}
-              </datalist>
+              </select>
             </fieldset>
             <fieldset>
               <label htmlFor="type">tipo:</label>
-              <input
-                list="type_list"
+              <select
+                className={styles.select_input}
                 onChange={(e) => {
                   updateform(e.target.value, 'type');
                 }}
-              />
-              <datalist id="type_list">
+              >
                 <option>cash</option>
                 <option>cheque</option>
                 <option>pending</option>
-              </datalist>
+              </select>
             </fieldset>
             <input className={styles.form_button} type="submit" value="Crear" />
           </form>

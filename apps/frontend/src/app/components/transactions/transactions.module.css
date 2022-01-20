@@ -63,3 +63,7 @@
 .cards {
   height: 100%;
 }
+.select_input {
+  width: 178px;
+  height: 22px;
+}

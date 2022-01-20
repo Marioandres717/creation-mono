@@ -1,12 +1,11 @@
 .transaction_details {
   width: 100%;
-  height: 7rem;
+  height: 16rem;
   border-bottom: 1px solid var(--white-100);
 }
 
 .list_container {
   display: flex;
-  justify-content: space-evenly;
   list-style-type: none;
   padding-inline-start: unset;
   margin-block-start: unset;
@@ -20,7 +19,8 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: space-around;
+  justify-content: flex-end;
+  padding: 1px 0px 18px 12px;
 }
 .list_r {
   height: 100%;
@@ -28,7 +28,8 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: space-around;
+  justify-content: flex-end;
+  padding: 1px 0px 18px 12px;
 }
 
 .title {
