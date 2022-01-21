@@ -18,3 +18,10 @@ const GETCATEGORY = gql`
   }
 `;
 export { GETCATEGORY };
+
+const DELETECATEGORY = gql`
+  mutation deleteCategory($id: ID) {
+    deleteCategory(where: { id: $id })
+  }
+`;
+export { DELETECATEGORY };

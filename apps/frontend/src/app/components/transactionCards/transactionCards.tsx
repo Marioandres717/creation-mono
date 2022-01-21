@@ -1,6 +1,6 @@
 import { useLazyQuery, useMutation } from '@apollo/client';
 import { Transaction } from '@creation-mono/shared/types';
-import { SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { GETTRANSACTION, DELETETRANSACTION } from '../../services/transactions';
 import {
   Cross2Icon,
@@ -39,13 +39,13 @@ const TransactionCards = ({ onSelected }: Props) => {
   };
 
   const selectedIcon = (category: Nullable<string> | undefined) => {
-    if (category === 'Servicios publicos') {
+    if (category === 'Servicios Publicos') {
       return <ReaderIcon />;
-    } else if (category === 'ocio') {
+    } else if (category === 'Ocio') {
       return <RocketIcon />;
-    } else if (category === 'pagos') {
+    } else if (category === 'Pagos') {
       return <ExitIcon />;
-    } else if (category === 'salud') {
+    } else if (category === 'Salud') {
       return <DrawingPinFilledIcon />;
     } else {
       return <QuestionMarkCircledIcon />;

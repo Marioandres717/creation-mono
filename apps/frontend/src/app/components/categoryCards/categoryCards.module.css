@@ -1,0 +1,34 @@
+.cards {
+  overflow: auto;
+  height: 97%;
+}
+.card {
+  position: relative;
+  margin: 10px;
+  min-height: 43px;
+  cursor: pointer;
+}
+.card:hover {
+  position: relative;
+  background-color: white;
+  box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.2);
+  margin: 10px;
+  cursor: pointer;
+}
+.button {
+  right: 0px;
+  position: absolute;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  margin: 0.5rem 0.5rem 0rem 0rem;
+  background: none;
+}
+.list-container {
+  list-style-type: none;
+  padding: 0px 14px 0 22px;
+}
+
+.list-item {
+  padding-top: 12px;
+}

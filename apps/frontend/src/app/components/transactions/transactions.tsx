@@ -48,7 +48,11 @@ const Transactions = ({ onSelect }: onSelect) => {
     categoryId: '',
     type: '',
   });
-  const [newTransaction] = useMutation(TRANSACTION);
+  const [newTransaction] = useMutation(TRANSACTION, {
+    onCompleted: () => {
+      window.location.reload();
+    },
+  });
 
   const updateform = (value: string, type: string) => {
     setForm({ ...form, ...{ [type]: value } });
