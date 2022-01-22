@@ -32,15 +32,17 @@ export class CategoryService {
   }
 
   createCategory(category: Prisma.CategoryCreateInput) {
-    const { name, user } = category;
     return this.prisma.category.create({
-      data: {
-        name,
-        user,
-      },
+      data: category,
       include: {
         user: true,
       },
+    });
+  }
+
+  createCategories(categories: Prisma.CategoryCreateManyInput[]) {
+    return this.prisma.category.createMany({
+      data: categories,
     });
   }
 

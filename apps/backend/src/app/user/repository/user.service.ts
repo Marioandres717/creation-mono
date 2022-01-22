@@ -1,9 +1,11 @@
 import { Injectable } from '@nestjs/common';
+import { CommandBus } from '@nestjs/cqrs';
 import { PrismaService, Prisma } from '@creation-mono/shared/models';
+import { CreateInitialCategoriesCommand } from '../../category/commands/impl/create-initial-categories.command';
 
 @Injectable()
 export class UserService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService, private commandBus: CommandBus) {}
 
   simpleUser(userWhereUniqueInput: Prisma.UserWhereUniqueInput) {
     return this.prisma.user.findFirst({
@@ -55,8 +57,8 @@ export class UserService {
     });
   }
 
-  createUser(user: Prisma.UserCreateInput) {
-    return this.prisma.user.create({
+  async createUser(user: Prisma.UserCreateInput) {
+    const newUser = await this.prisma.user.create({
       data: user,
       include: {
         categories: true,
@@ -64,6 +66,12 @@ export class UserService {
         transactions: true,
       },
     });
+
+    await Promise.all([
+      this.commandBus.execute(new CreateInitialCategoriesCommand(newUser.id)),
+    ]);
+
+    return newUser;
   }
 
   countUsers(user: Prisma.UserWhereInput) {
