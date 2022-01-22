@@ -83,10 +83,6 @@ NX_GRAPHQL_URI=http://localhost:3000/graphql
       ```
       npx nx run shared-models:gen-client
       ```
-   4. Seed db
-      ```
-      npx nx run shared-models:db-seed
-      ```
 
 5. Generate types based on Schema
 

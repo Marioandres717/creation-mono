@@ -57,14 +57,6 @@
         "command": "npx prisma generate --schema ./src/prisma/schema.prisma",
         "cwd": "libs/shared/models"
       }
-    },
-    "db-seed": {
-      "executor": "@nrwl/workspace:run-commands",
-      "outputs": [],
-      "options": {
-        "command": "npx prisma db seed",
-        "cwd": "libs/shared/models"
-      }
     }
   },
   "tags": []
