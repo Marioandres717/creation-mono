@@ -5,9 +5,9 @@ import { Injectable } from '@nestjs/common';
 export class TransactionService {
   constructor(private prisma: PrismaService) {}
 
-  transaction(transactionWhereUniqueInput: Prisma.TransactionWhereUniqueInput) {
+  transaction(transactionWhereInput: Prisma.TransactionWhereInput) {
     return this.prisma.transaction.findFirst({
-      where: transactionWhereUniqueInput,
+      where: transactionWhereInput,
       include: {
         category: true,
         user: true,

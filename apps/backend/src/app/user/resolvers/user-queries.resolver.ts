@@ -19,6 +19,8 @@ export class UserQueriesResolver {
   }
 
   @Query('countUser')
+  @Roles(AppRoles.ADMIN)
+  @UseGuards(RolesGuard)
   async countUsers(
     @Args('where') where: UserInputValidationPipe
   ): Promise<number> {
@@ -38,6 +40,8 @@ export class UserQueriesResolver {
   }
 
   @Query('user')
+  @Roles(AppRoles.ADMIN)
+  @UseGuards(RolesGuard)
   async user(@Args('where') where: UserInputValidationPipe): Promise<User> {
     return await this.userService.user(where);
   }

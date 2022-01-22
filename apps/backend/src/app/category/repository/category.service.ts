@@ -5,7 +5,7 @@ import { Injectable } from '@nestjs/common';
 export class CategoryService {
   constructor(private prisma: PrismaService) {}
 
-  category(categoryWhereUniqueInput: Prisma.CategoryWhereUniqueInput) {
+  category(categoryWhereUniqueInput: Prisma.CategoryWhereInput) {
     return this.prisma.category.findFirst({
       where: categoryWhereUniqueInput,
       include: {
