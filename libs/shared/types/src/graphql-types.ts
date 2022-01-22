@@ -110,6 +110,10 @@ export interface TransactionUpdateInput {
     categoryId?: Nullable<string>;
 }
 
+export interface TransactionsTagsWhereUniqueInput {
+    id?: Nullable<string>;
+}
+
 export interface TransactionsTagsWhereInput {
     id?: Nullable<string>;
     transactionId?: Nullable<string>;
@@ -178,7 +182,8 @@ export interface IQuery {
     transaction(where: TransactionWhereUniqueInput): Nullable<Transaction> | Promise<Nullable<Transaction>>;
     transactions(where: TransactionWhereInput, limit?: Nullable<number>, offset?: Nullable<number>, orderBy?: Nullable<TransactionOrderByInput>): Nullable<Nullable<Transaction>[]> | Promise<Nullable<Nullable<Transaction>[]>>;
     countTransaction(where: TransactionWhereInput): Nullable<number> | Promise<Nullable<number>>;
-    transactionsTags(where: TransactionsTagsWhereInput, limit?: Nullable<number>, offset?: Nullable<number>, orderBy?: Nullable<TransactionsTagsOrderByInput>): Nullable<Nullable<TransactionsTags>[]> | Promise<Nullable<Nullable<TransactionsTags>[]>>;
+    transactionsTags(where?: Nullable<TransactionsTagsWhereUniqueInput>): Nullable<TransactionsTags> | Promise<Nullable<TransactionsTags>>;
+    manyTransactionTags(where: TransactionsTagsWhereInput, limit?: Nullable<number>, offset?: Nullable<number>, orderBy?: Nullable<TransactionsTagsOrderByInput>): Nullable<Nullable<TransactionsTags>[]> | Promise<Nullable<Nullable<TransactionsTags>[]>>;
     countTransactionsTags(where: TransactionsTagsWhereInput): Nullable<number> | Promise<Nullable<number>>;
     me(): Nullable<User> | Promise<Nullable<User>>;
     user(where: UserWhereUniqueInput): Nullable<User> | Promise<Nullable<User>>;

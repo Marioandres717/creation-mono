@@ -1,13 +1,18 @@
 import {
   TransactionsTags,
   TransactionsTagsOrderByInput,
+  User,
 } from '@creation-mono/shared/types';
 import { Args, Int, Query, Resolver } from '@nestjs/graphql';
 import { LoggerService } from '@creation-mono/shared/logger';
 import { TransactionsTagsService } from '../repository/transactions-tags.service';
 import TransactionsTagsValidationPipe from '../validators';
+import { CurrentUser } from '../../auth/decorators/current-user.decorator';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 
 @Resolver('TransactionsTags')
+@UseGuards(JwtAuthGuard)
 export class TransactionsTagsQueriesResolver {
   constructor(
     private service: TransactionsTagsService,
@@ -18,23 +23,38 @@ export class TransactionsTagsQueriesResolver {
 
   @Query('countTransactionsTags')
   async countTransactionsTags(
-    @Args('where') where: TransactionsTagsValidationPipe
+    @Args('where') where: TransactionsTagsValidationPipe,
+    @CurrentUser() user: User
   ): Promise<number> {
-    return await this.service.count(where);
+    return await this.service.count({
+      ...where,
+      transaction: { userId: user.id },
+    });
   }
 
   @Query('transactionsTags')
   async transactionsTags(
+    @Args('where') where: TransactionsTagsValidationPipe,
+    @CurrentUser() user: User
+  ): Promise<TransactionsTags> {
+    const res = await this.service.unique({
+      ...where,
+      transaction: { userId: user.id },
+    });
+    return res;
+  }
+
+  @Query('manyTransactionTags')
+  async manyTransactionTags(
     @Args('limit', { type: () => Int }) limit: number,
     @Args('offset', { type: () => Int }) offset: number,
     @Args('where') where: TransactionsTagsValidationPipe,
-    @Args('orderBy') orderBy: TransactionsTagsOrderByInput
-  ): Promise<TransactionsTags[]> {
-    if (where.id) {
-      const res = await this.service.unique(where);
-      return res ? [res] : [];
-    } else {
-      return await this.service.many(limit, offset, orderBy, where);
-    }
+    @Args('orderBy') orderBy: TransactionsTagsOrderByInput,
+    @CurrentUser() user: User
+  ) {
+    return await this.service.many(limit, offset, orderBy, {
+      ...where,
+      transaction: { userId: user.id },
+    });
   }
 }

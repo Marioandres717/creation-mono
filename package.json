@@ -7,7 +7,11 @@
     "build": "nx build",
     "test": "nx test",
     "prepare": "husky install",
-    "update-all": "nx run shared-models:db-pull && nx run shared-models:gen-client && nx run shared-types:gen-ts"
+    "update-all": "nx run shared-models:db-pull && nx run shared-models:gen-client && nx run shared-types:gen-ts",
+    "gen-ts": "nx run shared-types:gen-ts",
+    "db-pull": "nx run shared-models:db-pull",
+    "db-push": "nx run shared-models:db-push",
+    "gen-prisma-client": "nx run shared-models:gen-client"
   },
   "private": true,
   "dependencies": {

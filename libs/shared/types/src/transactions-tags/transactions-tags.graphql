@@ -1,5 +1,6 @@
 type Query {
-  transactionsTags(
+  transactionsTags(where: TransactionsTagsWhereUniqueInput): TransactionsTags
+  manyTransactionTags(
     where: TransactionsTagsWhereInput!
     limit: Int
     offset: Int
@@ -23,6 +24,10 @@ type TransactionsTags {
   id: ID
   transaction: Transaction
   tag: Tag
+}
+
+input TransactionsTagsWhereUniqueInput {
+  id: ID
 }
 
 input TransactionsTagsWhereInput {

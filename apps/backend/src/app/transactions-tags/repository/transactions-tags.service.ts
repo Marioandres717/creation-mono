@@ -5,7 +5,7 @@ import { Injectable } from '@nestjs/common';
 export class TransactionsTagsService {
   constructor(private prisma: PrismaService) {}
 
-  unique(uniqueInput: Prisma.TransactionsTagsWhereUniqueInput) {
+  unique(uniqueInput: Prisma.TransactionsTagsWhereInput) {
     return this.prisma.transactionsTags.findFirst({
       where: uniqueInput,
       include: {
