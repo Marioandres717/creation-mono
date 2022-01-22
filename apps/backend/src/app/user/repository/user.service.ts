@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import { PrismaService, Prisma } from '@creation-mono/shared/models';
 import { CreateInitialCategoriesCommand } from '../../category/commands/impl/create-initial-categories.command';
+import { CreateInitialTagsCommand } from '../../tag/commands/impl/create-initial-tags.command';
 
 @Injectable()
 export class UserService {
@@ -69,6 +70,7 @@ export class UserService {
 
     await Promise.all([
       this.commandBus.execute(new CreateInitialCategoriesCommand(newUser.id)),
+      this.commandBus.execute(new CreateInitialTagsCommand(newUser.id)),
     ]);
 
     return newUser;

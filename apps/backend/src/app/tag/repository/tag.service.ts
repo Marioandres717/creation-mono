@@ -32,16 +32,16 @@ export class TagService {
   }
 
   createTag(tag: Prisma.TagCreateInput) {
-    const { name, user } = tag;
     return this.prisma.tag.create({
-      data: {
-        name,
-        user,
-      },
+      data: tag,
       include: {
         user: true,
       },
     });
+  }
+
+  createTags(tags: Prisma.TagCreateManyInput[]) {
+    return this.prisma.tag.createMany({ data: tags });
   }
 
   countTags(tag: Prisma.TagWhereInput) {
