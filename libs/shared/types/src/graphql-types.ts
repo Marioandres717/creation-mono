@@ -14,7 +14,6 @@ export type UserRole = "admin" | "basic";
 export interface CategoryWhereInput {
     id?: Nullable<string>;
     name?: Nullable<string>;
-    isSystemDefined?: Nullable<number>;
     userId?: Nullable<string>;
 }
 
@@ -34,14 +33,12 @@ export interface CategoryUpdateInput {
 export interface CategoryOrderByInput {
     id?: Nullable<OrderBy>;
     name?: Nullable<OrderBy>;
-    isSystemDefined?: Nullable<OrderBy>;
     userId?: Nullable<OrderBy>;
 }
 
 export interface TagWhereInput {
     id?: Nullable<string>;
     name?: Nullable<string>;
-    isSystemDefined?: Nullable<number>;
     userId?: Nullable<string>;
 }
 
@@ -61,7 +58,6 @@ export interface TagUpdateInput {
 export interface TagOrderByInput {
     id?: Nullable<OrderBy>;
     name?: Nullable<OrderBy>;
-    isSystemDefined?: Nullable<OrderBy>;
     userId?: Nullable<OrderBy>;
 }
 
@@ -212,14 +208,12 @@ export interface IMutation {
 export interface Category {
     id?: Nullable<string>;
     name?: Nullable<string>;
-    isSystemDefined?: Nullable<number>;
     user?: Nullable<User>;
 }
 
 export interface Tag {
     id?: Nullable<string>;
     name?: Nullable<string>;
-    isSystemDefined?: Nullable<number>;
     user?: Nullable<User>;
 }
 

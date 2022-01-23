@@ -21,14 +21,12 @@ type Mutation {
 type Category {
   id: ID
   name: String
-  isSystemDefined: Int
   user: User
 }
 
 input CategoryWhereInput {
   id: ID
   name: String
-  isSystemDefined: Int
   userId: ID
 }
 
@@ -48,6 +46,5 @@ input CategoryUpdateInput {
 input CategoryOrderByInput {
   id: OrderBy
   name: OrderBy
-  isSystemDefined: OrderBy
   userId: OrderBy
 }

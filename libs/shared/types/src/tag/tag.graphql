@@ -18,14 +18,12 @@ type Mutation {
 type Tag {
   id: ID
   name: String
-  isSystemDefined: Int
   user: User
 }
 
 input TagWhereInput {
   id: ID
   name: String
-  isSystemDefined: Int
   userId: ID
 }
 
@@ -45,6 +43,5 @@ input TagUpdateInput {
 input TagOrderByInput {
   id: OrderBy
   name: OrderBy
-  isSystemDefined: OrderBy
   userId: OrderBy
 }
