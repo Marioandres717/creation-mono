@@ -14,7 +14,7 @@ export class DateTimeScalar implements CustomScalar<string, Date> {
     return new Date(value).toJSON();
   }
 
-  parseLiteral(ast: ValueNode): Date {
+  parseLiteral(ast: ValueNode): Date | null {
     switch (ast.kind) {
       case Kind.INT:
       case Kind.STRING:

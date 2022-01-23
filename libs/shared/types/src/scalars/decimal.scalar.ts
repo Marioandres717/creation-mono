@@ -13,7 +13,7 @@ export class DecimalScalar implements CustomScalar<string, string> {
     return value.toJSON();
   }
 
-  parseLiteral(ast: ValueNode): string {
+  parseLiteral(ast: ValueNode): string | null {
     switch (ast.kind) {
       case Kind.INT:
       case Kind.STRING:
