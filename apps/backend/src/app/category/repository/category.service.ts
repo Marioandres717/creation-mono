@@ -5,7 +5,7 @@ import { Injectable } from '@nestjs/common';
 export class CategoryService {
   constructor(private prisma: PrismaService) {}
 
-  category(categoryWhereUniqueInput: Prisma.CategoryWhereInput) {
+  findUnique(categoryWhereUniqueInput: Prisma.CategoryWhereUniqueInput) {
     return this.prisma.category.findFirst({
       where: categoryWhereUniqueInput,
       include: {
@@ -14,7 +14,7 @@ export class CategoryService {
     });
   }
 
-  categories(
+  findMany(
     limit: number,
     offset: number,
     order: Prisma.CategoryOrderByWithRelationInput,
@@ -31,7 +31,7 @@ export class CategoryService {
     });
   }
 
-  createCategory(category: Prisma.CategoryCreateInput) {
+  create(category: Prisma.CategoryCreateInput) {
     return this.prisma.category.create({
       data: category,
       include: {
@@ -40,19 +40,19 @@ export class CategoryService {
     });
   }
 
-  createCategories(categories: Prisma.CategoryCreateManyInput[]) {
+  createMany(categories: Prisma.CategoryCreateManyInput[]) {
     return this.prisma.category.createMany({
       data: categories,
     });
   }
 
-  countCategories(category: Prisma.CategoryWhereInput) {
+  count(category: Prisma.CategoryWhereInput) {
     return this.prisma.category.count({
       where: category,
     });
   }
 
-  updateCategory(
+  update(
     where: Prisma.CategoryWhereUniqueInput,
     category: Prisma.CategoryUpdateInput
   ) {
@@ -65,18 +65,18 @@ export class CategoryService {
     });
   }
 
-  updateCategories(
+  updateMany(
     where: Prisma.CategoryWhereUniqueInput,
     category: Prisma.CategoryUpdateInput
   ) {
     return this.prisma.category.updateMany({ where, data: category });
   }
 
-  deleteCategory(where: Prisma.CategoryWhereUniqueInput) {
+  delete(where: Prisma.CategoryWhereUniqueInput) {
     return this.prisma.category.delete({ where });
   }
 
-  deleteCategories(where: Prisma.CategoryWhereInput) {
+  deleteMany(where: Prisma.CategoryWhereInput) {
     return this.prisma.category.deleteMany({ where });
   }
 }

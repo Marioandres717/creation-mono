@@ -10,6 +10,6 @@ export class CreateInitialTagsHandler
 
   execute(command: CreateInitialTagsCommand) {
     const { tags } = command;
-    return this.repository.createTags(tags);
+    return this.repository.createMany(tags);
   }
 }

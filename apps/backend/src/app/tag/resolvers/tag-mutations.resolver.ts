@@ -22,7 +22,7 @@ export class TagMutationsResolver {
     @Args('tag') tag: TagValidationPipe,
     @CurrentUser() user: User
   ): Promise<Tag> {
-    return await this.tagService.createTag({
+    return await this.tagService.create({
       ...tag,
       user: { connect: { id: user.id } },
     });
@@ -31,13 +31,34 @@ export class TagMutationsResolver {
   @Mutation('updateTag')
   async updateTag(
     @Args('tag') tag: TagValidationPipe,
-    @Args('where') where: TagValidationPipe
+    @Args('where') where: TagValidationPipe,
+    @CurrentUser() userCtx: User
   ): Promise<Tag> {
-    return await this.tagService.updateTag(where, tag);
+    return await this.tagService.update(
+      {
+        ...where,
+        id_userId: {
+          id: where.id,
+          userId: userCtx.id,
+        },
+      },
+      tag
+    );
   }
 
   @Mutation('deleteTag')
-  async deleteTag(@Args('where') where: TagValidationPipe): Promise<boolean> {
-    return (await this.tagService.deleteTags(where)) ? true : false;
+  async deleteTag(
+    @Args('where') where: TagValidationPipe,
+    @CurrentUser() userCtx: User
+  ): Promise<boolean> {
+    return (await this.tagService.delete({
+      ...where,
+      id_userId: {
+        id: where.id,
+        userId: userCtx.id,
+      },
+    }))
+      ? true
+      : false;
   }
 }

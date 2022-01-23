@@ -5,7 +5,7 @@ import { Injectable } from '@nestjs/common';
 export class TransactionService {
   constructor(private prisma: PrismaService) {}
 
-  transaction(transactionWhereInput: Prisma.TransactionWhereInput) {
+  findUnique(transactionWhereInput: Prisma.TransactionWhereUniqueInput) {
     return this.prisma.transaction.findFirst({
       where: transactionWhereInput,
       include: {
@@ -15,7 +15,7 @@ export class TransactionService {
     });
   }
 
-  transactions(
+  findMany(
     limit: number,
     offset: number,
     order: Prisma.TransactionOrderByWithRelationInput,
@@ -33,7 +33,7 @@ export class TransactionService {
     });
   }
 
-  createTransaction(transaction: Prisma.TransactionCreateInput) {
+  create(transaction: Prisma.TransactionCreateInput) {
     return this.prisma.transaction.create({
       data: transaction,
       include: {
@@ -43,13 +43,13 @@ export class TransactionService {
     });
   }
 
-  countTransactions(transaction: Prisma.TransactionWhereInput) {
+  count(transaction: Prisma.TransactionWhereInput) {
     return this.prisma.transaction.count({
       where: transaction,
     });
   }
 
-  updateTransaction(
+  update(
     where: Prisma.TransactionWhereUniqueInput,
     transaction: Prisma.TransactionUpdateInput
   ) {
@@ -63,18 +63,18 @@ export class TransactionService {
     });
   }
 
-  updateTransactions(
+  updateMany(
     where: Prisma.TransactionWhereUniqueInput,
     transaction: Prisma.TransactionUpdateInput
   ) {
     return this.prisma.transaction.updateMany({ where, data: transaction });
   }
 
-  deleteTransaction(where: Prisma.TransactionWhereUniqueInput) {
+  delete(where: Prisma.TransactionWhereUniqueInput) {
     return this.prisma.transaction.delete({ where });
   }
 
-  deleteTransactions(where: Prisma.TransactionWhereInput) {
+  deleteMany(where: Prisma.TransactionWhereInput) {
     return this.prisma.transaction.deleteMany({ where });
   }
 }

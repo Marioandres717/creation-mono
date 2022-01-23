@@ -26,7 +26,7 @@ export class CategoryQueriesResolver {
     @Args('where') where: CategoryValidationPipe,
     @CurrentUser() user: User
   ): Promise<number> {
-    return await this.categoryService.countCategories({
+    return await this.categoryService.count({
       ...where,
       userId: user.id,
     });
@@ -40,7 +40,7 @@ export class CategoryQueriesResolver {
     @Args('orderBy') orderBy: CategoryOrderByInput,
     @CurrentUser() user: User
   ): Promise<Category[]> {
-    return <Category[]>await this.categoryService.categories(
+    return <Category[]>await this.categoryService.findMany(
       limit,
       offset,
       orderBy,
@@ -56,8 +56,12 @@ export class CategoryQueriesResolver {
     @Args('where') where: CategoryValidationPipe,
     @CurrentUser() user: User
   ): Promise<Category> {
-    return <Category>(
-      await this.categoryService.category({ ...where, userId: user.id })
-    );
+    return <Category>await this.categoryService.findUnique({
+      ...where,
+      id_userId: {
+        id: where.id,
+        userId: user.id,
+      },
+    });
   }
 }

@@ -22,7 +22,7 @@ export class TagQueriesResolver {
     @Args('where') where: TagValidationPipe,
     @CurrentUser() user: User
   ): Promise<number> {
-    return await this.tagService.countTags({ ...where, userId: user.id });
+    return await this.tagService.count({ ...where, userId: user.id });
   }
 
   @Query('tags')
@@ -33,7 +33,7 @@ export class TagQueriesResolver {
     @Args('orderBy') orderBy: TagOrderByInput,
     @CurrentUser() user: User
   ): Promise<Tag[]> {
-    return await this.tagService.tags(limit, offset, orderBy, {
+    return await this.tagService.findMany(limit, offset, orderBy, {
       ...where,
       userId: user.id,
     });
@@ -44,6 +44,11 @@ export class TagQueriesResolver {
     @Args('where') where: TagValidationPipe,
     @CurrentUser() user: User
   ): Promise<Tag> {
-    return await this.tagService.tag({ ...where, userId: user.id });
+    return await this.tagService.findUnique({
+      id_userId: {
+        id: where.id,
+        userId: user.id,
+      },
+    });
   }
 }

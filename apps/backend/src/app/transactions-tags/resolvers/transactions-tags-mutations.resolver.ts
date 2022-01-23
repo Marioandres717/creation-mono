@@ -10,7 +10,7 @@ import TransactionsTagsValidationPipe from '../validators';
 @UseGuards(JwtAuthGuard)
 export class TransactionsTagsMutationsResolver {
   constructor(
-    private service: TransactionsTagsService,
+    private transactionTagsService: TransactionsTagsService,
     private loggerService: LoggerService
   ) {
     this.loggerService.setContext('TransactionTagsMutationsResolver');
@@ -20,7 +20,7 @@ export class TransactionsTagsMutationsResolver {
   async createTransactionsTags(
     @Args('transactionsTags') data: TransactionsTagsValidationPipe
   ): Promise<TransactionsTags> {
-    return await this.service.add({
+    return await this.transactionTagsService.create({
       tag: { connect: { id: data.tagId } },
       transaction: { connect: { id: data.transactionId } },
     });
@@ -31,7 +31,7 @@ export class TransactionsTagsMutationsResolver {
     @Args('transactionsTags') data: TransactionsTagsValidationPipe,
     @Args('where') where: TransactionsTagsValidationPipe
   ): Promise<TransactionsTags> {
-    return await this.service.update(where, {
+    return await this.transactionTagsService.update(where, {
       tag: data.tagId ? { connect: { id: data.tagId } } : undefined,
       transaction: data.transactionId
         ? { connect: { id: data.transactionId } }
@@ -43,13 +43,6 @@ export class TransactionsTagsMutationsResolver {
   async deleteTransactionsTags(
     @Args('where') where: TransactionsTagsValidationPipe
   ): Promise<boolean> {
-    let res;
-    if (where.id) {
-      res = await this.service.delete(where);
-    } else {
-      res = await this.service.deleteMany(where);
-    }
-
-    return res ? true : false;
+    return (await this.transactionTagsService.delete(where)) ? true : false;
   }
 }

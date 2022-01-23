@@ -5,7 +5,7 @@ import { Injectable } from '@nestjs/common';
 export class TransactionsTagsService {
   constructor(private prisma: PrismaService) {}
 
-  unique(uniqueInput: Prisma.TransactionsTagsWhereInput) {
+  findUnique(uniqueInput: Prisma.TransactionsTagsWhereInput) {
     return this.prisma.transactionsTags.findFirst({
       where: uniqueInput,
       include: {
@@ -20,7 +20,7 @@ export class TransactionsTagsService {
     });
   }
 
-  many(
+  findMany(
     limit: number,
     offset: number,
     order: Prisma.TransactionsTagsOrderByWithRelationInput,
@@ -43,7 +43,7 @@ export class TransactionsTagsService {
     });
   }
 
-  add(item: Prisma.TransactionsTagsCreateInput) {
+  create(item: Prisma.TransactionsTagsCreateInput) {
     return this.prisma.transactionsTags.create({
       data: item,
       include: {
@@ -83,8 +83,8 @@ export class TransactionsTagsService {
     });
   }
 
-  updateTransactionTags(
-    where: Prisma.TransactionsTagsWhereUniqueInput,
+  updateMany(
+    where: Prisma.TransactionsTagsWhereInput,
     item: Prisma.TransactionsTagsUpdateInput
   ) {
     return this.prisma.transactionsTags.updateMany({

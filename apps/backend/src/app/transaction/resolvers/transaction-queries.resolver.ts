@@ -26,7 +26,7 @@ export class TransactionQueriesResolver {
     @Args('where') where: TransactionValidationPipe,
     @CurrentUser() user: User
   ): Promise<number> {
-    return await this.transactionService.countTransactions({
+    return await this.transactionService.count({
       ...where,
       userId: user.id,
     });
@@ -40,17 +40,10 @@ export class TransactionQueriesResolver {
     @Args('orderBy') orderBy: TransactionOrderByInput,
     @CurrentUser() user: User
   ): Promise<Transaction[]> {
-    const transactions = (
-      await this.transactionService.transactions(limit, offset, orderBy, {
-        ...where,
-        userId: user.id,
-      })
-    ).map((transaction) => ({
-      ...transaction,
-      amount: transaction.amount as unknown as number,
-    }));
-
-    return transactions;
+    return await this.transactionService.findMany(limit, offset, orderBy, {
+      ...where,
+      userId: user.id,
+    });
   }
 
   @Query('transaction')
@@ -58,13 +51,12 @@ export class TransactionQueriesResolver {
     @Args('transaction') where: TransactionValidationPipe,
     @CurrentUser() user: User
   ): Promise<Transaction> {
-    const transaction = await this.transactionService.transaction({
+    return await this.transactionService.findUnique({
       ...where,
-      userId: user.id,
+      id_userId: {
+        id: where.id,
+        userId: user.id,
+      },
     });
-    return {
-      ...transaction,
-      amount: transaction.amount as unknown as number,
-    };
   }
 }

@@ -22,7 +22,7 @@ export class CategoryMutationsResolver {
     @Args('category') category: CategoryValidationPipe,
     @CurrentUser() user: User
   ): Promise<Category> {
-    return await this.categoryService.createCategory({
+    return await this.categoryService.create({
       ...category,
       user: { connect: { id: user.id } },
     });
@@ -31,15 +31,34 @@ export class CategoryMutationsResolver {
   @Mutation('updateCategory')
   async updateCategory(
     @Args('category') category: CategoryValidationPipe,
-    @Args('where') where: CategoryValidationPipe
+    @Args('where') where: CategoryValidationPipe,
+    @CurrentUser() user: User
   ): Promise<Category> {
-    return await this.categoryService.updateCategory(where, category);
+    return await this.categoryService.update(
+      {
+        ...where,
+        id_userId: {
+          id: where.id,
+          userId: user.id,
+        },
+      },
+      category
+    );
   }
 
   @Mutation('deleteCategory')
   async deleteCategory(
-    @Args('where') where: CategoryValidationPipe
+    @Args('where') where: CategoryValidationPipe,
+    @CurrentUser() user: User
   ): Promise<boolean> {
-    return (await this.categoryService.deleteCategory(where)) ? true : false;
+    return (await this.categoryService.delete({
+      ...where,
+      id_userId: {
+        id: where.id,
+        userId: user.id,
+      },
+    }))
+      ? true
+      : false;
   }
 }

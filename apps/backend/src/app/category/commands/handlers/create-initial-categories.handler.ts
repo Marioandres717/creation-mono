@@ -10,6 +10,6 @@ export class CreateInitialCategoriesHandler
 
   execute(command: CreateInitialCategoriesCommand) {
     const { categories } = command;
-    return this.repository.createCategories(categories);
+    return this.repository.createMany(categories);
   }
 }

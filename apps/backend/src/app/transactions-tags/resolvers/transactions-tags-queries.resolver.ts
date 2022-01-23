@@ -15,7 +15,7 @@ import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 @UseGuards(JwtAuthGuard)
 export class TransactionsTagsQueriesResolver {
   constructor(
-    private service: TransactionsTagsService,
+    private transactionTagsService: TransactionsTagsService,
     private loggerService: LoggerService
   ) {
     this.loggerService.setContext('TransactionTagsQueriesResolver');
@@ -26,7 +26,7 @@ export class TransactionsTagsQueriesResolver {
     @Args('where') where: TransactionsTagsValidationPipe,
     @CurrentUser() user: User
   ): Promise<number> {
-    return await this.service.count({
+    return await this.transactionTagsService.count({
       ...where,
       transaction: { userId: user.id },
     });
@@ -37,11 +37,11 @@ export class TransactionsTagsQueriesResolver {
     @Args('where') where: TransactionsTagsValidationPipe,
     @CurrentUser() user: User
   ): Promise<TransactionsTags> {
-    const res = await this.service.unique({
+    return await this.transactionTagsService.findUnique({
       ...where,
       transaction: { userId: user.id },
+      tag: { userId: user.id },
     });
-    return res;
   }
 
   @Query('manyTransactionTags')
@@ -52,9 +52,10 @@ export class TransactionsTagsQueriesResolver {
     @Args('orderBy') orderBy: TransactionsTagsOrderByInput,
     @CurrentUser() user: User
   ) {
-    return await this.service.many(limit, offset, orderBy, {
+    return await this.transactionTagsService.findMany(limit, offset, orderBy, {
       ...where,
       transaction: { userId: user.id },
+      tag: { userId: user.id },
     });
   }
 }

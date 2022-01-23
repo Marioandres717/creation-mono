@@ -24,7 +24,7 @@ export class UserQueriesResolver {
   async countUsers(
     @Args('where') where: UserInputValidationPipe
   ): Promise<number> {
-    return await this.userService.countUsers(where);
+    return await this.userService.count(where);
   }
 
   @Query('users')
@@ -36,13 +36,13 @@ export class UserQueriesResolver {
     @Args('where') where: UserInputValidationPipe,
     @Args('orderBy') orderBy: UserOrderByInput
   ): Promise<User[]> {
-    return await this.userService.users(limit, offset, orderBy, where);
+    return await this.userService.findMany(limit, offset, orderBy, where);
   }
 
   @Query('user')
   @Roles(AppRoles.ADMIN)
   @UseGuards(RolesGuard)
   async user(@Args('where') where: UserInputValidationPipe): Promise<User> {
-    return await this.userService.user(where);
+    return await this.userService.findUnique(where);
   }
 }

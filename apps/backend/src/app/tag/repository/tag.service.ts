@@ -5,7 +5,7 @@ import { Injectable } from '@nestjs/common';
 export class TagService {
   constructor(private prisma: PrismaService) {}
 
-  tag(tagWhereUniqueInput: Prisma.TagWhereInput) {
+  findUnique(tagWhereUniqueInput: Prisma.TagWhereUniqueInput) {
     return this.prisma.tag.findFirst({
       where: tagWhereUniqueInput,
       include: {
@@ -14,7 +14,7 @@ export class TagService {
     });
   }
 
-  tags(
+  findMany(
     limit: number,
     offset: number,
     order: Prisma.TagOrderByWithRelationInput,
@@ -31,7 +31,7 @@ export class TagService {
     });
   }
 
-  createTag(tag: Prisma.TagCreateInput) {
+  create(tag: Prisma.TagCreateInput) {
     return this.prisma.tag.create({
       data: tag,
       include: {
@@ -40,17 +40,17 @@ export class TagService {
     });
   }
 
-  createTags(tags: Prisma.TagCreateManyInput[]) {
+  createMany(tags: Prisma.TagCreateManyInput[]) {
     return this.prisma.tag.createMany({ data: tags });
   }
 
-  countTags(tag: Prisma.TagWhereInput) {
+  count(tag: Prisma.TagWhereInput) {
     return this.prisma.tag.count({
       where: tag,
     });
   }
 
-  updateTag(where: Prisma.TagWhereUniqueInput, tag: Prisma.TagUpdateInput) {
+  update(where: Prisma.TagWhereUniqueInput, tag: Prisma.TagUpdateInput) {
     return this.prisma.tag.update({
       where,
       data: tag,
@@ -60,15 +60,15 @@ export class TagService {
     });
   }
 
-  updateTags(where: Prisma.TagWhereUniqueInput, tag: Prisma.TagUpdateInput) {
+  updateMany(where: Prisma.TagWhereUniqueInput, tag: Prisma.TagUpdateInput) {
     return this.prisma.tag.updateMany({ where, data: tag });
   }
 
-  deleteTag(where: Prisma.TagWhereUniqueInput) {
+  delete(where: Prisma.TagWhereUniqueInput) {
     return this.prisma.tag.delete({ where });
   }
 
-  deleteTags(where: Prisma.TagWhereInput) {
+  deleteMany(where: Prisma.TagWhereInput) {
     return this.prisma.tag.deleteMany({ where });
   }
 }

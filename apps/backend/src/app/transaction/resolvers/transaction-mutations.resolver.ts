@@ -23,7 +23,7 @@ export class TransactionMutationsResolver {
     @CurrentUser() user: User
   ): Promise<Transaction> {
     const { categoryId, ...trans } = transaction;
-    return await this.transactionService.createTransaction({
+    return await this.transactionService.create({
       ...trans,
       user: { connect: { id: user.id } },
       category: { connect: { id: categoryId } },
@@ -33,21 +33,34 @@ export class TransactionMutationsResolver {
   @Mutation('updateTransaction')
   async updateTransaction(
     @Args('transaction') transaction: TransactionValidationPipe,
-    @Args('where') where: TransactionValidationPipe
+    @Args('where') where: TransactionValidationPipe,
+    @CurrentUser() user: User
   ): Promise<Transaction> {
-    return await this.transactionService.updateTransaction(where, transaction);
+    return await this.transactionService.update(
+      {
+        ...where,
+        id_userId: {
+          id: where.id,
+          userId: user.id,
+        },
+      },
+      transaction
+    );
   }
 
   @Mutation('deleteTransaction')
   async deleteTransaction(
-    @Args('where') where: TransactionValidationPipe
+    @Args('where') where: TransactionValidationPipe,
+    @CurrentUser() user: User
   ): Promise<boolean> {
-    let res;
-    if (where.id) {
-      res = await this.transactionService.deleteTransaction(where);
-    } else {
-      res = await this.transactionService.deleteTransactions(where);
-    }
-    return res ? true : false;
+    return (await this.transactionService.delete({
+      ...where,
+      id_userId: {
+        id: where.id,
+        userId: user.id,
+      },
+    }))
+      ? true
+      : false;
   }
 }

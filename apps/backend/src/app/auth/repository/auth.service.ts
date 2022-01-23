@@ -27,7 +27,7 @@ export class AuthService {
     password: string
   ): Promise<User> {
     const hash = await bcrypt.hash(password, Number(process.env.SALT_ROUNDS));
-    const registerUser = await this.userService.createUser({
+    const registerUser = await this.userService.create({
       ...user,
       password: hash,
     });

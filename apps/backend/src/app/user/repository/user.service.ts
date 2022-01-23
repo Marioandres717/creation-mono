@@ -14,7 +14,7 @@ export class UserService {
     });
   }
 
-  user(userWhereUniqueInput: Prisma.UserWhereUniqueInput) {
+  findUnique(userWhereUniqueInput: Prisma.UserWhereUniqueInput) {
     return this.prisma.user.findFirst({
       where: userWhereUniqueInput,
       include: {
@@ -39,7 +39,7 @@ export class UserService {
     });
   }
 
-  users(
+  findMany(
     limit: number,
     offset: number,
     order: Prisma.UserOrderByWithRelationInput,
@@ -58,7 +58,7 @@ export class UserService {
     });
   }
 
-  async createUser(user: Prisma.UserCreateInput) {
+  async create(user: Prisma.UserCreateInput) {
     const newUser = await this.prisma.user.create({
       data: user,
       include: {
@@ -76,13 +76,13 @@ export class UserService {
     return newUser;
   }
 
-  countUsers(user: Prisma.UserWhereInput) {
+  count(user: Prisma.UserWhereInput) {
     return this.prisma.user.count({
       where: user,
     });
   }
 
-  updateUser(where: Prisma.UserWhereUniqueInput, user: Prisma.UserUpdateInput) {
+  update(where: Prisma.UserWhereUniqueInput, user: Prisma.UserUpdateInput) {
     return this.prisma.user.update({
       where,
       data: user,
@@ -94,21 +94,18 @@ export class UserService {
     });
   }
 
-  updateUsers(
-    where: Prisma.UserWhereUniqueInput,
-    user: Prisma.UserUpdateInput
-  ) {
+  updateMany(where: Prisma.UserWhereUniqueInput, user: Prisma.UserUpdateInput) {
     return this.prisma.user.updateMany({
       where,
       data: user,
     });
   }
 
-  deleteUser(where: Prisma.UserWhereUniqueInput) {
+  delete(where: Prisma.UserWhereUniqueInput) {
     return this.prisma.user.delete({ where });
   }
 
-  deleteUsers(where: Prisma.UserWhereInput) {
+  deleteMany(where: Prisma.UserWhereInput) {
     return this.prisma.user.deleteMany({ where });
   }
 }
