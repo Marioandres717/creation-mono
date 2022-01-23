@@ -26,7 +26,6 @@ type Query {
 }
 
 type Mutation {
-  insertUser(user: UserInsertInput!): User
   updateUser(user: UserUpdateInput!, where: UserWhereUniqueInput!): User
   deleteUser(where: UserWhereUniqueInput!): Boolean
 }

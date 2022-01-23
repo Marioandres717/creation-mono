@@ -17,11 +17,6 @@ export class UserMutationsResolver {
     this.loggerService.setContext('UserMutationsResolver');
   }
 
-  @Mutation('insertUser')
-  async insertUser(@Args('user') user: UserInputValidationPipe): Promise<User> {
-    return await this.userService.createUser(user);
-  }
-
   @Mutation('updateUser')
   async updateUser(
     @Args('user') user: UserInputValidationPipe,

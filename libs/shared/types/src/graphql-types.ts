@@ -205,7 +205,6 @@ export interface IMutation {
     insertTransactionsTags(transactionsTags: TransactionsTagsInsertInput): Nullable<TransactionsTags> | Promise<Nullable<TransactionsTags>>;
     updateTransactionsTags(where: TransactionsTagsWhereInput, transactionsTags: TransactionsTagsUpdateInput): Nullable<TransactionsTags> | Promise<Nullable<TransactionsTags>>;
     deleteTransactionsTags(where: TransactionsTagsWhereInput): Nullable<boolean> | Promise<Nullable<boolean>>;
-    insertUser(user: UserInsertInput): Nullable<User> | Promise<Nullable<User>>;
     updateUser(user: UserUpdateInput, where: UserWhereUniqueInput): Nullable<User> | Promise<Nullable<User>>;
     deleteUser(where: UserWhereUniqueInput): Nullable<boolean> | Promise<Nullable<boolean>>;
 }

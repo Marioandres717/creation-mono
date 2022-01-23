@@ -12,8 +12,8 @@ model User {
   id           String        @unique(map: "id_UNIQUE") @default(uuid()) @db.VarChar(36)
   email        String        @unique(map: "email_UNIQUE") @db.VarChar(50)
   username     String?       @unique(map: "username_UNIQUE") @db.VarChar(20)
-  isActive     Int?          @default(0) @db.TinyInt
-  password     String?       @db.VarChar(50)
+  isActive     Int?          @default(1) @db.TinyInt
+  password     String?       @db.VarChar(80)
   role         User_role?    @default(basic)
   categories   Category[]
   tags         Tag[]
