@@ -2,10 +2,9 @@ import { Args, Int, Query, Resolver } from '@nestjs/graphql';
 import { User, UserOrderByInput } from '@creation-mono/shared/types';
 import { UserService } from '../repository/user.service';
 import { UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { JwtAuthGuard, RolesGuard } from '../../../common/guards';
 import UserInputValidationPipe from '../validators';
-import { AppRoles, Roles } from '../../auth/decorators/roles.decorator';
-import { RolesGuard } from '../../auth/guards/roles.guard';
+import { AppRoles, Roles } from '../../../common/decorators';
 import { LoggerService } from '@creation-mono/shared/logger';
 
 @Resolver('User')

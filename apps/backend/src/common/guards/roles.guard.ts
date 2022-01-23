@@ -4,7 +4,7 @@ import { Reflector } from '@nestjs/core';
 import { Observable } from 'rxjs';
 import { LoggerService } from '@creation-mono/shared/logger';
 import { ROLES_KEY } from '../decorators/roles.decorator';
-import { AuthorizationFailure } from '../../logger-events/types';
+import { AuthorizationFailure } from '../logger-events';
 
 @Injectable()
 export class RolesGuard implements CanActivate {

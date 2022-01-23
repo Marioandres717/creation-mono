@@ -7,9 +7,9 @@ import { Args, Int, Query, Resolver } from '@nestjs/graphql';
 import { LoggerService } from '@creation-mono/shared/logger';
 import { TransactionsTagsService } from '../repository/transactions-tags.service';
 import TransactionsTagsValidationPipe from '../validators';
-import { CurrentUser } from '../../auth/decorators/current-user.decorator';
+import { CurrentUser } from '../../../common/decorators';
 import { UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { JwtAuthGuard } from '../../../common/guards';
 
 @Resolver('TransactionsTags')
 @UseGuards(JwtAuthGuard)

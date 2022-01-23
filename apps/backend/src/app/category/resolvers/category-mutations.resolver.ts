@@ -1,8 +1,8 @@
 import { Category, User } from '@creation-mono/shared/types';
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
-import { CurrentUser } from '../../auth/decorators/current-user.decorator';
-import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { CurrentUser } from '../../../common/decorators';
+import { JwtAuthGuard } from '../../../common/guards';
 import { LoggerService } from '@creation-mono/shared/logger';
 import { CategoryService } from '../repository/category.service';
 import CategoryValidationPipe from '../validators';

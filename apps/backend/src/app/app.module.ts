@@ -2,17 +2,17 @@ import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerModule } from '@nestjs/throttler';
+
 import { SharedModelsModule } from '@creation-mono/shared/models';
 import { SharedLoggerModule } from '@creation-mono/shared/logger';
+import { DateTimeScalar, DecimalScalar } from '@creation-mono/shared/types';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { CategoryModule } from './category/category.module';
 import { TagModule } from './tag/tag.module';
 import { TransactionModule } from './transaction/transaction.module';
 import { TransactionsTagsModule } from './transactions-tags/transactions-tags.module';
-import { DateTimeScalar } from './scalars/date-time.scalar';
-import { DecimalScalar } from './scalars/decimal.scalar';
-import { GqlThrottlerGuard } from './auth/guards/gql-throttle.guard';
+import { GqlThrottlerGuard } from '../common/guards/gql-throttle.guard';
 
 @Module({
   imports: [
@@ -22,8 +22,7 @@ import { GqlThrottlerGuard } from './auth/guards/gql-throttle.guard';
         'libs/shared/types/src/**/*.graphql',
       ],
       cors: {
-        // TODO: Add origin for production and use env variable here
-        origin: ['http://localhost:4200'],
+        origin: [process.env.ORIGIN],
         methods: ['POST'],
         credentials: true,
       },

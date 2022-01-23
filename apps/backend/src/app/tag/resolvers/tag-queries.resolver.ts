@@ -1,11 +1,11 @@
 import { Tag, TagOrderByInput, User } from '@creation-mono/shared/types';
 import { UseGuards } from '@nestjs/common';
 import { Args, Int, Query, Resolver } from '@nestjs/graphql';
-import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { JwtAuthGuard } from '../../../common/guards';
 import { LoggerService } from '@creation-mono/shared/logger';
 import { TagService } from '../repository/tag.service';
 import TagValidationPipe from '../validators';
-import { CurrentUser } from '../../auth/decorators/current-user.decorator';
+import { CurrentUser } from '../../../common/decorators';
 
 @Resolver('Tag')
 @UseGuards(JwtAuthGuard)

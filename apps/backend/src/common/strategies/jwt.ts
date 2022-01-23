@@ -1,10 +1,10 @@
-import { User } from '@creation-mono/shared/types';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { jwtConstants } from '../constants';
-import { JwtService } from '@nestjs/jwt';
-import { UserService } from '../../user/repository/user.service';
+import { User } from '@creation-mono/shared/types';
+import { jwtConstants } from './constants';
+import { UserService } from '../../app/user/repository/user.service';
 
 interface UserInJWT extends User {
   _csrf: string;

@@ -3,10 +3,10 @@ import { UserService } from '../repository/user.service';
 
 import { User } from '@creation-mono/shared/types';
 import { UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { JwtAuthGuard } from '../../../common/guards';
 import UserInputValidationPipe from '../validators';
 import { LoggerService } from '@creation-mono/shared/logger';
-import { CurrentUser } from '../../auth/decorators/current-user.decorator';
+import { CurrentUser } from '../../../common/decorators';
 
 @Resolver('User')
 @UseGuards(JwtAuthGuard)

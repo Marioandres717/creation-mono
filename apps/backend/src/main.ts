@@ -4,8 +4,8 @@ import * as helmet from 'helmet';
 import * as cookieParser from 'cookie-parser';
 
 import { AppModule } from './app/app.module';
-import { AllExceptionFilter } from './app/filters/all-exception.filter';
-import { TimeoutInterceptor } from './app/interceptors/timeout.interceptor';
+import { AllExceptionFilter } from './common/filters/all-exception.filter';
+import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor';
 import { LoggerService } from '@creation-mono/shared/logger';
 import { PrismaService } from '@creation-mono/shared/models';
 

@@ -5,11 +5,11 @@ import {
 } from '@creation-mono/shared/types';
 import { UseGuards } from '@nestjs/common';
 import { Args, Int, Query, Resolver } from '@nestjs/graphql';
-import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { JwtAuthGuard } from '../../../common/guards';
 import { LoggerService } from '@creation-mono/shared/logger';
 import { TransactionService } from '../repository/transaction.service';
 import TransactionValidationPipe from '../validators';
-import { CurrentUser } from '../../auth/decorators/current-user.decorator';
+import { CurrentUser } from '../../../common/decorators';
 
 @Resolver('Transaction')
 @UseGuards(JwtAuthGuard)

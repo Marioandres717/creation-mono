@@ -13,7 +13,7 @@ import {
   AuthenticationLoginFailure,
   AuthorizationFailure,
   InputValidationFailure,
-} from '../logger-events/types';
+} from '../logger-events';
 
 const HANDLED_EXCEPTIONS = [
   UnauthorizedException,
