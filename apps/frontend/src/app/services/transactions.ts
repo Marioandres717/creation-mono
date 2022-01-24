@@ -52,4 +52,20 @@ const DELETETRANSACTION = gql`
 `;
 export { DELETETRANSACTION };
 
+const GETTRANSACTIONCATEGORIES=gql`
+query getTransaction($categoryId:ID) {
+  transactions(where: { categoryId : $categoryId}) {
+    id
+    description
+    amount
+    type
+    date
+    category {
+      name
+    }
+  }
+}
+`;
+export {GETTRANSACTIONCATEGORIES}
+
 

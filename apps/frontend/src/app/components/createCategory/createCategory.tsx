@@ -6,9 +6,13 @@ import * as Dialog from '@radix-ui/react-dialog';
 import { PlusIcon } from '@radix-ui/react-icons';
 import styles from './createCategory.module.css';
 import CategoryCards from '../categoryCards/categoryCards';
+
+type Nullable<T> = T | null;
 type Props = {
   children: ReactNode;
 };
+type onSelected = { onSelected: (id: Nullable<string> | undefined) => void };
+
 const CategoriesModal: FC<Props> = ({ children, ...props }) => {
   return (
     <Dialog.Portal>
@@ -25,7 +29,7 @@ const CategoriesModal: FC<Props> = ({ children, ...props }) => {
   );
 };
 
-const CreateCategory = () => {
+const CreateCategory = ({ onSelected }: onSelected) => {
   const [input, setInput] = useState({ name: '' });
   const [category] = useMutation(INSERTCATEGORY, {
     onCompleted: () => {
@@ -70,7 +74,7 @@ const CreateCategory = () => {
           </Tooltip.Root>
         </div>
         <div>
-          <CategoryCards />
+          <CategoryCards onSelected={(id) => onSelected(id)} />
         </div>
         <CategoriesModal>
           <form onSubmit={onSubmit}>
