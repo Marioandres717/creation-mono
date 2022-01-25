@@ -1,25 +1,20 @@
 import { useLazyQuery } from '@apollo/client';
 import { Transaction } from '@creation-mono/shared/types';
-import { GETTRANSACTIONCATEGORIES } from '../../services/transactions';
+import { GET_TRANSACTION_CATEGORIES } from '../../services/transactions';
 import { useEffect } from 'react';
 import styles from './categoryDetails.module.css';
 
-type Nullable<T> = T | null;
-
 const CategoryDetails = ({ id }: Transaction) => {
-  const [getTransaction, { data }] = useLazyQuery(GETTRANSACTIONCATEGORIES);
-  console.log(id);
+  const [getTransaction, { data }] = useLazyQuery(GET_TRANSACTION_CATEGORIES);
   useEffect(() => {
-    if (id === undefined) {
-      return;
-    } else {
+    if (id) {
       getTransaction({
         variables: {
           categoryId: id,
         },
       });
     }
-  }, [id]);
+  }, [id, getTransaction]);
   return (
     <div className={styles.transaction_details}>
       {data?.transactions.map((transaction: Transaction) => {
@@ -36,7 +31,10 @@ const CategoryDetails = ({ id }: Transaction) => {
             <li className={styles.list}>
               <span className={styles.title}>Fecha y Hora</span>
               <span className={styles.subtitle}>
-                {transaction.date.slice(0, 19)}
+                {transaction.date.slice(0, 10)}
+              </span>
+              <span className={styles.subtitle}>
+                {transaction.date.slice(11, 19)}
               </span>
             </li>
             <li className={styles.list}>

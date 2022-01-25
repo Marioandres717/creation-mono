@@ -1,22 +1,23 @@
-import { GETCATEGORY } from '../../services/category';
-import {
-  createSignalIfSupported,
-  useLazyQuery,
-  useMutation,
-} from '@apollo/client';
+import { GET_CATEGORY } from '../../services/category';
+import { useLazyQuery, useMutation } from '@apollo/client';
 import { Category } from '@creation-mono/shared/types';
-import { useEffect } from 'react';
-import { DELETECATEGORY } from '../../services/category';
+import { useEffect, useState } from 'react';
+import { DELETE_CATEGORY } from '../../services/category';
 import { Cross2Icon } from '@radix-ui/react-icons';
 import styles from './categoryCards.module.css';
 
 type Nullable<T> = T | null;
 type Props = {
-  onSelected: (id: Nullable<string> | undefined) => void;
+  onSelected: (id: string) => void;
 };
 const CategoryCards = ({ onSelected }: Props) => {
-  const [getCategory, { data }] = useLazyQuery(GETCATEGORY);
-  const [deleteCategory] = useMutation(DELETECATEGORY);
+  const [getCategory, { data }] = useLazyQuery(GET_CATEGORY);
+  const [deleteCategory] = useMutation(DELETE_CATEGORY, {
+    onCompleted: () => {
+      window.location.reload();
+    },
+  });
+  const [active, setActive] = useState('');
   const handleClick = (id: Nullable<string> | undefined) => {
     deleteCategory({
       variables: {
@@ -26,10 +27,11 @@ const CategoryCards = ({ onSelected }: Props) => {
   };
   useEffect(() => {
     getCategory();
-  }, []);
+  }, [getCategory]);
 
-  const selectedCard = (id: any) => {
+  const selectedCard = (id: string) => {
     onSelected(id);
+    setActive(id);
   };
   return (
     <div className={styles.cards}>
@@ -37,8 +39,13 @@ const CategoryCards = ({ onSelected }: Props) => {
         return (
           <div
             key={category.id}
-            className={styles.card}
-            onClick={() => selectedCard(category.id)}
+            className={
+              active === category.id ? styles['card-active'] : styles.card
+            }
+            onClick={() => {
+              const idSelected = category.id || '';
+              selectedCard(idSelected);
+            }}
           >
             <Cross2Icon
               onClick={() => handleClick(category.id)}

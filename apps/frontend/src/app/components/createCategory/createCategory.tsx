@@ -1,6 +1,6 @@
 import { useState, FormEvent, FC, ReactNode } from 'react';
 import { useMutation } from '@apollo/client';
-import { INSERTCATEGORY } from '../../services/category';
+import { INSERT_CATEGORY } from '../../services/category';
 import * as Tooltip from '@radix-ui/react-tooltip';
 import * as Dialog from '@radix-ui/react-dialog';
 import { PlusIcon } from '@radix-ui/react-icons';
@@ -11,7 +11,7 @@ type Nullable<T> = T | null;
 type Props = {
   children: ReactNode;
 };
-type onSelected = { onSelected: (id: Nullable<string> | undefined) => void };
+type onSelected = { onSelected: (id: string) => void };
 
 const CategoriesModal: FC<Props> = ({ children, ...props }) => {
   return (
@@ -31,7 +31,7 @@ const CategoriesModal: FC<Props> = ({ children, ...props }) => {
 
 const CreateCategory = ({ onSelected }: onSelected) => {
   const [input, setInput] = useState({ name: '' });
-  const [category] = useMutation(INSERTCATEGORY, {
+  const [category] = useMutation(INSERT_CATEGORY, {
     onCompleted: () => {
       window.location.reload();
     },

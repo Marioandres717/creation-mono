@@ -5,8 +5,8 @@ import styles from './categories.module.css';
 import { useState } from 'react';
 
 const Categories = () => {
-  const [categoryId, setCategoryId] = useState();
-  const onCategorySelect = (id: any) => {
+  const [categoryId, setCategoryId] = useState('');
+  const onCategorySelect = (id: string) => {
     setCategoryId(id);
   };
   return (
