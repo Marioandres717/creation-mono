@@ -7,12 +7,13 @@ const TRANSACTION = gql`
     $date: DateTime
     $type: TransactionType
     $categoryId: ID
+    $isExpense: Int
   ) {
     insertTransaction(
       transaction: {
         description: $description
         amount: $amount
-        isExpense: 1
+        isExpense: $isExpense
         type: $type
         categoryId: $categoryId
         date: $date
@@ -27,11 +28,32 @@ const TRANSACTION = gql`
     }
   }
 `;
-export { TRANSACTION };
 
-const GETTRANSACTION = gql`
-  query getTransaction($id:ID) {
-    transactions(where: { id : $id}) {
+const GET_TRANSACTION = gql`
+  query getTransaction($id: ID) {
+    transactions(where: { id: $id }) {
+      id
+      description
+      amount
+      type
+      date
+      isExpense
+      category {
+        name
+      }
+    }
+  }
+`;
+
+const DELETE_TRANSACTION = gql`
+  mutation deleteTransaction($id: ID) {
+    deleteTransaction(where: { id: $id })
+  }
+`;
+
+const GET_TRANSACTION_CATEGORIES = gql`
+  query getTransaction($categoryId: ID) {
+    transactions(where: { categoryId: $categoryId }) {
       id
       description
       amount
@@ -43,29 +65,10 @@ const GETTRANSACTION = gql`
     }
   }
 `;
-export { GETTRANSACTION };
 
-const DELETETRANSACTION = gql`
-  mutation deleteTransaction($id: ID) {
-    deleteTransaction(where: { id: $id })
-  }
-`;
-export { DELETETRANSACTION };
-
-const GETTRANSACTIONCATEGORIES=gql`
-query getTransaction($categoryId:ID) {
-  transactions(where: { categoryId : $categoryId}) {
-    id
-    description
-    amount
-    type
-    date
-    category {
-      name
-    }
-  }
-}
-`;
-export {GETTRANSACTIONCATEGORIES}
-
-
+export {
+  GET_TRANSACTION,
+  DELETE_TRANSACTION,
+  TRANSACTION,
+  GET_TRANSACTION_CATEGORIES,
+};

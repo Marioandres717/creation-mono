@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-const INSERTCATEGORY = gql`
+const INSERT_CATEGORY = gql`
   mutation Categories($name: String!) {
     insertCategory(category: { name: $name }) {
       id
@@ -8,8 +8,8 @@ const INSERTCATEGORY = gql`
     }
   }
 `;
-export { INSERTCATEGORY };
-const GETCATEGORY = gql`
+
+const GET_CATEGORY = gql`
   query GetCategory {
     categories(where: { isSystemDefined: 0 }) {
       name
@@ -17,11 +17,11 @@ const GETCATEGORY = gql`
     }
   }
 `;
-export { GETCATEGORY };
 
-const DELETECATEGORY = gql`
+const DELETE_CATEGORY = gql`
   mutation deleteCategory($id: ID) {
     deleteCategory(where: { id: $id })
   }
 `;
-export { DELETECATEGORY };
+
+export { INSERT_CATEGORY, DELETE_CATEGORY, GET_CATEGORY };
