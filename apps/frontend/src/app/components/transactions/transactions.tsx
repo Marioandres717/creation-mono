@@ -5,7 +5,7 @@ import * as Dialog from '@radix-ui/react-dialog';
 import { useMutation, useLazyQuery } from '@apollo/client';
 import styles from './transactions.module.css';
 import { Category } from '@creation-mono/shared/types';
-import { GETCATEGORY } from '../../services/category';
+import { GET_CATEGORY } from '../../services/category';
 import { TRANSACTION } from '../../services/transactions';
 import TransactionCards from '../transactionCards/transactionCards';
 
@@ -13,7 +13,7 @@ type Props = {
   children: ReactNode;
 };
 type onSelect = {
-  onSelect: (id: string | null) => void;
+  onSelect: (id: string) => void;
 };
 
 const TransactionModal: FC<Props> = ({ children, ...props }) => {
@@ -37,7 +37,7 @@ const TransactionModal: FC<Props> = ({ children, ...props }) => {
 };
 
 const Transactions = ({ onSelect }: onSelect) => {
-  const [getCategory, { data }] = useLazyQuery(GETCATEGORY);
+  const [getCategory, { data }] = useLazyQuery(GET_CATEGORY);
   const [open, onOpenChange] = useState(false);
   const openTransactionModal = () => {
     onOpenChange(true);
@@ -47,6 +47,7 @@ const Transactions = ({ onSelect }: onSelect) => {
     amount: '',
     categoryId: '',
     type: '',
+    isExpense: 0,
   });
   const [newTransaction] = useMutation(TRANSACTION, {
     onCompleted: () => {
@@ -54,10 +55,9 @@ const Transactions = ({ onSelect }: onSelect) => {
     },
   });
 
-  const updateform = (value: string, type: string) => {
+  const updateform = (value: string | number, type: string) => {
     setForm({ ...form, ...{ [type]: value } });
   };
-
   const addTransaction = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     newTransaction({
@@ -67,6 +67,7 @@ const Transactions = ({ onSelect }: onSelect) => {
         date: new Date().toISOString(),
         categoryId: form.categoryId,
         type: form.type,
+        isExpense: form.isExpense,
       },
     });
     setTimeout(() => {
@@ -75,7 +76,15 @@ const Transactions = ({ onSelect }: onSelect) => {
   };
   useEffect(() => {
     getCategory();
-  }, []);
+  }, [getCategory]);
+
+  const expense = (value: string) => {
+    if (value === 'Si') {
+      return 1;
+    } else {
+      return 0;
+    }
+  };
 
   return (
     <div className={styles.transactions}>
@@ -101,11 +110,7 @@ const Transactions = ({ onSelect }: onSelect) => {
           </Tooltip.Root>
         </div>
         <div className={styles.cards}>
-          <TransactionCards
-            onSelected={(id) => {
-              onSelect(id);
-            }}
-          />
+          <TransactionCards onCardSelected={onSelect} />
         </div>
 
         <TransactionModal>
@@ -147,6 +152,7 @@ const Transactions = ({ onSelect }: onSelect) => {
                   );
                 }}
               >
+                <option></option>
                 {data?.categories.map((category: Category) => {
                   return <option key={category.id}>{category.name}</option>;
                 })}
@@ -160,9 +166,24 @@ const Transactions = ({ onSelect }: onSelect) => {
                   updateform(e.target.value, 'type');
                 }}
               >
+                <option></option>
                 <option>cash</option>
                 <option>cheque</option>
                 <option>pending</option>
+              </select>
+            </fieldset>
+
+            <fieldset>
+              <label htmlFor="isExpense">Es un gasto?:</label>
+              <select
+                className={styles.select_input}
+                onChange={(e) => {
+                  updateform(expense(e.target.value), 'isExpense');
+                }}
+              >
+                <option></option>
+                <option>Si</option>
+                <option>No</option>
               </select>
             </fieldset>
             <input className={styles.form_button} type="submit" value="Crear" />

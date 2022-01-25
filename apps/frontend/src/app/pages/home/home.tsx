@@ -5,13 +5,14 @@ import Transactions from '../../components/transactions/transactions';
 import styles from './home.module.css';
 
 const Home = () => {
-  const [transactionId, setTransactionId] = useState();
-  const onTransactionSelect = (id: any) => {
+  const [transactionId, setTransactionId] = useState('');
+  const onTransactionSelect = (id: string) => {
     setTransactionId(id);
   };
   return (
     <Layout className={styles.layout}>
-      <Transactions onSelect={(id) => onTransactionSelect(id)} />
+      <Transactions onSelect={onTransactionSelect} />
+
       <TransactionDetails id={transactionId} />
     </Layout>
   );

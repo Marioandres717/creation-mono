@@ -1,7 +1,10 @@
 import { useLazyQuery, useMutation } from '@apollo/client';
-import { Transaction } from '@creation-mono/shared/types';
+import { Transaction, Category } from '@creation-mono/shared/types';
 import { useEffect, useState } from 'react';
-import { GETTRANSACTION, DELETETRANSACTION } from '../../services/transactions';
+import {
+  GET_TRANSACTION,
+  DELETE_TRANSACTION,
+} from '../../services/transactions';
 import {
   Cross2Icon,
   DrawingPinFilledIcon,
@@ -12,16 +15,31 @@ import {
 } from '@radix-ui/react-icons';
 import * as Tooltip from '@radix-ui/react-tooltip';
 import styles from './transactionCards.module.css';
+import clsx from 'clsx';
 
 type Nullable<T> = T | null;
 type Props = {
-  onSelected: (id: string | null) => void;
+  onCardSelected: (id: string) => void;
 };
 
-const TransactionCards = ({ onSelected }: Props) => {
-  const [getTransaction, { data }] = useLazyQuery(GETTRANSACTION);
-  const [deleteTransaction] = useMutation(DELETETRANSACTION);
+const TransactionCards = ({ onCardSelected }: Props) => {
+  const [getTransaction, { data }] = useLazyQuery(GET_TRANSACTION, {
+    onCompleted: (data) => {
+      const { transactions } = data;
+      setTransactions(transactions);
+    },
+  });
+
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+
+  const [deleteTransaction] = useMutation(DELETE_TRANSACTION, {
+    onCompleted: () => {
+      window.location.reload();
+    },
+  });
+
   const [active, setActive] = useState('');
+
   const handleClick = (id: Nullable<string> | undefined) => {
     deleteTransaction({
       variables: {
@@ -31,38 +49,45 @@ const TransactionCards = ({ onSelected }: Props) => {
   };
   useEffect(() => {
     getTransaction();
-  }, []);
+  }, [getTransaction]);
 
-  const onSelectedCard = (id: any) => {
-    onSelected(id);
+  const onSelectedCard = (id: string) => {
+    onCardSelected(id);
     setActive(id);
   };
 
-  const selectedIcon = (category: Nullable<string> | undefined) => {
-    if (category === 'Servicios Publicos') {
-      return <ReaderIcon />;
-    } else if (category === 'Ocio') {
-      return <RocketIcon />;
-    } else if (category === 'Pagos') {
-      return <ExitIcon />;
-    } else if (category === 'Salud') {
-      return <DrawingPinFilledIcon />;
-    } else {
-      return <QuestionMarkCircledIcon />;
+  const selectIcon = (category: Nullable<Category> | undefined) => {
+    const name = category?.name || '';
+    let icon;
+    switch (name) {
+      case 'Servicios Publicos':
+        icon = <ReaderIcon />;
+        break;
+      case 'Ocio':
+        icon = <RocketIcon />;
+        break;
+      default:
+        icon = <QuestionMarkCircledIcon />;
     }
+    return icon;
+  };
+
+  const getCardClasses = (id: string) => {
+    return clsx(styles['card'], {
+      [styles['card_active']]: id === active,
+    });
   };
 
   return (
     <div className={styles.cards}>
-      {data?.transactions.map((transaction: Transaction) => {
+      {transactions.map((transaction) => {
         return (
           <div
-            className={
-              active === transaction.id ? styles.card_active : styles.card
-            }
+            className={getCardClasses(transaction.id || '')}
             key={transaction.id}
             onClick={() => {
-              onSelectedCard(transaction.id);
+              const idSelected = transaction.id || '';
+              onSelectedCard(idSelected);
             }}
           >
             <Cross2Icon
@@ -75,7 +100,7 @@ const TransactionCards = ({ onSelected }: Props) => {
             <ul className={styles.list_container}>
               <Tooltip.Root delayDuration={0}>
                 <Tooltip.Trigger className={styles.icon}>
-                  {selectedIcon(transaction.category?.name)}
+                  {selectIcon(transaction.category)}
                 </Tooltip.Trigger>
                 <Tooltip.Content
                   side="right"
