@@ -34,22 +34,6 @@
         "cwd": "libs/shared/models"
       }
     },
-    "migrate-init": {
-      "executor": "@nrwl/workspace:run-commands",
-      "outputs": [],
-      "options": {
-        "command": "npx prisma migrate dev --name initial-migration --create-only --schema ./src/prisma/schema.prisma",
-        "cwd": "libs/shared/models"
-      }
-    },
-    "migrate-apply": {
-      "executor": "@nrwl/workspace:run-commands",
-      "outputs": [],
-      "options": {
-        "command": "npx prisma migrate dev --schema ./src/prisma/schema.prisma",
-        "cwd": "libs/shared/models"
-      }
-    },
     "gen-client": {
       "executor": "@nrwl/workspace:run-commands",
       "outputs": [],

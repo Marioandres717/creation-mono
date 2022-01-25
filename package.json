@@ -11,7 +11,9 @@
     "gen-ts": "nx run shared-types:gen-ts",
     "db-pull": "nx run shared-models:db-pull",
     "db-push": "nx run shared-models:db-push",
-    "gen-prisma-client": "nx run shared-models:gen-client"
+    "gen-prisma-client": "nx run shared-models:gen-client",
+    "create-migration": "npx prisma migrate dev",
+    "deploy-migration": "npx prisma migrate deploy"
   },
   "private": true,
   "dependencies": {
@@ -103,5 +105,8 @@
     "node": "16.13.0",
     "npm": "8.1.4",
     "yarn": "1.22.17"
+  },
+  "prisma": {
+    "schema": "./libs/shared/models/src/prisma/schema.prisma"
   }
 }
