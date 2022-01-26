@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
   nx: nrwl/nx@1.0.0
+  heroku: circleci/heroku@1.2.6
 jobs:
   main:
     docker:
@@ -31,3 +32,6 @@ workflows:
           filters:
             branches:
               ignore: main
+  heroku_deploy:
+    jobs:
+      - heroku/deploy-via-git
