@@ -14,7 +14,7 @@ const TransactionDetails = ({ id }: Transaction) => {
     },
   });
 
-  let transactionTemplate = <div></div>;
+  let transactionTemplate;
   if (transaction?.id) {
     transactionTemplate = (
       <div className={styles.transaction_details}>

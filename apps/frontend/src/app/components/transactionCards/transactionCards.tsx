@@ -23,21 +23,22 @@ type Props = {
 };
 
 const TransactionCards = ({ onCardSelected }: Props) => {
-  const [getTransaction, { data }] = useLazyQuery(GET_TRANSACTION, {
+  const [getTransaction] = useLazyQuery(GET_TRANSACTION, {
     onCompleted: (data) => {
       const { transactions } = data;
       setTransactions(transactions);
     },
   });
-
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  console.log(transactions);
 
   const [deleteTransaction] = useMutation(DELETE_TRANSACTION, {
-    onCompleted: () => {
-      window.location.reload();
+    onCompleted: (data) => {
+      const { transactionDelete } = data;
+      setOnDelete(transactionDelete);
     },
   });
-
+  const [onDelete, setOnDelete] = useState<Transaction[]>([]);
   const [active, setActive] = useState('');
 
   const handleClick = (id: Nullable<string> | undefined) => {
@@ -47,9 +48,12 @@ const TransactionCards = ({ onCardSelected }: Props) => {
       },
     });
   };
+
   useEffect(() => {
     getTransaction();
-  }, [getTransaction]);
+    setTransactions(transactions);
+    setOnDelete(onDelete);
+  }, [getTransaction, onDelete, transactions]);
 
   const onSelectedCard = (id: string) => {
     onCardSelected(id);

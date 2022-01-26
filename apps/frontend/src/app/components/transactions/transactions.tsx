@@ -9,6 +9,7 @@ import { GET_CATEGORY } from '../../services/category';
 import { TRANSACTION } from '../../services/transactions';
 import TransactionCards from '../transactionCards/transactionCards';
 
+type Nullable<T> = T | null;
 type Props = {
   children: ReactNode;
 };
@@ -37,7 +38,13 @@ const TransactionModal: FC<Props> = ({ children, ...props }) => {
 };
 
 const Transactions = ({ onSelect }: onSelect) => {
-  const [getCategory, { data }] = useLazyQuery(GET_CATEGORY);
+  const [getCategory] = useLazyQuery(GET_CATEGORY, {
+    onCompleted: (data) => {
+      const { categories } = data;
+      setCategory(categories);
+    },
+  });
+  const [category, setCategory] = useState<Category[]>([]);
   const [open, onOpenChange] = useState(false);
   const openTransactionModal = () => {
     onOpenChange(true);
@@ -49,13 +56,11 @@ const Transactions = ({ onSelect }: onSelect) => {
     type: '',
     isExpense: 0,
   });
-  const [newTransaction] = useMutation(TRANSACTION, {
-    onCompleted: () => {
-      window.location.reload();
-    },
-  });
-
-  const updateform = (value: string | number, type: string) => {
+  const [newTransaction] = useMutation(TRANSACTION);
+  const updateform = (
+    value: string | number | Nullable<string> | undefined,
+    type: string
+  ) => {
     setForm({ ...form, ...{ [type]: value } });
   };
   const addTransaction = (e: FormEvent<HTMLFormElement>) => {
@@ -72,11 +77,8 @@ const Transactions = ({ onSelect }: onSelect) => {
     });
     setTimeout(() => {
       onOpenChange(false);
-    }, 3000);
+    }, 1000);
   };
-  useEffect(() => {
-    getCategory();
-  }, [getCategory]);
 
   const expense = (value: string) => {
     if (value === 'Si') {
@@ -85,6 +87,33 @@ const Transactions = ({ onSelect }: onSelect) => {
       return 0;
     }
   };
+
+  let selectCategory;
+  if (category) {
+    selectCategory = (
+      <select
+        className={styles.select_input}
+        id="categories-list"
+        onChange={(e) => {
+          updateform(
+            category
+              .filter((category) => e.target.value === category.name)
+              .map((getId) => getId.id)
+              .pop(),
+            'categoryId'
+          );
+        }}
+      >
+        <option></option>
+        {category.map((category) => {
+          return <option key={category.id}>{category.name}</option>;
+        })}
+      </select>
+    );
+  }
+  useEffect(() => {
+    getCategory();
+  }, [getCategory]);
 
   return (
     <div className={styles.transactions}>
@@ -137,26 +166,7 @@ const Transactions = ({ onSelect }: onSelect) => {
             </fieldset>
             <fieldset>
               <label htmlFor="categories">categoría:</label>
-              <select
-                className={styles.select_input}
-                id="categories-list"
-                onChange={(e) => {
-                  updateform(
-                    data.categories
-                      .filter(
-                        (category: Category) => e.target.value === category.name
-                      )
-                      .map((getId: Category) => getId.id)
-                      .pop(),
-                    'categoryId'
-                  );
-                }}
-              >
-                <option></option>
-                {data?.categories.map((category: Category) => {
-                  return <option key={category.id}>{category.name}</option>;
-                })}
-              </select>
+              {selectCategory}
             </fieldset>
             <fieldset>
               <label htmlFor="type">tipo:</label>
