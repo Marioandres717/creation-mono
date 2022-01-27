@@ -7,8 +7,6 @@ import {
 } from '../../services/transactions';
 import {
   Cross2Icon,
-  DrawingPinFilledIcon,
-  ExitIcon,
   QuestionMarkCircledIcon,
   ReaderIcon,
   RocketIcon,
@@ -28,9 +26,9 @@ const TransactionCards = ({ onCardSelected }: Props) => {
       const { transactions } = data;
       setTransactions(transactions);
     },
+    fetchPolicy: 'network-only',
   });
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-  console.log(transactions);
 
   const [deleteTransaction] = useMutation(DELETE_TRANSACTION, {
     onCompleted: (data) => {
@@ -51,9 +49,9 @@ const TransactionCards = ({ onCardSelected }: Props) => {
 
   useEffect(() => {
     getTransaction();
-    setTransactions(transactions);
+    // setTransactions(transactions);
     setOnDelete(onDelete);
-  }, [getTransaction, onDelete, transactions]);
+  }, [getTransaction, onDelete]);
 
   const onSelectedCard = (id: string) => {
     onCardSelected(id);
@@ -81,7 +79,10 @@ const TransactionCards = ({ onCardSelected }: Props) => {
       [styles['card_active']]: id === active,
     });
   };
-
+  const formatNumber = (number: number) => {
+    const formated = new Intl.NumberFormat('en-US').format(number);
+    return formated;
+  };
   return (
     <div className={styles.cards}>
       {transactions.map((transaction) => {
@@ -115,7 +116,9 @@ const TransactionCards = ({ onCardSelected }: Props) => {
                 </Tooltip.Content>
               </Tooltip.Root>
 
-              <li className={styles.list_value}>{transaction.amount}</li>
+              <li className={styles.list_value}>
+                $ {formatNumber(transaction.amount)}
+              </li>
               <li className={styles.list_description}>
                 {transaction.description}
               </li>

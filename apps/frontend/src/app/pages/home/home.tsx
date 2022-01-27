@@ -1,5 +1,6 @@
 import { SetStateAction, useState } from 'react';
 import Layout from '../../components/layout/layout';
+import Navbar from '../../components/navbar/navbar';
 import TransactionDetails from '../../components/transactionDetails/transactionDetails';
 import Transactions from '../../components/transactions/transactions';
 import styles from './home.module.css';
@@ -11,6 +12,8 @@ const Home = () => {
   };
   return (
     <Layout className={styles.layout}>
+      <Navbar />
+
       <Transactions onSelect={onTransactionSelect} />
 
       <TransactionDetails id={transactionId} />
