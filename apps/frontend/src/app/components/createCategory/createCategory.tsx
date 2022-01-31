@@ -7,7 +7,6 @@ import { PlusIcon } from '@radix-ui/react-icons';
 import styles from './createCategory.module.css';
 import CategoryCards from '../categoryCards/categoryCards';
 
-type Nullable<T> = T | null;
 type Props = {
   children: ReactNode;
 };

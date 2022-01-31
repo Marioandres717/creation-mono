@@ -1,12 +1,9 @@
 import { useLazyQuery, useMutation } from '@apollo/client';
 import { Transaction, Category } from '@creation-mono/shared/types';
 import { useEffect, useState } from 'react';
+import { GET_TRANSACTION, EDIT_TRANSACTION } from '../../services/transactions';
 import {
-  GET_TRANSACTION,
-  DELETE_TRANSACTION,
-} from '../../services/transactions';
-import {
-  Cross2Icon,
+  Pencil1Icon,
   QuestionMarkCircledIcon,
   ReaderIcon,
   RocketIcon,
@@ -30,28 +27,13 @@ const TransactionCards = ({ onCardSelected }: Props) => {
   });
   const [transactions, setTransactions] = useState<Transaction[]>([]);
 
-  const [deleteTransaction] = useMutation(DELETE_TRANSACTION, {
-    onCompleted: (data) => {
-      const { transactionDelete } = data;
-      setOnDelete(transactionDelete);
-    },
-  });
-  const [onDelete, setOnDelete] = useState<Transaction[]>([]);
   const [active, setActive] = useState('');
-
-  const handleClick = (id: Nullable<string> | undefined) => {
-    deleteTransaction({
-      variables: {
-        id: id,
-      },
-    });
-  };
+  const [editTransaction] = useMutation(EDIT_TRANSACTION);
 
   useEffect(() => {
     getTransaction();
     // setTransactions(transactions);
-    setOnDelete(onDelete);
-  }, [getTransaction, onDelete]);
+  }, [getTransaction]);
 
   const onSelectedCard = (id: string) => {
     onCardSelected(id);
@@ -95,12 +77,7 @@ const TransactionCards = ({ onCardSelected }: Props) => {
               onSelectedCard(idSelected);
             }}
           >
-            <Cross2Icon
-              className={styles.button}
-              onClick={() => {
-                handleClick(transaction.id);
-              }}
-            />
+            <Pencil1Icon className={styles.button} />
 
             <ul className={styles.list_container}>
               <Tooltip.Root delayDuration={0}>

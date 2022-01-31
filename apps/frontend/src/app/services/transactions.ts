@@ -66,9 +66,29 @@ const GET_TRANSACTION_CATEGORIES = gql`
   }
 `;
 
+const EDIT_TRANSACTION= gql`
+mutation editTransaction(){
+  updateTransaction(where:{
+    id: $id
+  }, transaction:{description: $description
+    amount: $amount
+    isExpense: $isExpense
+    type: $type
+    categoryId: $categoryId
+    date: $date}){
+      description
+      id
+      type
+      amount
+      category{name}
+    }
+}
+`
+
 export {
   GET_TRANSACTION,
   DELETE_TRANSACTION,
   TRANSACTION,
   GET_TRANSACTION_CATEGORIES,
+  EDIT_TRANSACTION
 };
