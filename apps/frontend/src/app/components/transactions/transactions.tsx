@@ -117,31 +117,30 @@ const Transactions = ({ onSelect }: onSelect) => {
 
   return (
     <div className={styles.transactions}>
+      <div className={styles.header}>
+        <span className={styles['transaction-title']}>Transacciones</span>
+
+        <Tooltip.Root delayDuration={0}>
+          <Tooltip.Trigger
+            className={styles['add-btn']}
+            onClick={openTransactionModal}
+          >
+            <PlusIcon />
+          </Tooltip.Trigger>
+
+          <Tooltip.Content
+            className={styles.tooltip}
+            side="right"
+            sideOffset={10}
+          >
+            Agregar Transacción
+          </Tooltip.Content>
+        </Tooltip.Root>
+      </div>
+      <div className={styles.cards}>
+        <TransactionCards onCardSelected={onSelect} />
+      </div>
       <Dialog.Root open={open} onOpenChange={onOpenChange}>
-        <div className={styles.header}>
-          <span className={styles['transaction-title']}>Transacciones</span>
-
-          <Tooltip.Root delayDuration={0}>
-            <Tooltip.Trigger
-              className={styles['add-btn']}
-              onClick={openTransactionModal}
-            >
-              <PlusIcon />
-            </Tooltip.Trigger>
-
-            <Tooltip.Content
-              className={styles.tooltip}
-              side="right"
-              sideOffset={10}
-            >
-              Agregar Transacción
-            </Tooltip.Content>
-          </Tooltip.Root>
-        </div>
-        <div className={styles.cards}>
-          <TransactionCards onCardSelected={onSelect} />
-        </div>
-
         <TransactionModal>
           <form className={styles.form} onSubmit={addTransaction}>
             <fieldset>

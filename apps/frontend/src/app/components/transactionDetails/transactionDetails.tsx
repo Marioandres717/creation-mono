@@ -12,6 +12,7 @@ type Nullable<T> = T | null;
 type Props = {
   children: ReactNode;
 };
+
 const DeleteTransactionModal: FC<Props> = ({ children, ...props }) => {
   return (
     <Dialog.Portal>
@@ -58,6 +59,7 @@ const TransactionDetails = ({ id }: Transaction) => {
   };
 
   let transactionTemplate;
+
   if (transaction?.id) {
     transactionTemplate = (
       <div className={styles.transaction_details}>
@@ -89,6 +91,7 @@ const TransactionDetails = ({ id }: Transaction) => {
               {transaction.category?.name}
             </span>
           </li>
+
           <li>
             <Dialog.Root open={openModal} onOpenChange={setOpenModal}>
               <Tooltip.Root>
@@ -106,14 +109,13 @@ const TransactionDetails = ({ id }: Transaction) => {
                   Eliminar Transaccion
                 </Tooltip.Content>
               </Tooltip.Root>
+
               <DeleteTransactionModal>
-                <form action="">
-                  <span>Quieres eliminar la transaccion?</span>
-                  <button onClick={() => onDeleteClick(transaction.id)}>
-                    yes
-                  </button>
-                  <button>no</button>
-                </form>
+                <span>Quieres eliminar la transaccion?</span>
+                <button onClick={() => onDeleteClick(transaction.id)}>
+                  yes
+                </button>
+                <Dialog.Close>no</Dialog.Close>
               </DeleteTransactionModal>
             </Dialog.Root>
           </li>
@@ -126,7 +128,7 @@ const TransactionDetails = ({ id }: Transaction) => {
     if (id) {
       getTransaction({ variables: { id } });
     }
-  }, [id, getTransaction, onDelete]);
+  }, [id, onDelete]);
 
   return (
     <div className={styles.transaction_details}>{transactionTemplate}</div>

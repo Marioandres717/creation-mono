@@ -1,7 +1,7 @@
-import { useLazyQuery, useMutation } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client';
 import { Transaction, Category } from '@creation-mono/shared/types';
 import { useEffect, useState } from 'react';
-import { GET_TRANSACTION, EDIT_TRANSACTION } from '../../services/transactions';
+import { GET_TRANSACTION } from '../../services/transactions';
 import {
   Pencil1Icon,
   QuestionMarkCircledIcon,
@@ -11,6 +11,7 @@ import {
 import * as Tooltip from '@radix-ui/react-tooltip';
 import styles from './transactionCards.module.css';
 import clsx from 'clsx';
+import TransactionModal from '../transactionModal/transactionModal';
 
 type Nullable<T> = T | null;
 type Props = {
@@ -25,15 +26,23 @@ const TransactionCards = ({ onCardSelected }: Props) => {
     },
     fetchPolicy: 'network-only',
   });
+
   const [transactions, setTransactions] = useState<Transaction[]>([]);
 
+  const [selected, setSelected] = useState<Transaction>({});
+
   const [active, setActive] = useState('');
-  const [editTransaction] = useMutation(EDIT_TRANSACTION);
+
+  const [openModal, setOpenModal] = useState(false);
+
+  const openFormModal = (transaction: Transaction) => {
+    setOpenModal(true);
+    setSelected(transaction);
+  };
 
   useEffect(() => {
     getTransaction();
-    // setTransactions(transactions);
-  }, [getTransaction]);
+  }, []);
 
   const onSelectedCard = (id: string) => {
     onCardSelected(id);
@@ -61,10 +70,12 @@ const TransactionCards = ({ onCardSelected }: Props) => {
       [styles['card_active']]: id === active,
     });
   };
+
   const formatNumber = (number: number) => {
     const formated = new Intl.NumberFormat('en-US').format(number);
     return formated;
   };
+
   return (
     <div className={styles.cards}>
       {transactions.map((transaction) => {
@@ -77,7 +88,12 @@ const TransactionCards = ({ onCardSelected }: Props) => {
               onSelectedCard(idSelected);
             }}
           >
-            <Pencil1Icon className={styles.button} />
+            <Pencil1Icon
+              className={styles.button}
+              onClick={() => {
+                openFormModal(transaction);
+              }}
+            />
 
             <ul className={styles.list_container}>
               <Tooltip.Root delayDuration={0}>
@@ -103,6 +119,11 @@ const TransactionCards = ({ onCardSelected }: Props) => {
           </div>
         );
       })}
+      <TransactionModal
+        openModal={openModal}
+        transaction={selected}
+        setOpenModal={setOpenModal}
+      />
     </div>
   );
 };
