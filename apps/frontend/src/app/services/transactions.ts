@@ -67,7 +67,13 @@ const GET_TRANSACTION_CATEGORIES = gql`
 `;
 
 const EDIT_TRANSACTION= gql`
-mutation editTransaction(){
+mutation editTransaction( $description: String
+  $amount: Decimal!
+  $date: DateTime
+  $type: TransactionType
+  $categoryId: ID
+  $isExpense: Int
+  $id: ID){
   updateTransaction(where:{
     id: $id
   }, transaction:{description: $description
