@@ -39,6 +39,7 @@ const GET_TRANSACTION = gql`
       date
       isExpense
       category {
+        id
         name
       }
     }

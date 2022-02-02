@@ -25,3 +25,9 @@
   width: 178px;
   height: 22px;
 }
+.modal fieldset {
+  border: none;
+}
+.form_button {
+  margin-right: 12px;
+}

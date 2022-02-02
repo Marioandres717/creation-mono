@@ -2,12 +2,12 @@ import { useState, useEffect, FormEvent } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { useMutation, useLazyQuery } from '@apollo/client';
 import styles from './transactionModal.module.css';
-import { Category, Transaction } from '@creation-mono/shared/types';
+import { Category, TransactionUpdateInput } from '@creation-mono/shared/types';
 import { GET_CATEGORY } from '../../services/category';
 import { EDIT_TRANSACTION, TRANSACTION } from '../../services/transactions';
 
 type Props = {
-  transaction?: Transaction;
+  transaction?: TransactionUpdateInput;
   openModal: boolean;
   setOpenModal: React.Dispatch<boolean>;
 };
@@ -34,7 +34,7 @@ const TransactionModal = ({
         description: selectedTransaction.description,
         amount: selectedTransaction.amount,
         date: new Date().toISOString(),
-        categoryId: selectedTransaction.category?.id,
+        categoryId: selectedTransaction.categoryId,
         type: selectedTransaction.type,
         isExpense: selectedTransaction.isExpense,
       },
@@ -52,10 +52,7 @@ const TransactionModal = ({
   });
   const [category, setCategory] = useState<Category[]>([]);
 
-  const updateform = (
-    value: string | number | Nullable<string> | undefined,
-    type: string
-  ) => {
+  const updateform = (value: string | number, type: string) => {
     setSelectedTransaction({ ...selectedTransaction, ...{ [type]: value } });
   };
 
@@ -72,7 +69,6 @@ const TransactionModal = ({
   }, [transaction]);
 
   useEffect(() => {
-    console.log(transaction);
     getCategory();
   }, []);
 
@@ -114,13 +110,12 @@ const TransactionModal = ({
                 <select
                   className={styles.select_input}
                   id="categories-list"
-                  value={selectedTransaction.category?.name || ''}
                   onChange={(e) => {
                     updateform(
                       category
                         .filter((category) => e.target.value === category.name)
                         .map((getId) => getId.id)
-                        .pop(),
+                        .pop() || '',
                       'categoryId'
                     );
                   }}
@@ -163,7 +158,9 @@ const TransactionModal = ({
                 type="submit"
                 value="Listo"
               />
-              <Dialog.Close>Cancelar</Dialog.Close>
+              <Dialog.Close className={styles.form_button}>
+                Cancelar
+              </Dialog.Close>
             </form>
           </div>
         </Dialog.Content>
