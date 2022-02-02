@@ -1,6 +1,5 @@
 .container {
-  width: 80px;
-  overflow: hidden;
+  width: 50px;
   transition: 200ms;
 }
 .container-active {
@@ -13,11 +12,6 @@
   display: flex;
   justify-content: start;
   align-items: center;
-}
-.menu_bars {
-  margin: 0 2rem 0 2rem;
-  font-size: 2rem;
-  background: none;
 }
 
 .nav_text {
@@ -45,6 +39,7 @@
 .nav-menu-items {
   width: 100%;
   padding-inline-start: 0px;
+  overflow: hidden;
 }
 .navbar_toggle {
   background-color: black;

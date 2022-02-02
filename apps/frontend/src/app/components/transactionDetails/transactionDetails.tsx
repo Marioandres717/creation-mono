@@ -99,7 +99,7 @@ const TransactionDetails = ({ id }: Transaction) => {
                   className={styles['delete-btn']}
                   onClick={handleClick}
                 >
-                  <TrashIcon />
+                  <TrashIcon color="red" />
                 </Tooltip.Trigger>
                 <Tooltip.Content
                   className={styles.tooltip}

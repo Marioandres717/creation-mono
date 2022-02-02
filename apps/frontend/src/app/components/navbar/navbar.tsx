@@ -15,9 +15,7 @@ const Navbar = () => {
   return (
     <div className={sidebar ? styles['container-active'] : styles.container}>
       <div className={styles.navbar}>
-        <div className={styles.menu_bars}>
-          <ListBulletIcon className={styles.icons} onClick={showSidebar} />
-        </div>
+        <ListBulletIcon className={styles.icons} onClick={showSidebar} />
       </div>
       <nav>
         <ul className={styles['nav-menu-items']}>
