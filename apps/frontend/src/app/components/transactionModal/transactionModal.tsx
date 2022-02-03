@@ -134,6 +134,7 @@ const TransactionModal = ({
                     updateform(e.target.value, 'type');
                   }}
                 >
+                  <option disabled></option>
                   <option>cash</option>
                   <option>cheque</option>
                   <option>pending</option>
@@ -149,18 +150,21 @@ const TransactionModal = ({
                     updateform(expense(e.target.value), 'isExpense');
                   }}
                 >
+                  <option></option>
                   <option>Si</option>
                   <option>No</option>
                 </select>
               </fieldset>
-              <input
-                className={styles.form_button}
-                type="submit"
-                value="Listo"
-              />
-              <Dialog.Close className={styles.form_button}>
-                Cancelar
-              </Dialog.Close>
+              <fieldset>
+                <input
+                  className={styles.form_button}
+                  type="submit"
+                  value="Listo"
+                />
+                <Dialog.Close className={styles.form_button}>
+                  Cancelar
+                </Dialog.Close>
+              </fieldset>
             </form>
           </div>
         </Dialog.Content>
