@@ -12,6 +12,7 @@ import * as Tooltip from '@radix-ui/react-tooltip';
 import styles from './transactionCards.module.css';
 import clsx from 'clsx';
 import TransactionModal from '../transactionModal/transactionModal';
+import FormatAmount from '../formats/formatAmount';
 
 type Nullable<T> = T | null;
 type Props = {
@@ -71,11 +72,6 @@ const TransactionCards = ({ onCardSelected }: Props) => {
     });
   };
 
-  const formatNumber = (number: number) => {
-    const formated = new Intl.NumberFormat('en-US').format(number);
-    return formated;
-  };
-
   return (
     <div className={styles.cards}>
       {transactions.map((transaction) => {
@@ -109,9 +105,11 @@ const TransactionCards = ({ onCardSelected }: Props) => {
                 </Tooltip.Content>
               </Tooltip.Root>
 
-              <li className={styles.list_value}>
-                $ {formatNumber(transaction.amount)}
-              </li>
+              <FormatAmount
+                className={styles.list_value}
+                amount={transaction.amount}
+              />
+
               <li className={styles.list_description}>
                 {transaction.description}
               </li>
