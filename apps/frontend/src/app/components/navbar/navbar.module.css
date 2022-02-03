@@ -4,7 +4,7 @@
 }
 .container-active {
   transition: 200ms ease;
-  width: 180px;
+  min-width: 180px;
 }
 .navbar {
   background-color: var(--white);

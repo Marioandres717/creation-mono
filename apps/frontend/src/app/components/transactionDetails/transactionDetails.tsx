@@ -8,6 +8,8 @@ import { GET_TRANSACTION } from '../../services/transactions';
 import styles from './transactionDetails.module.css';
 import { TrashIcon } from '@radix-ui/react-icons';
 import { DELETE_TRANSACTION } from '../../services/transactions';
+import FormatDate from '../formats/formatDate';
+import FormatAmount from '../formats/formatAmount';
 type Nullable<T> = T | null;
 type Props = {
   children: ReactNode;
@@ -62,64 +64,79 @@ const TransactionDetails = ({ id }: Transaction) => {
 
   if (transaction?.id) {
     transactionTemplate = (
-      <div className={styles.transaction_details}>
-        <ul className={styles.list_container} key={transaction.id}>
-          <li className={styles.list}>
-            <span className={styles.title}>Descripción</span>
-            <span className={styles.subtitle}>{transaction.description}</span>
-          </li>
-          <li className={styles.list}>
-            <span className={styles.title}>Valor</span>
-            <span className={styles.subtitle}>$ {transaction.amount}</span>
-          </li>
-          <li className={styles.list}>
-            <span className={styles.title}>Fecha y Hora</span>
-            <span className={styles.subtitle}>
-              {transaction.date.slice(0, 10)}
-            </span>
-            <span className={styles.subtitle}>
-              {transaction.date.slice(11, 19)}
-            </span>
-          </li>
-          <li className={styles.list}>
-            <span className={styles.title}>Tipo</span>
-            <span className={styles.subtitle}>{transaction.type}</span>
-          </li>
-          <li className={styles.list_r}>
-            <span className={styles.title}>Categoría</span>
-            <span className={styles.subtitle}>
+      <div className={styles['transaction-container']}>
+        <div className={styles.section}>
+          <div className={styles.elements}>
+            <span className={styles['category-name']}>
               {transaction.category?.name}
             </span>
-          </li>
+            <FormatDate date={transaction.date} className={styles.date} />
+          </div>
+          <div className={styles.elements}>
+            <FormatAmount
+              amount={transaction.amount}
+              className={
+                transaction.isExpense === 1
+                  ? styles['amount-red']
+                  : styles['amount-green']
+              }
+            />
+            <span className={styles['description-type']}>
+              {transaction.type}
+            </span>
+          </div>
+          <div className={styles.elements}>
+            <span className={styles['description-type']}>
+              {transaction.description}
+            </span>
+            <div>
+              <Dialog.Root open={openModal} onOpenChange={setOpenModal}>
+                <Tooltip.Root>
+                  <Tooltip.Trigger
+                    className={styles['delete-btn']}
+                    onClick={handleClick}
+                  >
+                    <TrashIcon color="red" />
+                  </Tooltip.Trigger>
+                  <Tooltip.Content
+                    className={styles.tooltip}
+                    side="left"
+                    sideOffset={10}
+                  >
+                    Eliminar Transaccion
+                  </Tooltip.Content>
+                </Tooltip.Root>
 
-          <li>
-            <Dialog.Root open={openModal} onOpenChange={setOpenModal}>
-              <Tooltip.Root>
-                <Tooltip.Trigger
-                  className={styles['delete-btn']}
-                  onClick={handleClick}
-                >
-                  <TrashIcon color="red" />
-                </Tooltip.Trigger>
-                <Tooltip.Content
-                  className={styles.tooltip}
-                  side="left"
-                  sideOffset={10}
-                >
-                  Eliminar Transaccion
-                </Tooltip.Content>
-              </Tooltip.Root>
-
-              <DeleteTransactionModal>
-                <span>Quieres eliminar la transaccion?</span>
-                <button onClick={() => onDeleteClick(transaction.id)}>
-                  yes
-                </button>
-                <Dialog.Close>no</Dialog.Close>
-              </DeleteTransactionModal>
-            </Dialog.Root>
-          </li>
-        </ul>
+                <DeleteTransactionModal>
+                  <div className={styles['modal-content']}>
+                    <span className={styles['modal-text']}>
+                      Quieres eliminar la transaccion?
+                    </span>
+                    <fieldset>
+                      <button
+                        className={styles['button-yes']}
+                        onClick={() => onDeleteClick(transaction.id)}
+                      >
+                        Si
+                      </button>
+                      <Dialog.Close className={styles['button-no']}>
+                        No
+                      </Dialog.Close>
+                    </fieldset>
+                  </div>
+                </DeleteTransactionModal>
+              </Dialog.Root>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h3>Ingresos</h3>
+          <span>30,000,000</span>
+        </div>
+        <div>
+          <h3>Gastos</h3>
+          <span>30,000,000</span>
+        </div>
       </div>
     );
   }
