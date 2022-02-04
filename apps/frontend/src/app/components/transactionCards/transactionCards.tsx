@@ -3,7 +3,6 @@ import { Transaction, Category } from '@creation-mono/shared/types';
 import { useEffect, useState } from 'react';
 import { GET_TRANSACTION } from '../../services/transactions';
 import {
-  Pencil1Icon,
   QuestionMarkCircledIcon,
   ReaderIcon,
   RocketIcon,
@@ -11,7 +10,6 @@ import {
 import * as Tooltip from '@radix-ui/react-tooltip';
 import styles from './transactionCards.module.css';
 import clsx from 'clsx';
-import TransactionModal from '../transactionModal/transactionModal';
 import FormatAmount from '../formats/formatAmount';
 
 type Nullable<T> = T | null;
@@ -30,16 +28,7 @@ const TransactionCards = ({ onCardSelected }: Props) => {
 
   const [transactions, setTransactions] = useState<Transaction[]>([]);
 
-  const [selected, setSelected] = useState<Transaction>({});
-
   const [active, setActive] = useState('');
-
-  const [openModal, setOpenModal] = useState(false);
-
-  const openFormModal = (transaction: Transaction) => {
-    setOpenModal(true);
-    setSelected(transaction);
-  };
 
   useEffect(() => {
     getTransaction();
@@ -84,13 +73,6 @@ const TransactionCards = ({ onCardSelected }: Props) => {
               onSelectedCard(idSelected);
             }}
           >
-            <Pencil1Icon
-              className={styles.button}
-              onClick={() => {
-                openFormModal(transaction);
-              }}
-            />
-
             <ul className={styles.list_container}>
               <Tooltip.Root delayDuration={0}>
                 <Tooltip.Trigger className={styles.icon}>
@@ -106,7 +88,11 @@ const TransactionCards = ({ onCardSelected }: Props) => {
               </Tooltip.Root>
 
               <FormatAmount
-                className={styles.list_value}
+                className={
+                  transaction.isExpense === 1
+                    ? styles['amount-red']
+                    : styles['amount-green']
+                }
                 amount={transaction.amount}
               />
 
@@ -117,11 +103,6 @@ const TransactionCards = ({ onCardSelected }: Props) => {
           </div>
         );
       })}
-      <TransactionModal
-        openModal={openModal}
-        transaction={selected}
-        setOpenModal={setOpenModal}
-      />
     </div>
   );
 };
