@@ -49,6 +49,7 @@ const TransactionModal = ({
       const { categories } = data;
       setCategory(categories);
     },
+    fetchPolicy: 'network-only',
   });
   const [category, setCategory] = useState<Category[]>([]);
 

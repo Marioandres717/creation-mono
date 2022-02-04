@@ -23,9 +23,9 @@ const FormatDate: FC<Props> = ({ date, className }) => {
   const newDate = new Date(date);
   const formattedDate =
     newDate.getDate() +
-    '-' +
+    ' ' +
     months[newDate.getMonth()] +
-    '-' +
+    ' ' +
     newDate.getFullYear();
   return <span className={formatClass}>{formattedDate}</span>;
 };

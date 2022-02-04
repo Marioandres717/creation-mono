@@ -1,15 +1,17 @@
-import { useState, ReactNode, FC } from 'react';
+import { useState, ReactNode, FC, useEffect } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import * as Tooltip from '@radix-ui/react-tooltip';
+import { Pencil1Icon, TrashIcon } from '@radix-ui/react-icons';
 import { useLazyQuery, useMutation } from '@apollo/client';
 import { Transaction } from '@creation-mono/shared/types';
-import { useEffect } from 'react';
-import { GET_TRANSACTION } from '../../services/transactions';
+import {
+  GET_TRANSACTION,
+  DELETE_TRANSACTION,
+} from '../../services/transactions';
 import styles from './transactionDetails.module.css';
-import { TrashIcon } from '@radix-ui/react-icons';
-import { DELETE_TRANSACTION } from '../../services/transactions';
 import FormatDate from '../formats/formatDate';
 import FormatAmount from '../formats/formatAmount';
+import TransactionModal from '../transactionModal/transactionModal';
 type Nullable<T> = T | null;
 type Props = {
   children: ReactNode;
@@ -32,18 +34,26 @@ const DeleteTransactionModal: FC<Props> = ({ children, ...props }) => {
 };
 
 const TransactionDetails = ({ id }: Transaction) => {
-  const [transaction, setTransactionsDetails] = useState<Transaction>();
+  const [transaction, setTransactionsDetails] = useState<Transaction>({});
   const [getTransaction] = useLazyQuery(GET_TRANSACTION, {
     onCompleted: (data) => {
       const { transactions } = data;
       setTransactionsDetails(transactions[0]);
     },
+    fetchPolicy: 'network-only',
   });
 
   const [openModal, setOpenModal] = useState(false);
   const handleClick = () => {
     setOpenModal(!openModal);
   };
+
+  const [open, setOpen] = useState(false);
+  const onClick = (transaction: Transaction) => {
+    setOpen(true);
+    setTransactionsDetails(transaction);
+  };
+
   const [deleteTransaction] = useMutation(DELETE_TRANSACTION, {
     onCompleted: (data) => {
       const { transactionDelete } = data;
@@ -89,7 +99,25 @@ const TransactionDetails = ({ id }: Transaction) => {
             <span className={styles['description-type']}>
               {transaction.description}
             </span>
+
             <div>
+              <Tooltip.Root>
+                <Tooltip.Trigger
+                  className={styles['delete-btn']}
+                  onClick={() => {
+                    onClick(transaction);
+                  }}
+                >
+                  <Pencil1Icon color="var(--white-300)" />
+                </Tooltip.Trigger>
+                <Tooltip.Content
+                  className={styles.tooltip}
+                  side="left"
+                  sideOffset={10}
+                >
+                  Editar Transacción
+                </Tooltip.Content>
+              </Tooltip.Root>
               <Dialog.Root open={openModal} onOpenChange={setOpenModal}>
                 <Tooltip.Root>
                   <Tooltip.Trigger
@@ -103,24 +131,24 @@ const TransactionDetails = ({ id }: Transaction) => {
                     side="left"
                     sideOffset={10}
                   >
-                    Eliminar Transaccion
+                    Eliminar Transacción
                   </Tooltip.Content>
                 </Tooltip.Root>
 
                 <DeleteTransactionModal>
                   <div className={styles['modal-content']}>
                     <span className={styles['modal-text']}>
-                      Quieres eliminar la transaccion?
+                      Quieres eliminar la transacción?
                     </span>
                     <fieldset>
                       <button
                         className={styles['button-yes']}
                         onClick={() => onDeleteClick(transaction.id)}
                       >
-                        Si
+                        Eliminar
                       </button>
                       <Dialog.Close className={styles['button-no']}>
-                        No
+                        Cancelar
                       </Dialog.Close>
                     </fieldset>
                   </div>
@@ -137,6 +165,11 @@ const TransactionDetails = ({ id }: Transaction) => {
           <h3>Gastos</h3>
           <span>30,000,000</span>
         </div>
+        <TransactionModal
+          transaction={transaction}
+          openModal={open}
+          setOpenModal={setOpen}
+        />
       </div>
     );
   }
