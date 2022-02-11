@@ -30,8 +30,8 @@ const TRANSACTION = gql`
 `;
 
 const GET_TRANSACTION = gql`
-  query getTransaction($id: ID) {
-    transactions(where: { id: $id }) {
+  query getTransaction($id: ID, $asc: OrderBy) {
+    transactions(where: { id: $id }, orderBy: { date: $asc }) {
       id
       description
       amount
