@@ -1,3 +1,6 @@
 .layout {
   display: flex;
 }
+.container {
+  width: 74%;
+}

@@ -6,25 +6,25 @@ import {
   LineChart,
   Line,
   XAxis,
-  YAxis,
   CartesianGrid,
   Legend,
   Tooltip,
 } from 'recharts';
+import styles from './transactionLineChart.module.css';
 
 const months = [
-  'January',
-  'February',
-  'March',
-  'April',
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
   'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
 ];
 
 const TransactionsLineChart = () => {
@@ -44,12 +44,9 @@ const TransactionsLineChart = () => {
       (reducedData: Transaction['date'], transaction: Transaction) => {
         const type = transaction.isExpense ? 'expense' : 'entry';
         const formatDate = new Date(transaction.date);
-        const date =
-          formatDate.getDate() +
-          ' ' +
-          months[formatDate.getMonth()] +
-          ' ' +
-          formatDate.getFullYear();
+        const date = formatDate.getDate() + ' ' + months[formatDate.getMonth()];
+        // ' ' +
+        // formatDate.getFullYear();
 
         if (reducedData[date]) {
           reducedData[date][type] = parseFloat(
@@ -77,20 +74,19 @@ const TransactionsLineChart = () => {
     processGraphData(transactionsData);
   }, [transactionsData]);
   return (
-    <div>
+    <div className={styles['line-chart']}>
       <LineChart
         width={500}
         height={200}
         data={resultsData}
         margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
       >
-        <CartesianGrid strokeDasharray="0 0" />
+        <CartesianGrid strokeDasharray="5 5" vertical={false} />
         <XAxis dataKey="date" fontSize={10} />
-        <YAxis fontSize={10} />
         <Tooltip />
-        <Legend />
-        <Line type="monotone" dataKey="expense" stroke="red" />
-        <Line type="monotone" dataKey="entry" stroke="green" />
+        <Legend wrapperStyle={{ fontSize: 12 }} />
+        <Line type="monotone" dataKey="expense" stroke="var(--theme-red)" />
+        <Line type="monotone" dataKey="entry" stroke="var(--theme-blue)" />
       </LineChart>
     </div>
   );

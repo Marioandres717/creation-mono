@@ -16,10 +16,11 @@ const Home = () => {
       <Navbar />
 
       <Transactions onSelect={onTransactionSelect} />
+      <div className={styles.container}>
+        <TransactionDetails id={transactionId} />
 
-      <TransactionDetails id={transactionId} />
-
-      <TransactionsLineChart />
+        <TransactionsLineChart />
+      </div>
     </Layout>
   );
 };
