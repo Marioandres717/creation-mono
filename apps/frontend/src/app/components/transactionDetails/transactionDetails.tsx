@@ -12,7 +12,6 @@ import styles from './transactionDetails.module.css';
 import FormatDate from '../formats/formatDate';
 import FormatAmount from '../formats/formatAmount';
 import TransactionModal from '../transactionModal/transactionModal';
-type Nullable<T> = T | null;
 type Props = {
   children: ReactNode;
 };
@@ -55,14 +54,10 @@ const TransactionDetails = ({ id }: Transaction) => {
   };
 
   const [deleteTransaction] = useMutation(DELETE_TRANSACTION, {
-    onCompleted: (data) => {
-      const { transactionDelete } = data;
-      setOnDelete(transactionDelete);
-    },
+    refetchQueries: [GET_TRANSACTION, 'getTransaction'],
   });
-  const [onDelete, setOnDelete] = useState<Transaction[]>([]);
 
-  const onDeleteClick = (id: Nullable<string> | undefined) => {
+  const onDeleteClick = (id: string) => {
     deleteTransaction({
       variables: {
         id: id,
@@ -143,7 +138,7 @@ const TransactionDetails = ({ id }: Transaction) => {
                     <fieldset>
                       <button
                         className={styles['button-yes']}
-                        onClick={() => onDeleteClick(transaction.id)}
+                        onClick={() => onDeleteClick(transaction.id || '')}
                       >
                         Eliminar
                       </button>
@@ -156,14 +151,6 @@ const TransactionDetails = ({ id }: Transaction) => {
               </Dialog.Root>
             </div>
           </div>
-        </div>
-        <div>
-          <h3>Ingresos</h3>
-          <span>30,000,000</span>
-        </div>
-        <div>
-          <h3>Gastos</h3>
-          <span>30,000,000</span>
         </div>
         <TransactionModal
           transaction={transaction}
@@ -178,7 +165,7 @@ const TransactionDetails = ({ id }: Transaction) => {
     if (id) {
       getTransaction({ variables: { id } });
     }
-  }, [id, onDelete]);
+  }, [id]);
 
   return (
     <div className={styles.transaction_details}>{transactionTemplate}</div>

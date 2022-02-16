@@ -4,14 +4,17 @@ import { useMutation, useLazyQuery } from '@apollo/client';
 import styles from './transactionModal.module.css';
 import { Category, TransactionUpdateInput } from '@creation-mono/shared/types';
 import { GET_CATEGORY } from '../../services/category';
-import { EDIT_TRANSACTION, TRANSACTION } from '../../services/transactions';
+import {
+  EDIT_TRANSACTION,
+  TRANSACTION,
+  GET_TRANSACTION,
+} from '../../services/transactions';
 
 type Props = {
   transaction?: TransactionUpdateInput;
   openModal: boolean;
   setOpenModal: React.Dispatch<boolean>;
 };
-type Nullable<T> = T | null;
 
 const TransactionModal = ({
   transaction = {},
@@ -24,7 +27,9 @@ const TransactionModal = ({
 
   const mutation = isEdit ? EDIT_TRANSACTION : TRANSACTION;
 
-  const [addMutation] = useMutation(mutation);
+  const [addMutation] = useMutation(mutation, {
+    refetchQueries: [GET_TRANSACTION, 'getTransaction'],
+  });
 
   const addTransaction = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

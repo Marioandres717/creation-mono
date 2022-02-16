@@ -1,7 +1,6 @@
-import { useLazyQuery } from '@apollo/client';
 import { useState, useEffect } from 'react';
 import { Transaction } from '@creation-mono/shared/types';
-import { GET_TRANSACTION } from '../../services/transactions';
+
 import {
   LineChart,
   Line,
@@ -10,7 +9,13 @@ import {
   Legend,
   Tooltip,
 } from 'recharts';
+
 import styles from './transactionLineChart.module.css';
+import FormatAmount from '../formats/formatAmount';
+
+type Props = {
+  transactionsData: Transaction[];
+};
 
 const months = [
   'Jan',
@@ -27,17 +32,9 @@ const months = [
   'Dec',
 ];
 
-const TransactionsLineChart = () => {
-  const [queryData] = useLazyQuery(GET_TRANSACTION, {
-    onCompleted: (data) => {
-      const { transactions } = data;
-      setTransactionsData(transactions);
-    },
-    fetchPolicy: 'network-only',
-  });
-  const [transactionsData, setTransactionsData] = useState<Transaction[]>([]);
-
+const TransactionsLineChart = ({ transactionsData }: Props) => {
   const [resultsData, setResultsData] = useState<Transaction[]>([]);
+  const [totalAmounts, setTotalAmounts] = useState({ expense: 0, entry: 0 });
 
   const processGraphData = (transactions: Transaction[]) => {
     const graphData = transactions.reduce(
@@ -69,9 +66,23 @@ const TransactionsLineChart = () => {
     );
     setResultsData(reorganizedData);
   };
+
+  const sumAmounts = (transactions: Transaction[]) => {
+    const getTotalAmounts = transactions.reduce(
+      (reducedValue: Transaction['amount'], transaction: Transaction) => {
+        const type = transaction.isExpense ? 'expense' : 'entry';
+        reducedValue[type] =
+          reducedValue[type] + parseFloat(transaction.amount);
+        return reducedValue;
+      },
+      { expense: 0, entry: 0 }
+    );
+    setTotalAmounts(getTotalAmounts);
+  };
+
   useEffect(() => {
-    queryData();
     processGraphData(transactionsData);
+    sumAmounts(transactionsData);
   }, [transactionsData]);
   return (
     <div className={styles['line-chart']}>
@@ -88,6 +99,16 @@ const TransactionsLineChart = () => {
         <Line type="monotone" dataKey="expense" stroke="var(--theme-red)" />
         <Line type="monotone" dataKey="entry" stroke="var(--theme-blue)" />
       </LineChart>
+      <div>
+        <div>
+          <label>Total Ingresos: </label>
+          <FormatAmount amount={totalAmounts.entry} />
+        </div>
+        <div>
+          <label>Total Gastos: </label>
+          <FormatAmount amount={totalAmounts.expense} />
+        </div>
+      </div>
     </div>
   );
 };

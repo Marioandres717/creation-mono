@@ -1,6 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useLazyQuery } from '@apollo/client';
+import { GET_TRANSACTION } from '../../services/transactions';
 import { PlusIcon } from '@radix-ui/react-icons';
 import * as Tooltip from '@radix-ui/react-tooltip';
+import { Transaction } from '@creation-mono/shared/types';
 
 import styles from './transactions.module.css';
 
@@ -9,13 +12,28 @@ import TransactionModal from '../transactionModal/transactionModal';
 
 type onSelect = {
   onSelect: (id: string) => void;
+  transactionsData: (transactions: Transaction[]) => void;
 };
 
-const Transactions = ({ onSelect }: onSelect) => {
+const Transactions = ({ onSelect, transactionsData }: onSelect) => {
   const [open, onOpenChange] = useState(false);
   const openTransactionModal = () => {
     onOpenChange(true);
   };
+
+  const [getTransaction] = useLazyQuery(GET_TRANSACTION, {
+    onCompleted: (data) => {
+      const { transactions } = data;
+      setTransactions(transactions);
+    },
+    fetchPolicy: 'network-only',
+  });
+
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  useEffect(() => {
+    getTransaction();
+    transactionsData(transactions);
+  }, [transactions]);
 
   return (
     <div className={styles.transactions}>
@@ -40,7 +58,10 @@ const Transactions = ({ onSelect }: onSelect) => {
         </Tooltip.Root>
       </div>
       <div className={styles.cards}>
-        <TransactionCards onCardSelected={onSelect} />
+        <TransactionCards
+          onCardSelected={onSelect}
+          transactions={transactions}
+        />
       </div>
       <TransactionModal
         openModal={open}

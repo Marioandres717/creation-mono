@@ -1,7 +1,6 @@
-import { useLazyQuery } from '@apollo/client';
 import { Transaction, Category } from '@creation-mono/shared/types';
-import { useEffect, useState } from 'react';
-import { GET_TRANSACTION } from '../../services/transactions';
+import { useState } from 'react';
+
 import {
   QuestionMarkCircledIcon,
   ReaderIcon,
@@ -15,24 +14,11 @@ import FormatAmount from '../formats/formatAmount';
 type Nullable<T> = T | null;
 type Props = {
   onCardSelected: (id: string) => void;
+  transactions: Transaction[];
 };
 
-const TransactionCards = ({ onCardSelected }: Props) => {
-  const [getTransaction] = useLazyQuery(GET_TRANSACTION, {
-    onCompleted: (data) => {
-      const { transactions } = data;
-      setTransactions(transactions);
-    },
-    fetchPolicy: 'network-only',
-  });
-
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
-
+const TransactionCards = ({ onCardSelected, transactions }: Props) => {
   const [active, setActive] = useState('');
-
-  useEffect(() => {
-    getTransaction();
-  }, []);
 
   const onSelectedCard = (id: string) => {
     onCardSelected(id);
