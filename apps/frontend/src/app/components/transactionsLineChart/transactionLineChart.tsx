@@ -99,14 +99,20 @@ const TransactionsLineChart = ({ transactionsData }: Props) => {
         <Line type="monotone" dataKey="expense" stroke="var(--theme-red)" />
         <Line type="monotone" dataKey="entry" stroke="var(--theme-blue)" />
       </LineChart>
-      <div>
-        <div>
-          <label>Total Ingresos: </label>
-          <FormatAmount amount={totalAmounts.entry} />
+      <div className={styles['total-amounts-container']}>
+        <div className={styles['amount-box']}>
+          <label className={styles.tittle}>Total Ingresos: </label>
+          <FormatAmount
+            amount={totalAmounts.entry}
+            className={styles['amount-entry']}
+          />
         </div>
-        <div>
-          <label>Total Gastos: </label>
-          <FormatAmount amount={totalAmounts.expense} />
+        <div className={styles['amount-box']}>
+          <label className={styles.tittle}>Total Gastos: </label>
+          <FormatAmount
+            amount={totalAmounts.expense}
+            className={styles['amount-expense']}
+          />
         </div>
       </div>
     </div>
