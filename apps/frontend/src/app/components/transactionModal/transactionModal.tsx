@@ -1,5 +1,6 @@
 import { useState, useEffect, FormEvent } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
+import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { useMutation, useLazyQuery } from '@apollo/client';
 import styles from './transactionModal.module.css';
 import { Category, TransactionUpdateInput } from '@creation-mono/shared/types';
@@ -15,6 +16,19 @@ type Props = {
   openModal: boolean;
   setOpenModal: React.Dispatch<boolean>;
 };
+
+// const dropdownMenu = () => {
+//   return (
+//     <DropdownMenu.Root>
+//       <DropdownMenu.Trigger>
+//         <select />
+//       </DropdownMenu.Trigger>
+//       <DropdownMenu.Content>
+//         <option>cash</option>
+//       </DropdownMenu.Content>
+//     </DropdownMenu.Root>
+//   );
+// };
 
 const TransactionModal = ({
   transaction = {},
@@ -62,8 +76,8 @@ const TransactionModal = ({
     setSelectedTransaction({ ...selectedTransaction, ...{ [type]: value } });
   };
 
-  const expense = (value: string) => {
-    if (value === 'Si') {
+  const expense = (value: boolean) => {
+    if (value === true) {
       return 1;
     } else {
       return 0;
@@ -89,20 +103,12 @@ const TransactionModal = ({
         >
           <div className={styles.modal}>
             <form className={styles.form} onSubmit={addTransaction}>
-              <fieldset>
-                <label htmlFor="description">descripción:</label>
+              <fieldset className={styles.fieldset}>
+                <label htmlFor="amount_value" className={styles['form-labels']}>
+                  Valor
+                </label>
                 <input
-                  id="description"
-                  type="text"
-                  value={selectedTransaction.description || ''}
-                  onChange={(e) => {
-                    updateform(e.target.value, 'description');
-                  }}
-                />
-              </fieldset>
-              <fieldset>
-                <label htmlFor="amount_value">Valor:</label>
-                <input
+                  className={styles['form-input']}
                   id="amount"
                   type="number"
                   value={selectedTransaction.amount || ''}
@@ -111,10 +117,12 @@ const TransactionModal = ({
                   }}
                 />
               </fieldset>
-              <fieldset>
-                <label htmlFor="categories">categoría:</label>
+              <fieldset className={styles.fieldset}>
+                <label htmlFor="categories" className={styles['form-labels']}>
+                  Categoría
+                </label>
                 <select
-                  className={styles.select_input}
+                  className={styles['select-input']}
                   id="categories-list"
                   onChange={(e) => {
                     updateform(
@@ -131,11 +139,26 @@ const TransactionModal = ({
                   })}
                 </select>
               </fieldset>
-              <fieldset>
-                <label htmlFor="type">tipo:</label>
+              <fieldset className={styles.fieldset}>
+                {/* <DropdownMenu.Root>
+                  <DropdownMenu.Label className={styles['form-labels']}>
+                    Tipo:
+                  </DropdownMenu.Label>
+                  <DropdownMenu.Trigger>
+                    <select />
+                  </DropdownMenu.Trigger>
+                  <DropdownMenu.Content>
+                    <DropdownMenu.Item>
+                      <option>cash</option>
+                    </DropdownMenu.Item>
+                  </DropdownMenu.Content>
+                </DropdownMenu.Root> */}
+                <label htmlFor="type" className={styles['form-labels']}>
+                  Tipo:
+                </label>
                 <select
                   value={selectedTransaction.type || ''}
-                  className={styles.select_input}
+                  className={styles['select-input']}
                   onChange={(e) => {
                     updateform(e.target.value, 'type');
                   }}
@@ -148,28 +171,40 @@ const TransactionModal = ({
               </fieldset>
 
               <fieldset>
-                <label htmlFor="isExpense">Es un gasto?:</label>
-                <select
-                  value={selectedTransaction.isExpense === 1 ? 'Si' : 'No'}
-                  className={styles.select_input}
+                <label htmlFor="isExpense" className={styles['form-labels']}>
+                  Es un gasto?
+                </label>
+                <input
+                  type="checkbox"
+                  checked={selectedTransaction.isExpense ? true : false}
+                  className={styles.checkbox}
                   onChange={(e) => {
-                    updateform(expense(e.target.value), 'isExpense');
+                    updateform(expense(e.target.checked), 'isExpense');
                   }}
-                >
-                  <option></option>
-                  <option>Si</option>
-                  <option>No</option>
-                </select>
+                />
+              </fieldset>
+              <fieldset className={styles.fieldset}>
+                <label htmlFor="description" className={styles['form-labels']}>
+                  Descripción
+                </label>
+                <textarea
+                  className={styles['form-input']}
+                  id="description"
+                  value={selectedTransaction.description || ''}
+                  onChange={(e) => {
+                    updateform(e.target.value, 'description');
+                  }}
+                />
               </fieldset>
               <fieldset>
-                <input
-                  className={styles.form_button}
-                  type="submit"
-                  value="Listo"
-                />
-                <Dialog.Close className={styles.form_button}>
+                <Dialog.Close className={styles['cancel-button']}>
                   Cancelar
                 </Dialog.Close>
+                <input
+                  className={styles['submit-button']}
+                  type="submit"
+                  value="Aceptar"
+                />
               </fieldset>
             </form>
           </div>

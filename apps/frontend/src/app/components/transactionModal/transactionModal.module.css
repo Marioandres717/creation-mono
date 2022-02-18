@@ -19,16 +19,110 @@
 .form {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: center;
 }
-.select_input {
-  width: 178px;
-  height: 22px;
+.fieldset {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.select-input {
+  width: 200px;
+  height: 24px;
+  border: 1px solid var(--dark-gray);
+  border-radius: 3px;
+  outline: none;
+  color: var(--white-300);
+  font-family: 'SF mono Regular';
 }
 .modal fieldset {
   border: none;
 }
-.form_button {
-  font-family: 'SF Mono Regular';
-  margin-right: 12px;
+
+.form-input {
+  width: 200px;
+  height: 24px;
+  border: 1px solid var(--dark-gray);
+  border-radius: 3px;
+  outline: none;
+  color: var(--white-300);
+}
+.form-input:focus {
+  outline: 1px solid var(--dark-gray);
+}
+.form-labels {
+  font-size: 13px;
+  color: var(--white-300);
+  padding: 5px 0;
+}
+.submit-button {
+  margin: 10px;
+  font-family: 'SF mono regular';
+  cursor: pointer;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  width: 82px;
+  height: 35px;
+  border-radius: 4px;
+  padding: 0px 15px;
+  background-color: rgb(171 233 173 / 28%);
+  color: var(--theme-blue);
+}
+.cancel-button {
+  margin: 10px;
+  font-family: 'SF mono regular';
+  cursor: pointer;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  width: 82px;
+  height: 35px;
+  border-radius: 4px;
+  padding: 0px 15px;
+  background-color: rgb(255, 229, 229);
+  color: rgb(205, 43, 49);
+}
+.cancel-button:hover {
+  background-color: rgb(227 205 205);
+}
+.submit-button:hover {
+  background-color: rgb(197 231 198);
+}
+.checkbox {
+  width: auto;
+  position: relative;
+  cursor: pointer;
+}
+.checkbox:before {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: -1px;
+  left: -1px;
+  border: 1px solid var(--dark-gray);
+  border-radius: 3px;
+  background-color: white;
+}
+.checkbox:checked:after {
+  content: '';
+  display: block;
+  width: 5px;
+  height: 10px;
+  border: solid var(--white-300);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  position: absolute;
+  top: 0px;
+  left: 5px;
+}
+.form-input::-webkit-inner-spin-button,
+.form-input::-webkit-outer-spin-button {
+  -webkit-appearance: unset;
 }
