@@ -3,7 +3,6 @@ import { JwtService } from '@nestjs/jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { User } from '@creation-mono/shared/types';
-import { jwtConstants } from './constants';
 import { UserService } from '../../app/user/repository/user.service';
 
 interface UserInJWT extends User {
@@ -32,7 +31,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         },
       ]),
       ignoreExpiration: process.env.NODE_ENV || false,
-      secretOrKey: jwtConstants.secret,
+      secretOrKey: process.env.JWT_SECRET,
     });
   }
 
