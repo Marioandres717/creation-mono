@@ -23,16 +23,16 @@ jobs:
       - run: npx nx affected --base=$NX_BASE --target=build --parallel --max-parallel=3
       # - run: npx nx affected --base=$NX_BASE --target=test --parallel --max-parallel=2
 workflows:
-  build:
-    jobs:
-      - main:
-          filters:
-            branches:
-              only: main
-      - pr:
-          filters:
-            branches:
-              ignore: main
+  # build:
+  #   jobs:
+  #     - main:
+  #         filters:
+  #           branches:
+  #             only: main
+  #     - pr:
+  #         filters:
+  #           branches:
+  #             ignore: main
   heroku_deploy:
     jobs:
       - heroku/deploy-via-git
