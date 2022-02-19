@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerModule } from '@nestjs/throttler';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 import { SharedModelsModule } from '@creation-mono/shared/models';
 import { SharedLoggerModule } from '@creation-mono/shared/logger';
@@ -39,6 +41,9 @@ import { GqlThrottlerGuard } from '../common/guards/gql-throttle.guard';
       limit: Number(process.env.THROTTLE_LIMIT) || 10,
     }),
     SharedLoggerModule,
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'frontend'),
+    }),
   ],
   providers: [
     DateTimeScalar,

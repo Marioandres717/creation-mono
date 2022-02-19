@@ -33,6 +33,7 @@ async function bootstrap() {
   if (process.env.NODE_ENV === 'production') {
     app.useGlobalFilters(new AllExceptionFilter(new LoggerService()));
   }
+
   const port = process.env.PORT || 3000;
   await app.listen(port);
 

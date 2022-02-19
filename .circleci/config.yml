@@ -12,6 +12,7 @@ jobs:
       - nx/set-shas
       - run: npx nx affected --base=$NX_BASE --target=build --parallel --max-parallel=3
       # - run: npx nx affected --base=$NX_BASE --target=test --parallel --max-parallel=2
+      - run: npm run deploy-migration
   pr:
     docker:
       - image: cimg/node:16.13.0

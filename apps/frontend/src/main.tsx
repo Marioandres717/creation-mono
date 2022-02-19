@@ -5,7 +5,7 @@ import Apollo from './app/context-provider/apollo';
 import App from './app/app';
 import Register from './app/pages/register/register';
 
-ReactDOM.render(
+ReactDOM.hydrate(
   <StrictMode>
     <BrowserRouter>
       <Apollo>
