@@ -27,25 +27,38 @@
   align-items: flex-start;
 }
 .select-input {
-  width: 200px;
-  height: 24px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 193px;
+  height: 28px;
   border: 1px solid var(--dark-gray);
   border-radius: 3px;
   outline: none;
   color: var(--white-300);
   font-family: 'SF mono Regular';
+  background-color: white;
+  padding: 0 8px;
 }
+.select-icon {
+  position: absolute;
+  right: 100px;
+}
+
 .modal fieldset {
   border: none;
 }
 
 .form-input {
-  width: 200px;
-  height: 24px;
+  width: 260px;
+  height: 28px;
   border: 1px solid var(--dark-gray);
   border-radius: 3px;
   outline: none;
   color: var(--white-300);
+  padding: 0 10px;
 }
 .form-input:focus {
   outline: 1px solid var(--dark-gray);
@@ -53,7 +66,7 @@
 .form-labels {
   font-size: 13px;
   color: var(--white-300);
-  padding: 5px 0;
+  padding: 5px;
 }
 .submit-button {
   margin: 10px;
@@ -125,4 +138,58 @@
 .form-input::-webkit-inner-spin-button,
 .form-input::-webkit-outer-spin-button {
   -webkit-appearance: unset;
+}
+.text-area {
+  border: 1px solid var(--dark-gray);
+  border-radius: 3px;
+  resize: none;
+  width: 260px;
+  height: 100px;
+  font-size: 16px;
+  color: var(--white-300);
+  padding: 7px;
+}
+.text-area:focus {
+  outline: 1px solid var(--dark-gray);
+}
+.section {
+  display: flex;
+  width: 280px;
+  justify-content: space-between;
+}
+
+.checkbox-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 5px;
+}
+.categories-container {
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: var(--white);
+  color: var(--white-300);
+  border: 1px solid var(--dark-gray);
+}
+.category-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 5px 5px 5px 20px;
+  position: relative;
+}
+.category-item:hover {
+  outline: 1px solid var(--dark-gray);
+  background-color: var(--white-100);
+  border-radius: 2px;
+}
+.category-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  left: 4px;
+  top: 8px;
+  color: var(--theme-blue);
 }

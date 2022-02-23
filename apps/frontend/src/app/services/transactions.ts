@@ -5,7 +5,6 @@ const TRANSACTION = gql`
     $description: String
     $amount: Decimal!
     $date: DateTime
-    $type: TransactionType
     $categoryId: ID
     $isExpense: Int
   ) {
@@ -14,7 +13,7 @@ const TRANSACTION = gql`
         description: $description
         amount: $amount
         isExpense: $isExpense
-        type: $type
+        type: cash
         categoryId: $categoryId
         date: $date
       }

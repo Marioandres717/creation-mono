@@ -10,6 +10,7 @@ import {
   TRANSACTION,
   GET_TRANSACTION,
 } from '../../services/transactions';
+import { ChevronDownIcon, DotFilledIcon } from '@radix-ui/react-icons';
 
 type Props = {
   transaction?: TransactionUpdateInput;
@@ -17,25 +18,14 @@ type Props = {
   setOpenModal: React.Dispatch<boolean>;
 };
 
-// const dropdownMenu = () => {
-//   return (
-//     <DropdownMenu.Root>
-//       <DropdownMenu.Trigger>
-//         <select />
-//       </DropdownMenu.Trigger>
-//       <DropdownMenu.Content>
-//         <option>cash</option>
-//       </DropdownMenu.Content>
-//     </DropdownMenu.Root>
-//   );
-// };
-
 const TransactionModal = ({
   transaction = {},
   openModal,
   setOpenModal,
 }: Props) => {
   const isEdit = JSON.stringify(transaction) !== '{}';
+
+  const [selectedCategory, setSelectedCategory] = useState('');
 
   const [selectedTransaction, setSelectedTransaction] = useState(transaction);
 
@@ -53,8 +43,7 @@ const TransactionModal = ({
         description: selectedTransaction.description,
         amount: selectedTransaction.amount,
         date: new Date().toISOString(),
-        categoryId: selectedTransaction.categoryId,
-        type: selectedTransaction.type,
+        categoryId: selectedCategory,
         isExpense: selectedTransaction.isExpense,
       },
     });
@@ -62,15 +51,14 @@ const TransactionModal = ({
       setOpenModal(false);
     }, 1000);
   };
-
   const [getCategory] = useLazyQuery(GET_CATEGORY, {
     onCompleted: (data) => {
       const { categories } = data;
-      setCategory(categories);
+      setCategories(categories);
     },
     fetchPolicy: 'network-only',
   });
-  const [category, setCategory] = useState<Category[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
 
   const updateform = (value: string | number, type: string) => {
     setSelectedTransaction({ ...selectedTransaction, ...{ [type]: value } });
@@ -83,6 +71,23 @@ const TransactionModal = ({
       return 0;
     }
   };
+  const categoryList = categories.map((category) => {
+    return (
+      <DropdownMenu.RadioItem
+        value={category.id || ''}
+        className={styles['category-item']}
+      >
+        <DropdownMenu.ItemIndicator className={styles['category-icon']}>
+          <DotFilledIcon />
+        </DropdownMenu.ItemIndicator>
+        {category.name}
+      </DropdownMenu.RadioItem>
+    );
+  });
+  const triggerLabel = categories
+    .filter((category) => selectedCategory === category.id)
+    .map((getName) => getName.name)
+    .pop();
 
   useEffect(() => {
     setSelectedTransaction(transaction);
@@ -117,78 +122,51 @@ const TransactionModal = ({
                   }}
                 />
               </fieldset>
-              <fieldset className={styles.fieldset}>
-                <label htmlFor="categories" className={styles['form-labels']}>
-                  Categoría
-                </label>
-                <select
-                  className={styles['select-input']}
-                  id="categories-list"
-                  onChange={(e) => {
-                    updateform(
-                      category
-                        .filter((category) => e.target.value === category.name)
-                        .map((getId) => getId.id)
-                        .pop() || '',
-                      'categoryId'
-                    );
-                  }}
-                >
-                  {category.map((category) => {
-                    return <option key={category.id}>{category.name}</option>;
-                  })}
-                </select>
-              </fieldset>
-              <fieldset className={styles.fieldset}>
-                {/* <DropdownMenu.Root>
-                  <DropdownMenu.Label className={styles['form-labels']}>
-                    Tipo:
-                  </DropdownMenu.Label>
-                  <DropdownMenu.Trigger>
-                    <select />
-                  </DropdownMenu.Trigger>
-                  <DropdownMenu.Content>
-                    <DropdownMenu.Item>
-                      <option>cash</option>
-                    </DropdownMenu.Item>
-                  </DropdownMenu.Content>
-                </DropdownMenu.Root> */}
-                <label htmlFor="type" className={styles['form-labels']}>
-                  Tipo:
-                </label>
-                <select
-                  value={selectedTransaction.type || ''}
-                  className={styles['select-input']}
-                  onChange={(e) => {
-                    updateform(e.target.value, 'type');
-                  }}
-                >
-                  <option disabled></option>
-                  <option>cash</option>
-                  <option>cheque</option>
-                  <option>pending</option>
-                </select>
+
+              <fieldset className={styles.section}>
+                <div className={styles.fieldset}>
+                  <DropdownMenu.Root>
+                    <DropdownMenu.Label className={styles['form-labels']}>
+                      Categorias
+                    </DropdownMenu.Label>
+                    <DropdownMenu.Trigger className={styles['select-input']}>
+                      {triggerLabel ? triggerLabel : ''}
+                      <ChevronDownIcon className={styles['select-icon']} />
+                    </DropdownMenu.Trigger>
+                    <DropdownMenu.Content align="start">
+                      <DropdownMenu.RadioGroup
+                        value={selectedCategory}
+                        onValueChange={setSelectedCategory}
+                        className={styles['categories-container']}
+                      >
+                        {categoryList}
+                      </DropdownMenu.RadioGroup>
+                    </DropdownMenu.Content>
+                  </DropdownMenu.Root>
+                </div>
+                <div className={styles['checkbox-container']}>
+                  <label htmlFor="isExpense" className={styles['form-labels']}>
+                    gasto?
+                  </label>
+                  <input
+                    type="checkbox"
+                    checked={selectedTransaction.isExpense ? true : false}
+                    className={styles.checkbox}
+                    onChange={(e) => {
+                      updateform(expense(e.target.checked), 'isExpense');
+                    }}
+                  />
+                </div>
               </fieldset>
 
-              <fieldset>
-                <label htmlFor="isExpense" className={styles['form-labels']}>
-                  Es un gasto?
-                </label>
-                <input
-                  type="checkbox"
-                  checked={selectedTransaction.isExpense ? true : false}
-                  className={styles.checkbox}
-                  onChange={(e) => {
-                    updateform(expense(e.target.checked), 'isExpense');
-                  }}
-                />
-              </fieldset>
               <fieldset className={styles.fieldset}>
                 <label htmlFor="description" className={styles['form-labels']}>
                   Descripción
                 </label>
                 <textarea
-                  className={styles['form-input']}
+                  maxLength={108}
+                  rows={4}
+                  className={styles['text-area']}
                   id="description"
                   value={selectedTransaction.description || ''}
                   onChange={(e) => {
