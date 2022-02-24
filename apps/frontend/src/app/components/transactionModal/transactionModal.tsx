@@ -25,8 +25,6 @@ const TransactionModal = ({
 }: Props) => {
   const isEdit = JSON.stringify(transaction) !== '{}';
 
-  const [selectedCategory, setSelectedCategory] = useState('');
-
   const [selectedTransaction, setSelectedTransaction] = useState(transaction);
 
   const mutation = isEdit ? EDIT_TRANSACTION : TRANSACTION;
@@ -43,7 +41,7 @@ const TransactionModal = ({
         description: selectedTransaction.description,
         amount: selectedTransaction.amount,
         date: new Date().toISOString(),
-        categoryId: selectedCategory,
+        categoryId: selectedTransaction.categoryId,
         isExpense: selectedTransaction.isExpense,
       },
     });
@@ -64,18 +62,12 @@ const TransactionModal = ({
     setSelectedTransaction({ ...selectedTransaction, ...{ [type]: value } });
   };
 
-  const expense = (value: boolean) => {
-    if (value === true) {
-      return 1;
-    } else {
-      return 0;
-    }
-  };
   const categoryList = categories.map((category) => {
     return (
       <DropdownMenu.RadioItem
         value={category.id || ''}
         className={styles['category-item']}
+        key={category.id}
       >
         <DropdownMenu.ItemIndicator className={styles['category-icon']}>
           <DotFilledIcon />
@@ -85,12 +77,13 @@ const TransactionModal = ({
     );
   });
   const triggerLabel = categories
-    .filter((category) => selectedCategory === category.id)
+    .filter((category) => selectedTransaction.categoryId === category.id)
     .map((getName) => getName.name)
     .pop();
 
   useEffect(() => {
-    setSelectedTransaction(transaction);
+    const initialTransaction = isEdit ? transaction : { isExpense: 1 };
+    setSelectedTransaction(initialTransaction);
   }, [transaction]);
 
   useEffect(() => {
@@ -137,8 +130,10 @@ const TransactionModal = ({
                     </DropdownMenu.Trigger>
                     <DropdownMenu.Content align="start">
                       <DropdownMenu.RadioGroup
-                        value={selectedCategory}
-                        onValueChange={setSelectedCategory}
+                        value={selectedTransaction.categoryId || ''}
+                        onValueChange={(id) => {
+                          updateform(id, 'categoryId');
+                        }}
                         className={styles['categories-container']}
                       >
                         {categoryList}
@@ -152,10 +147,11 @@ const TransactionModal = ({
                   </label>
                   <input
                     type="checkbox"
-                    checked={selectedTransaction.isExpense ? true : false}
+                    checked={Boolean(selectedTransaction.isExpense)}
                     className={styles.checkbox}
                     onChange={(e) => {
-                      updateform(expense(e.target.checked), 'isExpense');
+                      const expense = e.target.checked ? 1 : 0;
+                      updateform(expense, 'isExpense');
                     }}
                   />
                 </div>
