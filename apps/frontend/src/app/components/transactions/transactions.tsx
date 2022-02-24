@@ -30,6 +30,7 @@ const Transactions = ({ onSelect, transactionsData }: onSelect) => {
   });
 
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+
   useEffect(() => {
     getTransaction();
     transactionsData(transactions);

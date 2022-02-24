@@ -136,12 +136,12 @@ const TransactionDetails = ({ id }: Transaction) => {
                       Quieres eliminar la transacción?
                     </span>
                     <fieldset>
-                      <button
+                      <Dialog.Close
                         className={styles['button-yes']}
                         onClick={() => onDeleteClick(transaction.id || '')}
                       >
                         Eliminar
-                      </button>
+                      </Dialog.Close>
                       <Dialog.Close className={styles['button-no']}>
                         Cancelar
                       </Dialog.Close>

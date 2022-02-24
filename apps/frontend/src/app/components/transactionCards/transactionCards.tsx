@@ -1,5 +1,5 @@
 import { Transaction, Category } from '@creation-mono/shared/types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
   QuestionMarkCircledIcon,
@@ -20,8 +20,12 @@ type Props = {
 const TransactionCards = ({ onCardSelected, transactions }: Props) => {
   const [active, setActive] = useState('');
 
+  const initialId = transactions !== [] ? transactions[0]?.id : null;
+
+  const [defaultCard, setDefaultCard] = useState(initialId);
+
   const onSelectedCard = (id: string) => {
-    onCardSelected(id);
+    setDefaultCard(id);
     setActive(id);
   };
 
@@ -46,6 +50,10 @@ const TransactionCards = ({ onCardSelected, transactions }: Props) => {
       [styles['card_active']]: id === active,
     });
   };
+
+  useEffect(() => {
+    onCardSelected(defaultCard || initialId || '');
+  }, [defaultCard, initialId]);
 
   return (
     <div className={styles.cards}>
