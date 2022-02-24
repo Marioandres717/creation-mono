@@ -27,12 +27,14 @@
   align-items: flex-start;
 }
 .select-input {
+  overflow: hidden;
+  width: 193px;
   cursor: pointer;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  width: 193px;
+  white-space: nowrap;
   height: 28px;
   border: 1px solid var(--dark-gray);
   border-radius: 3px;
@@ -45,6 +47,12 @@
 .select-icon {
   position: absolute;
   right: 100px;
+}
+.select-title {
+  max-width: 162px;
+  max-height: 24px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .modal fieldset {

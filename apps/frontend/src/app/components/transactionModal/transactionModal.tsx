@@ -130,7 +130,9 @@ const TransactionModal = ({
                       Categorias
                     </DropdownMenu.Label>
                     <DropdownMenu.Trigger className={styles['select-input']}>
-                      {triggerLabel ? triggerLabel : ''}
+                      <span className={styles['select-title']}>
+                        {triggerLabel ? triggerLabel : ''}
+                      </span>
                       <ChevronDownIcon className={styles['select-icon']} />
                     </DropdownMenu.Trigger>
                     <DropdownMenu.Content align="start">
