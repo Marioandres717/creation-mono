@@ -36,6 +36,11 @@ const Transactions = ({ onSelect, transactionsData }: onSelect) => {
     transactionsData(transactions);
   }, [transactions]);
 
+  const organizedList = transactions.sort(
+    (previous, current) =>
+      new Date(current.date).valueOf() - new Date(previous.date).valueOf()
+  );
+
   return (
     <div className={styles.transactions}>
       <div className={styles.header}>
@@ -61,7 +66,7 @@ const Transactions = ({ onSelect, transactionsData }: onSelect) => {
       <div className={styles.cards}>
         <TransactionCards
           onCardSelected={onSelect}
-          transactions={transactions}
+          transactions={organizedList}
         />
       </div>
       <TransactionModal
