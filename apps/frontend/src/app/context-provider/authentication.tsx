@@ -56,8 +56,11 @@ const Authentication: FC<Props> = ({ children }) => {
       dispatch({ type: 'user_update', value: user });
     },
   };
-  let template = <div>loading...</div>;
-  if (user.id === '0' && !loading) {
+
+  let template;
+  if (loading) {
+    template = <div>loading...</div>;
+  } else if (user.id === '0') {
     template = (
       <Login
         onLogin={(user) => {

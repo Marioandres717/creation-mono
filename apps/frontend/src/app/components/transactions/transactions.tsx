@@ -24,7 +24,7 @@ const Transactions = ({ onSelect, transactionsData }: onSelect) => {
   const [getTransaction] = useLazyQuery(GET_TRANSACTION, {
     onCompleted: (data) => {
       const { transactions } = data;
-      setTransactions(transactions);
+      setTransactions(transactions || []);
     },
     fetchPolicy: 'network-only',
   });

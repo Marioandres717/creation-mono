@@ -52,7 +52,7 @@ const TransactionModal = ({
   const [getCategory] = useLazyQuery(GET_CATEGORY, {
     onCompleted: (data) => {
       const { categories } = data;
-      setCategories(categories);
+      setCategories(categories || []);
     },
     fetchPolicy: 'network-only',
   });
