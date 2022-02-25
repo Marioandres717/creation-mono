@@ -4,7 +4,7 @@
 }
 .container-active {
   transition: 200ms ease;
-  min-width: 180px;
+  min-width: 200px;
 }
 .navbar {
   background-color: var(--white);
@@ -24,6 +24,7 @@
   margin-right: 1px;
 }
 .link {
+  cursor: pointer;
   text-decoration: none;
   color: black;
   font-size: 16px;
@@ -57,4 +58,5 @@
 .title {
   position: relative;
   left: 55px;
+  color: var(--white-300);
 }
