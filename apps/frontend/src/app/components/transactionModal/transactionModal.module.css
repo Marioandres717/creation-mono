@@ -201,3 +201,12 @@
   top: 8px;
   color: var(--theme-blue);
 }
+.error {
+  height: 2.4rem;
+  width: 60%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  color: rgb(205, 43, 49);
+}

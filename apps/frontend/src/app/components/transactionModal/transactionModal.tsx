@@ -1,7 +1,7 @@
 import { useState, useEffect, FormEvent } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
-import { useMutation, useLazyQuery } from '@apollo/client';
+import { useMutation, useLazyQuery, ApolloError } from '@apollo/client';
 import styles from './transactionModal.module.css';
 import { Category, TransactionUpdateInput } from '@creation-mono/shared/types';
 import { GET_CATEGORY } from '../../services/category';
@@ -17,6 +17,21 @@ type Props = {
   openModal: boolean;
   setOpenModal: React.Dispatch<boolean>;
 };
+type TransactionError = {
+  message: string;
+};
+
+const ErrorMessage = ({ error }: { error: TransactionError['message'] }) => {
+  const template = <div className={styles.error}>Formulario Inválido</div>;
+  switch (error) {
+    case error: {
+      return template;
+    }
+    default: {
+      return null;
+    }
+  }
+};
 
 const TransactionModal = ({
   transaction = {},
@@ -29,7 +44,18 @@ const TransactionModal = ({
 
   const mutation = isEdit ? EDIT_TRANSACTION : TRANSACTION;
 
+  const [error, setError] = useState<TransactionError['message'] | undefined>();
+
   const [addMutation] = useMutation(mutation, {
+    onCompleted: () => {
+      setError(undefined);
+      setTimeout(() => {
+        setOpenModal(false);
+      }, 1000);
+    },
+    onError: (error: ApolloError) => {
+      setError(error.message);
+    },
     refetchQueries: [GET_TRANSACTION, 'getTransaction'],
   });
 
@@ -45,9 +71,6 @@ const TransactionModal = ({
         isExpense: selectedTransaction.isExpense,
       },
     });
-    setTimeout(() => {
-      setOpenModal(false);
-    }, 1000);
   };
   const [getCategory] = useLazyQuery(GET_CATEGORY, {
     onCompleted: (data) => {
@@ -101,6 +124,7 @@ const TransactionModal = ({
         >
           <div className={styles.modal}>
             <form className={styles.form} onSubmit={addTransaction}>
+              {error && <ErrorMessage error={error} />}
               <fieldset className={styles.fieldset}>
                 <label htmlFor="amount_value" className={styles['form-labels']}>
                   Valor
@@ -173,7 +197,10 @@ const TransactionModal = ({
                 />
               </fieldset>
               <fieldset>
-                <Dialog.Close className={styles['cancel-button']}>
+                <Dialog.Close
+                  className={styles['cancel-button']}
+                  onClick={() => setError(undefined)}
+                >
                   Cancelar
                 </Dialog.Close>
                 <input
