@@ -1,0 +1,67 @@
+.cards {
+  overflow: auto;
+  height: 97%;
+}
+
+.card {
+  position: relative;
+  margin: 10px;
+  max-height: 43px;
+  cursor: pointer;
+}
+
+.card_active {
+  background-color: white;
+  box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.2);
+}
+
+.button {
+  right: 0px;
+  position: absolute;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  margin: 0.5rem 0.5rem 0rem 0rem;
+  background: none;
+}
+.list_container {
+  list-style-type: none;
+  padding: 0px 14px 0 22px;
+}
+.tooltip {
+  border: 1px solid var(--white-100);
+  padding: 1em;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  background-color: var(--white);
+  box-shadow: 1px 2px 5px 0px rgba(0, 0, 0, 0.75);
+}
+.icon {
+  left: 0px;
+  position: absolute;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  margin: 0.5rem 0rem 0rem 0.5rem;
+  background: none;
+}
+.amount-green {
+  font-size: 16px;
+  padding-left: 20px;
+  color: var(--theme-blue);
+}
+.amount-red {
+  font-size: 16px;
+  padding-left: 20px;
+  color: var(--theme-red);
+}
+
+.list_description {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+  padding-left: 2rem;
+  font-size: 14px;
+  color: var(--white-300);
+}

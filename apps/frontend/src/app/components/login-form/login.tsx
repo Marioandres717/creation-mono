@@ -2,8 +2,9 @@ import Layout from '../../components/layout/layout';
 import styles from './login.module.css';
 
 import { useState, FormEvent, FC } from 'react';
-import { ApolloError, gql, useLazyQuery } from '@apollo/client';
+import { ApolloError, useLazyQuery } from '@apollo/client';
 import { GraphQLError } from 'graphql';
+import { SIGNIN_QUERY } from '../../services/login';
 
 import { User } from '@creation-mono/shared/types';
 import { Link } from 'react-router-dom';
@@ -19,18 +20,6 @@ type LoginError = {
   statusCode: number;
 };
 /********** */
-
-const SIGNIN_QUERY = gql`
-  query Login($password: String!, $email: String) {
-    login(user: { email: $email }, password: $password) {
-      id
-      username
-      email
-      role
-      isActive
-    }
-  }
-`;
 
 const ErrorMessage = ({ error }: { error: LoginError }) => {
   switch (error.statusCode) {
@@ -58,6 +47,7 @@ const Login: FC<Props> = ({ onLogin }) => {
       const graphQLError: GraphQLError = error.graphQLErrors[0];
       setError(graphQLError?.extensions?.response || error?.message);
     },
+    fetchPolicy: 'network-only',
   });
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();

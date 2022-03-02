@@ -6,11 +6,15 @@ import Profile from './pages/profile/profile';
 import { Authentication } from '../app/context-provider/authentication';
 
 import { Switch, Route } from 'react-router-dom';
+import Categories from './pages/categories/categories';
 
 export function App() {
   return (
     <Authentication>
       <Switch>
+        <Route path="/categories">
+          <Categories />
+        </Route>
         <Route path="/profile">
           <Profile />
         </Route>

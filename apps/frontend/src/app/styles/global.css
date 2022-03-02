@@ -41,7 +41,11 @@ p {
   --neumorph-gray: #e0e0e0;
 
   /* White */
-  --white: #f8f8f8;
+  /* TODO: Revisit Overall Colors */
+  --white: #f5f5f5;
+  --white-100: #e7e7e8;
+  --white-200: #bbbbbb;
+  --white-300: #707070;
 }
 
 html,
@@ -58,6 +62,7 @@ html {
 body {
   font-size: 1.6rem;
   font-family: 'SF Mono Regular';
+  background-color: var(--white);
 }
 input {
   font-family: 'SF Mono Regular';

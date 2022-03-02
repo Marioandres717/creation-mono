@@ -1,6 +1,9 @@
 {
   "extends": ["plugin:@nrwl/nx/react", "../../.eslintrc.json"],
   "ignorePatterns": ["!**/*"],
+  "rules": {
+    "react-hooks/exhaustive-deps": "off"
+  },
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
