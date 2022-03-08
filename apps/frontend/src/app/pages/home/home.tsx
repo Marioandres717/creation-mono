@@ -35,8 +35,9 @@ const Home = () => {
         <TransactionDetails id={transactionId} categories={categoriesData} />
 
         <TransactionsLineChart transactionsData={transactionsData} />
+
         <TransactionsByCategory
-          transaction={transactionsData}
+          transactions={transactionsData}
           categories={categoriesData}
         />
       </div>
