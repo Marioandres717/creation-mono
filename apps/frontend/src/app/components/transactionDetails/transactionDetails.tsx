@@ -3,7 +3,7 @@ import * as Dialog from '@radix-ui/react-dialog';
 import * as Tooltip from '@radix-ui/react-tooltip';
 import { Pencil1Icon, TrashIcon } from '@radix-ui/react-icons';
 import { useLazyQuery, useMutation } from '@apollo/client';
-import { Transaction } from '@creation-mono/shared/types';
+import { Category, Transaction } from '@creation-mono/shared/types';
 import {
   GET_TRANSACTION,
   DELETE_TRANSACTION,
@@ -14,6 +14,10 @@ import FormatAmount from '../formats/formatAmount';
 import TransactionModal from '../transactionModal/transactionModal';
 type Props = {
   children: ReactNode;
+};
+type ModalType = {
+  categories: Category[];
+  id: string;
 };
 
 const DeleteTransactionModal: FC<Props> = ({ children, ...props }) => {
@@ -32,7 +36,7 @@ const DeleteTransactionModal: FC<Props> = ({ children, ...props }) => {
   );
 };
 
-const TransactionDetails = ({ id }: Transaction) => {
+const TransactionDetails = ({ id, categories }: ModalType) => {
   const [transaction, setTransactionsDetails] = useState<Transaction>({});
   const [getTransaction] = useLazyQuery(GET_TRANSACTION, {
     onCompleted: (data) => {
@@ -156,6 +160,7 @@ const TransactionDetails = ({ id }: Transaction) => {
           transaction={transaction}
           openModal={open}
           setOpenModal={setOpen}
+          categories={categories}
         />
       </div>
     );

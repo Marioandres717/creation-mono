@@ -1,25 +1,39 @@
 import { useState, useEffect } from 'react';
 import { useLazyQuery } from '@apollo/client';
 import { GET_TRANSACTION } from '../../services/transactions';
+import { GET_CATEGORY } from '../../services/category';
 import { PlusIcon } from '@radix-ui/react-icons';
 import * as Tooltip from '@radix-ui/react-tooltip';
-import { Transaction } from '@creation-mono/shared/types';
+import { Transaction, Category } from '@creation-mono/shared/types';
 
 import styles from './transactions.module.css';
 
 import TransactionCards from '../transactionCards/transactionCards';
 import TransactionModal from '../transactionModal/transactionModal';
 
-type onSelect = {
+type Props = {
   onSelect: (id: string) => void;
   transactionsData: (transactions: Transaction[]) => void;
+  categoriesData: (categories: Category[]) => void;
 };
 
-const Transactions = ({ onSelect, transactionsData }: onSelect) => {
+const Transactions = ({
+  onSelect,
+  transactionsData,
+  categoriesData,
+}: Props) => {
   const [open, onOpenChange] = useState(false);
   const openTransactionModal = () => {
     onOpenChange(true);
   };
+  const [getCategory] = useLazyQuery(GET_CATEGORY, {
+    onCompleted: (data) => {
+      const { categories } = data;
+      setCategories(categories || []);
+    },
+    fetchPolicy: 'network-only',
+  });
+  const [categories, setCategories] = useState<Category[]>([]);
 
   const [getTransaction] = useLazyQuery(GET_TRANSACTION, {
     onCompleted: (data) => {
@@ -32,9 +46,11 @@ const Transactions = ({ onSelect, transactionsData }: onSelect) => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
 
   useEffect(() => {
+    getCategory();
     getTransaction();
     transactionsData(transactions);
-  }, [transactions]);
+    categoriesData(categories);
+  }, [transactions, categories]);
 
   const organizedList = transactions.sort(
     (previous, current) =>
@@ -70,6 +86,7 @@ const Transactions = ({ onSelect, transactionsData }: onSelect) => {
         />
       </div>
       <TransactionModal
+        categories={categories}
         openModal={open}
         setOpenModal={onOpenChange}
         transaction={{}}

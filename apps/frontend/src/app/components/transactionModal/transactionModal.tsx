@@ -1,10 +1,10 @@
 import { useState, useEffect, FormEvent } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
-import { useMutation, useLazyQuery, ApolloError } from '@apollo/client';
+import { useMutation, ApolloError } from '@apollo/client';
 import styles from './transactionModal.module.css';
 import { Category, TransactionUpdateInput } from '@creation-mono/shared/types';
-import { GET_CATEGORY } from '../../services/category';
+
 import {
   EDIT_TRANSACTION,
   TRANSACTION,
@@ -16,6 +16,7 @@ type Props = {
   transaction?: TransactionUpdateInput;
   openModal: boolean;
   setOpenModal: React.Dispatch<boolean>;
+  categories: Category[];
 };
 type TransactionError = {
   message: string;
@@ -37,6 +38,7 @@ const TransactionModal = ({
   transaction = {},
   openModal,
   setOpenModal,
+  categories,
 }: Props) => {
   const isEdit = JSON.stringify(transaction) !== '{}';
 
@@ -72,14 +74,6 @@ const TransactionModal = ({
       },
     });
   };
-  const [getCategory] = useLazyQuery(GET_CATEGORY, {
-    onCompleted: (data) => {
-      const { categories } = data;
-      setCategories(categories || []);
-    },
-    fetchPolicy: 'network-only',
-  });
-  const [categories, setCategories] = useState<Category[]>([]);
 
   const updateform = (value: string | number, type: string) => {
     setSelectedTransaction({ ...selectedTransaction, ...{ [type]: value } });
@@ -108,10 +102,6 @@ const TransactionModal = ({
     const initialTransaction = isEdit ? transaction : { isExpense: 1 };
     setSelectedTransaction(initialTransaction);
   }, [transaction]);
-
-  useEffect(() => {
-    getCategory();
-  }, []);
 
   return (
     <Dialog.Root open={openModal} onOpenChange={setOpenModal}>
