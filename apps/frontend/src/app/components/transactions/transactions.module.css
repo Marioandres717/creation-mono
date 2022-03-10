@@ -1,4 +1,5 @@
 .transactions {
+  flex: none;
   height: 99%;
   width: 320px;
   border: 1px solid var(--white-100);
