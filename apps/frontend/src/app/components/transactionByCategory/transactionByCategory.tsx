@@ -9,10 +9,9 @@ type Props = {
 };
 
 const TransactionsByCategory = ({ transactions, categories }: Props) => {
-  const goToDetails = (id: string) => {
+  const goToCategoryDetails = (id: string) => {
     console.log(id);
   };
-
   const categoriesList = categories.map((category) => {
     const filterTransactions = transactions.filter(
       (transaction) => transaction.category?.id === category.id
@@ -48,7 +47,7 @@ const TransactionsByCategory = ({ transactions, categories }: Props) => {
         <div className={styles['button-container']}>
           <button
             className={styles.button}
-            onClick={() => goToDetails(category.id || '')}
+            onClick={() => goToCategoryDetails(category.id || '')}
           >
             Detalles
           </button>

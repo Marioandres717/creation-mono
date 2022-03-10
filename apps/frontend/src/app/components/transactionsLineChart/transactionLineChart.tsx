@@ -15,6 +15,8 @@ import FormatAmount from '../formats/formatAmount';
 
 type Props = {
   transactionsData: Transaction[];
+  width: number;
+  height: number;
 };
 
 const months = [
@@ -32,7 +34,7 @@ const months = [
   'Dec',
 ];
 
-const TransactionsLineChart = ({ transactionsData }: Props) => {
+const TransactionsLineChart = ({ transactionsData, width, height }: Props) => {
   const [resultsData, setResultsData] = useState<Transaction[]>([]);
   const [totalAmounts, setTotalAmounts] = useState({ expense: 0, entry: 0 });
 
@@ -87,8 +89,8 @@ const TransactionsLineChart = ({ transactionsData }: Props) => {
   return (
     <div className={styles['line-chart']}>
       <LineChart
-        width={500}
-        height={200}
+        width={width}
+        height={height}
         data={resultsData}
         margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
       >

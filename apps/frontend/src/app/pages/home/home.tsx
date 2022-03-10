@@ -34,7 +34,11 @@ const Home = () => {
       <div className={styles.container}>
         <TransactionDetails id={transactionId} categories={categoriesData} />
 
-        <TransactionsLineChart transactionsData={transactionsData} />
+        <TransactionsLineChart
+          transactionsData={transactionsData}
+          width={500}
+          height={200}
+        />
 
         <TransactionsByCategory
           transactions={transactionsData}
