@@ -19,7 +19,7 @@ const Navbar = () => {
       <div className={styles.navbar}>
         <HamburgerMenuIcon className={styles.icons} onClick={showSidebar} />
       </div>
-      <nav>
+      <nav className={styles['nav-container']}>
         <ul className={styles['nav-menu-items']}>
           <li className={styles.nav_text}>
             <Link to="/" className={styles.link}>

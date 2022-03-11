@@ -1,11 +1,12 @@
 .container {
-  width: 50px;
+  width: 4%;
   transition: 200ms;
 }
 .container-active {
   transition: 200ms ease;
   flex: none;
   width: 200px;
+  background-color: yellow;
 }
 .navbar {
   background-color: var(--white);
