@@ -17,7 +17,10 @@ const Navbar = () => {
   return (
     <div className={sidebar ? styles['container-active'] : styles.container}>
       <div className={styles.navbar}>
-        <HamburgerMenuIcon className={styles.icons} onClick={showSidebar} />
+        <HamburgerMenuIcon
+          className={styles['navbar-trigger']}
+          onClick={showSidebar}
+        />
       </div>
       <nav className={styles['nav-container']}>
         <ul className={styles['nav-menu-items']}>
