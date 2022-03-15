@@ -48,6 +48,9 @@ const Transactions = ({
   useEffect(() => {
     getCategory();
     getTransaction();
+  }, []);
+
+  useEffect(() => {
     transactionsData(transactions);
     categoriesData(categories);
   }, [transactions, categories]);
