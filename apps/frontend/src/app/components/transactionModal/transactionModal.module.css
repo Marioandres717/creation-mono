@@ -162,7 +162,7 @@
 }
 .section {
   display: flex;
-  width: 280px;
+  width: 260px;
   justify-content: space-between;
 }
 
