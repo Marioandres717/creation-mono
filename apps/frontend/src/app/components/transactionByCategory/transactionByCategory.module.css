@@ -68,3 +68,13 @@
   background: none;
   color: var(--white-300);
 }
+@media (min-width: 320px) {
+  .container {
+    justify-content: center;
+  }
+}
+@media (min-width: 768px) {
+  .container {
+    justify-content: flex-start;
+  }
+}
