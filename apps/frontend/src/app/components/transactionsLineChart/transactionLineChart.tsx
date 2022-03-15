@@ -2,12 +2,14 @@ import { useState, useEffect } from 'react';
 import { Transaction } from '@creation-mono/shared/types';
 
 import {
-  LineChart,
+  ResponsiveContainer,
+  AreaChart,
   Line,
   XAxis,
   CartesianGrid,
   Legend,
   Tooltip,
+  LineChart,
 } from 'recharts';
 
 import styles from './transactionLineChart.module.css';
@@ -15,8 +17,6 @@ import FormatAmount from '../formats/formatAmount';
 
 type Props = {
   transactionsData: Transaction[];
-  width: number;
-  height: number;
 };
 
 const months = [
@@ -34,7 +34,7 @@ const months = [
   'Dec',
 ];
 
-const TransactionsLineChart = ({ transactionsData, width, height }: Props) => {
+const TransactionsLineChart = ({ transactionsData }: Props) => {
   const [resultsData, setResultsData] = useState<Transaction[]>([]);
   const [totalAmounts, setTotalAmounts] = useState({ expense: 0, entry: 0 });
 
@@ -88,19 +88,19 @@ const TransactionsLineChart = ({ transactionsData, width, height }: Props) => {
   }, [transactionsData]);
   return (
     <div className={styles['line-chart']}>
-      <LineChart
-        width={width}
-        height={height}
-        data={resultsData}
-        margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
-      >
-        <CartesianGrid strokeDasharray="5 5" vertical={false} />
-        <XAxis dataKey="date" fontSize={10} />
-        <Tooltip />
-        <Legend wrapperStyle={{ fontSize: 12 }} />
-        <Line type="monotone" dataKey="expense" stroke="var(--theme-red)" />
-        <Line type="monotone" dataKey="entry" stroke="var(--theme-blue)" />
-      </LineChart>
+      <ResponsiveContainer width={'100%'} height={200}>
+        <LineChart
+          data={resultsData}
+          margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
+        >
+          <CartesianGrid strokeDasharray="5 5" vertical={false} />
+          <XAxis dataKey="date" fontSize={10} />
+          <Tooltip />
+          <Legend wrapperStyle={{ fontSize: 12 }} />
+          <Line type="monotone" dataKey="expense" stroke="var(--theme-red)" />
+          <Line type="monotone" dataKey="entry" stroke="var(--theme-blue)" />
+        </LineChart>
+      </ResponsiveContainer>
       <div className={styles['total-amounts-container']}>
         <div className={styles['amount-box']}>
           <label className={styles.tittle}>Total Ingresos: </label>
