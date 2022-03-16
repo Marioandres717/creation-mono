@@ -88,14 +88,12 @@
     align-items: center;
   }
   .icons {
-    left: 0px;
-    top: 9px;
-    position: relative;
+    position: absolute;
   }
   .title {
     position: relative;
     left: 0px;
-    top: 22px;
+    top: 29px;
     font-size: 10px;
   }
 }
@@ -116,11 +114,11 @@
     height: 20%;
     justify-content: flex-start;
     position: relative;
-    bottom: 30px;
   }
   .navbar-trigger {
     position: relative;
     left: 18px;
+    bottom: 20%;
   }
   .nav-container {
     width: 100%;
@@ -160,9 +158,3 @@
     font-size: 15px;
   }
 }
-/* @media (min-width: 1024px) {
-  .container {
-    width: 50px;
-    transition: 200ms;
-  }
-} */

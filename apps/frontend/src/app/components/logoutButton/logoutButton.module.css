@@ -31,7 +31,6 @@
 }
 .icon {
   position: absolute;
-  left: 20px;
   cursor: pointer;
 }
 .title {
@@ -93,15 +92,10 @@
   }
   .title {
     position: relative;
-    top: 27px;
+    top: 34px;
     left: 0px;
     font-size: 10px;
     height: 24px;
-  }
-  .icon {
-    position: relative;
-    left: 0;
-    top: 15px;
   }
 
   @media (min-width: 768px) {
@@ -124,7 +118,7 @@
       position: relative;
       left: 55px;
       font-size: 15px;
-      top: 0px;
+      top: 3px;
       height: 24px;
     }
   }
