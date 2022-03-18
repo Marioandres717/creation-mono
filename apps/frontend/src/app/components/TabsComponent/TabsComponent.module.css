@@ -12,7 +12,6 @@
   align-items: flex-end;
   width: 100%;
   height: 60px;
-  background-color: blue;
   margin: 0;
   padding: 0;
 }
@@ -30,17 +29,18 @@
   padding: 5px;
   color: var(--white-300);
   list-style-type: none;
-  border-bottom: 4px solid darkgray;
+  border-bottom: 1px solid darkgray;
   background-color: var(--white);
 }
 .tabs-active {
+  transition: 500ms;
   width: 100%;
   height: 100%;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
-  border-top: 4px solid darkgrey;
-  border-left: 4px solid darkgrey;
-  border-right: 4px solid darkgrey;
+  border-top: 1px solid darkgrey;
+  border-left: 1px solid darkgrey;
+  border-right: 1px solid darkgrey;
   border-bottom: none;
   padding: 5px;
   color: var(--white-300);
@@ -53,6 +53,12 @@
 }
 .tab-panel {
   width: 60%;
-  border: 1px solid black;
+  padding: 1rem;
+  border-left: 1px solid darkgray;
+  border-right: 1px solid darkgray;
+  border-bottom: 1px solid darkgray;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
   height: 100%;
+  box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.5);
 }
