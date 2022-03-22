@@ -7,10 +7,10 @@ type Props = {
   setSelectedTab: (index: number) => void;
   selectedTab: number;
 };
-type Props2 = {
+type Tabs = {
   children: ReactElement[];
 };
-type Props3 = {
+type Tab = {
   title: string;
 };
 
@@ -35,7 +35,7 @@ const TabComponent = () => {
 
 export default TabComponent;
 
-const Tab: React.FC<Props3> = ({ children }) => {
+const Tab: React.FC<Tab> = ({ children }) => {
   return <div className={styles['tab-panel']}>{children}</div>;
 };
 
@@ -60,7 +60,7 @@ const Tabtitle: React.FC<Props> = ({
   );
 };
 
-const Tabs: React.FC<Props2> = ({ children }) => {
+const Tabs: React.FC<Tabs> = ({ children }) => {
   const [selectedTab, setSelectedTab] = useState(0);
   return (
     <div className={styles.container}>
