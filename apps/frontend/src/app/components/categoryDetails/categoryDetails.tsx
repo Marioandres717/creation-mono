@@ -3,9 +3,12 @@ import { Transaction } from '@creation-mono/shared/types';
 import { GET_TRANSACTION_CATEGORIES } from '../../services/transactions';
 import { useEffect } from 'react';
 import styles from './categoryDetails.module.css';
+import { useHistory } from 'react-router-dom';
 
 const CategoryDetails = ({ id }: Transaction) => {
   const [getTransaction, { data }] = useLazyQuery(GET_TRANSACTION_CATEGORIES);
+  const historyStateId = useHistory().location.state;
+
   useEffect(() => {
     if (id) {
       getTransaction({
@@ -13,8 +16,14 @@ const CategoryDetails = ({ id }: Transaction) => {
           categoryId: id,
         },
       });
+    } else if (historyStateId) {
+      getTransaction({
+        variables: {
+          categoryId: historyStateId,
+        },
+      });
     }
-  }, [id, getTransaction]);
+  }, [id, getTransaction, historyStateId]);
   return (
     <div className={styles.transaction_details}>
       {data?.transactions.map((transaction: Transaction) => {

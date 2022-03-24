@@ -1,5 +1,6 @@
 import { Category, Transaction } from '@creation-mono/shared/types';
 import { BarChartIcon } from '@radix-ui/react-icons';
+import { useHistory } from 'react-router-dom';
 import FormatAmount from '../formats/formatAmount';
 import styles from './transactionByCategory.module.css';
 
@@ -9,8 +10,9 @@ type Props = {
 };
 
 const TransactionsByCategory = ({ transactions, categories }: Props) => {
+  const history = useHistory();
   const goToCategoryDetails = (id: string) => {
-    console.log(id);
+    history.push('/categories', id);
   };
   const categoriesList = categories.map((category) => {
     const filterTransactions = transactions.filter(
