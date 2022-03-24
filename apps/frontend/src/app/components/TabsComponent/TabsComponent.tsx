@@ -26,7 +26,7 @@ const TabComponent = () => {
         quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
         consequat. Duis aute irure dolor in reprehenderit
       </Tab>
-      <Tab title="tab 3">
+      <Tab title="tab3">
         in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
       </Tab>
     </Tabs>
@@ -48,14 +48,16 @@ const Tabtitle: React.FC<Props> = ({
   const onClick = useCallback(() => {
     setSelectedTab(index);
   }, [setSelectedTab, index]);
+  const isActive = index === selectedTab;
   return (
-    <div className={styles['tab-item']}>
+    <div className={isActive ? styles['tab-item-active'] : styles['tab-item']}>
       <button
-        className={index === selectedTab ? styles['tabs-active'] : styles.tabs}
+        className={isActive ? styles['button-active'] : styles.button}
         onClick={onClick}
       >
         {title}
       </button>
+      {isActive ? <div className={styles.indicator} /> : null}
     </div>
   );
 };
@@ -64,7 +66,7 @@ const Tabs: React.FC<Tabs> = ({ children }) => {
   const [selectedTab, setSelectedTab] = useState(0);
   return (
     <div className={styles.container}>
-      <ul className={styles['tabs-container']}>
+      <div className={styles['tabs-container']}>
         {children.map((item, index) => (
           <Tabtitle
             key={index}
@@ -74,7 +76,7 @@ const Tabs: React.FC<Tabs> = ({ children }) => {
             selectedTab={selectedTab}
           />
         ))}
-      </ul>
+      </div>
       {children[selectedTab]}
     </div>
   );

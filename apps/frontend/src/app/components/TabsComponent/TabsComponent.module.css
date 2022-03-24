@@ -5,51 +5,76 @@
   align-items: center;
   height: 300px;
 }
-
 .tabs-container {
   display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  width: 100%;
+  width: 60%;
   height: 60px;
-  margin: 0;
-  padding: 0;
+  align-items: flex-end;
+  justify-content: center;
 }
 .tab-item {
-  width: 20%;
+  width: 33.33%;
   height: 100%;
-}
-.tabs {
-  width: 100%;
-  height: 100%;
-  font-family: 'SF Mono Regular';
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  border: none;
-  padding: 5px;
-  color: var(--white-300);
-  list-style-type: none;
-  border-bottom: 1px solid darkgray;
   background-color: var(--white);
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid darkgray;
 }
-.tabs-active {
-  transition: 500ms;
-  width: 100%;
+.tab-item-active {
+  transition: 200ms;
+  width: 33.3%;
   height: 100%;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid darkgray;
+  border-left: 1px solid darkgray;
+  border-right: 1px solid darkgray;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
-  border-top: 1px solid darkgrey;
-  border-left: 1px solid darkgrey;
-  border-right: 1px solid darkgrey;
-  border-bottom: none;
-  padding: 5px;
-  color: var(--white-300);
-  list-style-type: none;
-  background-color: white;
-  font-family: 'SF Mono Regular';
+  align-items: center;
 }
-.tabs:hover {
+.tab-item:hover {
   background-color: var(--silver-gray);
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+.button {
+  width: 100%;
+  height: 100%;
+  border: none;
+  font-family: inherit;
+  border-top: 5px;
+  border-radius: 5px;
+  background: none;
+  color: var(--white-300);
+  overflow: hidden;
+  padding: 5px;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+.button-active {
+  transition: 200ms ease-in;
+  width: 100%;
+  height: 100%;
+  border: none;
+  font-family: inherit;
+  border-top: 5px solid var(--theme-blue);
+  border-radius: 3px;
+  background: none;
+  color: var(--white-300);
+  overflow: hidden;
+  padding: 5px;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+.indicator {
+  width: 10px;
+  height: 13px;
+  background-color: white;
+  position: relative;
+  transform: rotate(45deg);
+  top: 3px;
 }
 .tab-panel {
   width: 60%;
@@ -60,5 +85,5 @@
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   height: 100%;
-  box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.5);
+  box-shadow: 1px 2px 3px 0px rgba(0, 0, 0, 0.5);
 }
