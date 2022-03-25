@@ -18,9 +18,8 @@ type Props = {
 };
 
 const TransactionCards = ({ onCardSelected, transactions }: Props) => {
-  const [active, setActive] = useState('');
-
   const initialId = transactions !== [] ? transactions[0]?.id : null;
+  const [active, setActive] = useState(initialId);
 
   const [defaultCard, setDefaultCard] = useState(initialId);
 
@@ -46,10 +45,15 @@ const TransactionCards = ({ onCardSelected, transactions }: Props) => {
   };
 
   const getCardClasses = (id: string) => {
+    console.log(active);
     return clsx(styles['card'], {
       [styles['card_active']]: id === active,
     });
   };
+
+  useEffect(() => {
+    setActive(initialId);
+  }, [initialId]);
 
   useEffect(() => {
     onCardSelected(defaultCard || initialId || '');
