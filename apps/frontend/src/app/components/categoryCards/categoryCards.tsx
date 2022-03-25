@@ -5,19 +5,20 @@ import { useEffect, useState } from 'react';
 import { DELETE_CATEGORY } from '../../services/category';
 import { Cross2Icon } from '@radix-ui/react-icons';
 import styles from './categoryCards.module.css';
-
+import { useHistory } from 'react-router-dom';
 type Nullable<T> = T | null;
 type Props = {
   onSelected: (id: string) => void;
 };
 const CategoryCards = ({ onSelected }: Props) => {
+  const historyStateId = useHistory().location.state;
   const [getCategory, { data }] = useLazyQuery(GET_CATEGORY);
   const [deleteCategory] = useMutation(DELETE_CATEGORY, {
     onCompleted: () => {
       window.location.reload();
     },
   });
-  const [active, setActive] = useState('');
+  const [active, setActive] = useState(historyStateId);
   const handleClick = (id: Nullable<string> | undefined) => {
     deleteCategory({
       variables: {
@@ -33,6 +34,10 @@ const CategoryCards = ({ onSelected }: Props) => {
     onSelected(id);
     setActive(id);
   };
+
+  useEffect(() => {
+    setActive(historyStateId);
+  }, [historyStateId]);
   return (
     <div className={styles.cards}>
       {data?.categories.map((category: Category) => {
